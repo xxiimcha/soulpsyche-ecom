@@ -9,7 +9,7 @@ export async function POST(request: Request) {
     const body = await request.json();
 
     // Validate required fields
-    if (!body.name || !body.slug || !body.price || !body.category_id) {  // Corrected to category_id
+    if (!body.name || !body.slug || !body.price || !body.category_id) {
       return NextResponse.json(
         { message: "Missing required fields (name, slug, price, category_id)" },
         { status: 400 }
@@ -24,23 +24,24 @@ export async function POST(request: Request) {
       );
     }
 
-    // Insert into the database
+    // Insert the product with nested relations
     const newProduct = await prisma.product.create({
       data: {
         name: body.name,
         slug: body.slug,
         price: body.price,
-        description: body.description || null,
-        category_id: body.category_id,  // Correct field
-        ProductVariantColor: {        // Ensure variants are correctly inserted as a nested relation
+        description: body.description || null, // Optional description
+        category_id: body.category_id, // Foreign key to Category table
+
+        // Insert ProductVariantColor and ProductVariantSize
+        ProductVariantColor: {
           create: body.variants?.map((variant: any) => ({
-            color: variant.color,
-            images: variant.images || [],
+            color: variant.color, // Color of the variant
             ProductVariantSize: {
               create: variant.sizes.map((size: any) => ({
-                size: size.size,
-                stock: size.stock,
-                status: size.status,
+                size: size.size, // Size of the variant
+                stock: size.stock, // Stock for the size
+                status: size.status, // Status (e.g., In Stock, Out of Stock)
               })),
             },
           })),
@@ -48,6 +49,7 @@ export async function POST(request: Request) {
       },
     });
 
+    // Return a success response
     return NextResponse.json({
       message: "Product added successfully!",
       product: newProduct,

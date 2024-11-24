@@ -5,19 +5,15 @@ const prisma = new PrismaClient();
 
 export async function GET() {
   try {
-    // Fetch all products from the database, including related categories
-    const products = await prisma.product.findMany({
-      include: {
-        Category: true,  // Correct relation to include the category
-      },
-    });
+    // Fetch all categories from the database
+    const categories = await prisma.category.findMany(); // Fetches only from the Category table
 
-    // Return the fetched products as a JSON response
-    return NextResponse.json(products);
+    // Return the fetched categories as a JSON response
+    return NextResponse.json(categories);
   } catch (error) {
-    console.error("Error fetching products:", error);
+    console.error("Error fetching categories:", error);
     return NextResponse.json(
-      { message: "Failed to fetch products" },
+      { message: "Failed to fetch categories" },
       { status: 500 }
     );
   }
