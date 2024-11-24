@@ -15317,9 +15317,9 @@ export namespace Prisma {
     id?: UuidFilter<"Bag"> | string
     created_at?: DateTimeFilter<"Bag"> | Date | string
     updated_at?: DateTimeFilter<"Bag"> | Date | string
-    user_id?: UuidFilter<"Bag"> | string
-    product_id?: UuidFilter<"Bag"> | string
-    product_variant_size_id?: UuidFilter<"Bag"> | string
+    user_id?: StringFilter<"Bag"> | string
+    product_id?: StringFilter<"Bag"> | string
+    product_variant_size_id?: StringFilter<"Bag"> | string
     quantity?: IntFilter<"Bag"> | number
     Product?: XOR<ProductRelationFilter, ProductWhereInput>
     ProductVariantSize?: XOR<ProductVariantSizeRelationFilter, ProductVariantSizeWhereInput>
@@ -15346,9 +15346,9 @@ export namespace Prisma {
     NOT?: BagWhereInput | BagWhereInput[]
     created_at?: DateTimeFilter<"Bag"> | Date | string
     updated_at?: DateTimeFilter<"Bag"> | Date | string
-    user_id?: UuidFilter<"Bag"> | string
-    product_id?: UuidFilter<"Bag"> | string
-    product_variant_size_id?: UuidFilter<"Bag"> | string
+    user_id?: StringFilter<"Bag"> | string
+    product_id?: StringFilter<"Bag"> | string
+    product_variant_size_id?: StringFilter<"Bag"> | string
     quantity?: IntFilter<"Bag"> | number
     Product?: XOR<ProductRelationFilter, ProductWhereInput>
     ProductVariantSize?: XOR<ProductVariantSizeRelationFilter, ProductVariantSizeWhereInput>
@@ -15377,9 +15377,9 @@ export namespace Prisma {
     id?: UuidWithAggregatesFilter<"Bag"> | string
     created_at?: DateTimeWithAggregatesFilter<"Bag"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"Bag"> | Date | string
-    user_id?: UuidWithAggregatesFilter<"Bag"> | string
-    product_id?: UuidWithAggregatesFilter<"Bag"> | string
-    product_variant_size_id?: UuidWithAggregatesFilter<"Bag"> | string
+    user_id?: StringWithAggregatesFilter<"Bag"> | string
+    product_id?: StringWithAggregatesFilter<"Bag"> | string
+    product_variant_size_id?: StringWithAggregatesFilter<"Bag"> | string
     quantity?: IntWithAggregatesFilter<"Bag"> | number
   }
 
@@ -19108,9 +19108,9 @@ export namespace Prisma {
     id?: UuidFilter<"Bag"> | string
     created_at?: DateTimeFilter<"Bag"> | Date | string
     updated_at?: DateTimeFilter<"Bag"> | Date | string
-    user_id?: UuidFilter<"Bag"> | string
-    product_id?: UuidFilter<"Bag"> | string
-    product_variant_size_id?: UuidFilter<"Bag"> | string
+    user_id?: StringFilter<"Bag"> | string
+    product_id?: StringFilter<"Bag"> | string
+    product_variant_size_id?: StringFilter<"Bag"> | string
     quantity?: IntFilter<"Bag"> | number
   }
 
