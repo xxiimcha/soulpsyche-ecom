@@ -35,8 +35,8 @@ export default function OrderConfirmationPage() {
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [paymentMethod, setPaymentMethod] = useState("");
   const [paymentDetails, setPaymentDetails] = useState("");
-  const [paymentProof, setPaymentProof] = useState<File | null>(null);
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
+  const [orderPlaced, setOrderPlaced] = useState(false); // State to control the layout visibility
   const userId = "74c9cbc2-255e-40b4-9144-3a0303bf9f1d"; // Default User ID
 
   useEffect(() => {
@@ -62,7 +62,7 @@ export default function OrderConfirmationPage() {
     fetchAddresses();
     fetchPaymentMethods();
   }, []);
-  
+
   const handlePaymentMethodChange = (methodId: string) => {
     setPaymentMethod(methodId);
 
@@ -99,47 +99,65 @@ export default function OrderConfirmationPage() {
     }
   };
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files[0]) {
-      setPaymentProof(event.target.files[0]);
-    }
-  };
-  
   const handleSubmit = async () => {
     if (!selectedAddressId) {
       alert("Please select a shipping address!");
       return;
     }
-  
+
     if (!paymentMethod) {
       alert("Please select a payment method!");
       return;
     }
-  
+
+    // Fetch the method_name from paymentMethods based on the selected paymentMethodId
+    const selectedMethod = paymentMethods.find((method) => method.id === paymentMethod);
+    if (!selectedMethod) {
+      alert("Invalid payment method selected!");
+      return;
+    }
+
     try {
       const orderData = {
+        userId,
         items,
         subtotal,
-        shipping,
         total,
-        shippingAddressId: selectedAddressId,
-        paymentMethod,
+        paymentMethod: selectedMethod.method_name, // Send the method_name instead of ID
       };
-  
-      // Send the order data to your backend API
+
+      console.log("Submitting order data:", orderData);
+
       const response = await axios.post("/api/orders", orderData);
-  
+
       if (response.status === 201) {
-        alert("Order placed successfully!");
+        setOrderPlaced(true); // Set orderPlaced to true on success
       } else {
-        alert("Failed to place the order. Please try again.");
+        throw new Error(response.data.error || "Failed to place order");
       }
     } catch (error) {
       console.error("Error placing order:", error);
       alert("An error occurred while placing the order. Please try again.");
     }
   };
-  
+
+  // Show confirmation layout if the order is placed
+  if (orderPlaced) {
+    return (
+      <main className="flex-1">
+        <section className="w-full py-8 md:py-14 lg:py-16 bg-gray-100">
+          <div className="container px-4 md:px-6 text-center">
+            <h2 className="text-3xl sm:text-5xl mb-6 font-bold tracking-tighter">
+              Thank You for Your Order!
+            </h2>
+            <p className="text-lg text-gray-700">
+              Your order has been successfully placed. You will receive an email confirmation shortly.
+            </p>
+          </div>
+        </section>
+      </main>
+    );
+  }
 
   return (
     <main className="flex-1">
@@ -236,19 +254,11 @@ export default function OrderConfirmationPage() {
                 ></div>
               )}
 
-              <h2 className="text-xl font-semibold mb-4">Upload Payment Proof</h2>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleFileChange}
-                className="block w-full text-gray-700 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-500"
-              />
-
               <Button
                 className="w-full mt-6"
                 size="lg"
                 onClick={handleSubmit}
-                disabled={!selectedAddressId || !paymentMethod || !paymentProof}
+                disabled={!selectedAddressId || !paymentMethod}
               >
                 Place Order
               </Button>

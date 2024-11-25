@@ -5,54 +5,33 @@ const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
   try {
-    console.log("Received request to place order");
-
     const body = await req.json();
-    console.log("Request body:", body);
-
-    const {
-      userId,
-      items,
-      subtotal,
-      shipping,
-      total,
-      shippingAddressId,
-      paymentMethodId, // This is the payment method ID
-    } = body;
+    const { userId, items, subtotal, total, paymentMethod } = body;
 
     // Validate required fields
-    if (
-      !userId ||
-      !items?.length ||
-      subtotal === undefined ||
-      shipping === undefined ||
-      total === undefined ||
-      !shippingAddressId ||
-      !paymentMethodId
-    ) {
-      console.error("Validation error: Missing or invalid required fields");
+    if (!userId || !items?.length || subtotal === undefined || total === undefined || !paymentMethod) {
+      console.log("Validation error: Missing or invalid required fields");
       return NextResponse.json(
         { error: "Missing or invalid required fields" },
         { status: 400 }
       );
     }
 
-    console.log("Validated input fields successfully");
+    console.log("Received request to place order");
+    console.log("Request body:", body);
 
-    // Fetch the payment method's method_name from PaymentMethodInfo table
-    const paymentMethod = await prisma.paymentMethodInfo.findUnique({
-      where: { id: paymentMethodId },
+    // Retrieve the payment method name
+    const paymentMethodData = await prisma.paymentMethodInfo.findFirst({
+        where: { method_name: paymentMethod }, // Use findFirst for non-unique fields
     });
 
-    if (!paymentMethod) {
-      console.error("Invalid payment method selected:", paymentMethodId);
+    if (!paymentMethodData) {
+      console.log("Validation error: Invalid payment method selected");
       return NextResponse.json(
         { error: "Invalid payment method selected" },
         { status: 400 }
       );
     }
-
-    console.log("Fetched payment method:", paymentMethod.method_name);
 
     // Create the order
     const order = await prisma.order.create({
@@ -64,34 +43,53 @@ export async function POST(req: Request) {
       },
     });
 
-    console.log("Created order:", order.id);
+    console.log("Order created with ID:", order.id);
 
-    // Insert order items
-    const orderItems = items.map((item: any) => ({
-      order_id: order.id,
-      product_id: item.id,
-      product_variant_size_id: item.size, // Assuming size maps to size ID
-      quantity: item.quantity,
-      price: item.price,
-      subtotal: item.price * item.quantity,
-    }));
+    // Map items to include the `product_id` and create order items
+    const orderItems = await Promise.all(
+      items.map(async (item: any) => {
+        // Fetch product_id from Bag table using item.id
+        const bagEntry = await prisma.bag.findFirst({
+          where: {
+            user_id: userId,
+            product_variant_size_id: item.size,
+          },
+          select: {
+            product_id: true, // Retrieve only the product_id field
+          },
+        });
+
+        if (!bagEntry) {
+          throw new Error(`Product ID ${item.id} does not exist in the Bag table`);
+        }
+
+        return {
+          order_id: order.id,
+          product_id: bagEntry.product_id,
+          product_variant_size_id: item.size,
+          quantity: item.quantity,
+          price: item.price,
+          subtotal: item.price * item.quantity,
+        };
+      })
+    );
 
     await prisma.orderItem.createMany({ data: orderItems });
 
-    console.log("Inserted order items successfully");
+    console.log("Order items created:", orderItems);
 
-    // Add payment details using method_name
+    // Add payment details using the method_name
     await prisma.paymentDetail.create({
       data: {
         order_id: order.id,
-        payment_method: paymentMethod.method_name, // Use method_name instead of ID
+        payment_method: paymentMethod, // Use method_name here
         transaction_id: "pending", // Placeholder for now
         amount_paid: 0, // Admin will update after verifying payment
         payment_status: "unpaid",
       },
     });
 
-    console.log("Added payment details successfully");
+    console.log("Payment details added for order ID:", order.id);
 
     return NextResponse.json(
       { message: "Order placed successfully", orderId: order.id },
