@@ -2,180 +2,126 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { Search, Filter } from "lucide-react";
+import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
 
 type Product = {
   id: string;
   name: string;
-  rawPrice: number; // Add rawPrice here
-  price: number;
+  rawPrice: number;
+  price: string;
   image: string;
   category: string;
   colors: {
     color: string;
-    sizes: string[];
+    sizes: { id: string; label: string }[];
   }[];
 };
-
-const categories = ["All", "Tops", "Bottoms", "Footwear", "Outerwear", "Dresses"];
-const colors = ["All", "White", "Blue", "Black", "Gray", "Brown", "Multicolor"];
-const sizes = ["All", "S", "M", "L", "XL", "32", "10"];
 
 export default function ShopPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [selectedColors, setSelectedColors] = useState<string[]>([]);
-  const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
-  const [sortBy, setSortBy] = useState("name");
+  const [selectedAttributes, setSelectedAttributes] = useState<{
+    [key: string]: { color: string; sizeId: string };
+  }>({});
 
-  const [selectedSize, setSelectedSize] = useState<{ [key: string]: string }>(
-    {}
-  );
-
+  // Fetch products data on mount
   useEffect(() => {
-	// Fetch products from your API or database
-	async function fetchProducts() {
-	  try {
-		const response = await fetch("/api/products");
-		const data = await response.json();
-  
-		console.log("API Response:", data); // Debugging: Log the API response
-  
-		// Ensure the data matches the expected structure
-		const transformedProducts = data.map((product: any) => ({
-			id: product.id || "N/A",
-			name: product.name || "Unnamed Product",
-			rawPrice: product.price || 0, // Keep raw price for sorting
-			price: product.price
-			  ? new Intl.NumberFormat("en-PH", {
-				  style: "currency",
-				  currency: "PHP",
-				}).format(product.price)
-			  : "₱0.00", // Formatted price for display
-			image: product.image || "/placeholder-dark-image.png", // Replace with default image if none provided
-			category: product.category?.name || "Uncategorized",
-			colors: product.ProductVariantColor
-			  ? product.ProductVariantColor.map((variant: any) => ({
-				  color: variant.color || "Unknown Color",
-				  sizes: variant.ProductVariantSize
-					? variant.ProductVariantSize.map((size: any) => size.size || "Unknown Size")
-					: [],
-				}))
-			  : [],
-		}));
-  
-		setProducts(transformedProducts);
-	  } catch (error) {
-		console.error("Error fetching products:", error);
-	  }
-	}
-  
-	fetchProducts();
-  }, []);  
+    async function fetchProducts() {
+      try {
+        const response = await fetch("/api/products");
+        const data = await response.json();
 
-  const filteredProducts = products
-	.filter(
-		(product) =>
-		product.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-		(selectedCategory === "All" || product.category === selectedCategory) &&
-		(selectedColors.length === 0 ||
-			selectedColors.includes("All") ||
-			product.colors.some((c) => selectedColors.includes(c.color))) &&
-		(selectedSizes.length === 0 ||
-			selectedSizes.includes("All") ||
-			product.colors.some((c) =>
-			c.sizes.some((size) => selectedSizes.includes(size))
-			))
-	)
-	.sort((a, b) => {
-		if (sortBy === "name") return a.name.localeCompare(b.name);
-		if (sortBy === "price_asc") return a.rawPrice - b.rawPrice; // Sort by raw price
-		if (sortBy === "price_desc") return b.rawPrice - a.rawPrice; // Sort by raw price
-		return 0;
-	});
+        const transformedProducts = data.map((product: any) => ({
+          id: product.id || "N/A",
+          name: product.name || "Unnamed Product",
+          rawPrice: product.price || 0,
+          price: product.price
+            ? new Intl.NumberFormat("en-PH", {
+                style: "currency",
+                currency: "PHP",
+              }).format(product.price)
+            : "₱0.00",
+          image: product.image || "/placeholder-dark-image.png",
+          category: product.category?.name || "Uncategorized",
+          colors: product.ProductVariantColor
+            ? product.ProductVariantColor.map((variant: any) => ({
+                color: variant.color || "Unknown Color",
+                sizes: variant.ProductVariantSize
+                  ? variant.ProductVariantSize.map((size: any) => ({
+                      id: size.id || "N/A",
+                      label: size.size || "Unknown Size",
+                    }))
+                  : [],
+              }))
+            : [],
+        }));
 
-  const handleColorToggle = (color: string) => {
-    setSelectedColors((prev) =>
-      prev.includes(color)
-        ? prev.filter((c) => c !== color)
-        : [...prev, color]
-    );
-  };
+        setProducts(transformedProducts);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    }
 
-  const handleSizeToggle = (size: string) => {
-    setSelectedSizes((prev) =>
-      prev.includes(size) ? prev.filter((s) => s !== size) : [...prev, size]
-    );
-  };
+    fetchProducts();
+  }, []);
 
-  const handleAddToCart = async (productId: string, color: string, size: string) => {
-	try {
-	  const userId = "user_2ob9EitQ5Ab58IyHysuDka4Sv83"; // Replace with the actual user ID
-	  const quantity = 1; // Default quantity to add
-  
-	  // Send POST request to add the item to the cart
-	  const response = await fetch("/api/cart/add", {
-		method: "POST",
-		headers: {
-		  "Content-Type": "application/json",
-		},
-		body: JSON.stringify({
-		  userId,
-		  productId,
-		  productVariantSizeId: size, // Use the selected size as the productVariantSizeId
-		  quantity,
-		}),
-	  });
-  
-	  if (response.ok) {
-		const data = await response.json();
-		alert("Item added to cart successfully!");
-	  } else {
-		throw new Error("Failed to add item to cart");
-	  }
-	} catch (error) {
-	  console.error("Error adding to cart:", error);
-	  alert("Error adding item to cart");
-	}
-  };
-  
-  
-
-  const handleSizeChange = (productId: string, size: string) => {
-    setSelectedSize((prev) => ({
+  const handleAttributeChange = (
+    productId: string,
+    color?: string,
+    sizeId?: string
+  ) => {
+    setSelectedAttributes((prev) => ({
       ...prev,
-      [productId]: size,
+      [productId]: {
+        color: color || prev[productId]?.color || "",
+        sizeId: sizeId || prev[productId]?.sizeId || "",
+      },
     }));
   };
+
+  const handleAddToCart = async (productId: string, productVariantSizeId: string) => {
+    try {
+      const userId = "a65e50e5-ce33-421e-9e83-555fb9728a0d"; // Default user ID
+      const quantity = 1; // Default quantity to add
+
+      const response = await fetch("/api/cart/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId,
+          productId,
+          productVariantSizeId,
+          quantity,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        alert("Item added to cart successfully!");
+      } else {
+        throw new Error("Failed to add item to cart");
+      }
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      alert("Error adding item to cart");
+    }
+  };
+
+  const filteredProducts = products.filter((product) =>
+    product.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <main className="flex-1">
       <section className="w-full py-8 md:py-14 lg:py-16 bg-gray-100">
         <div className="container px-4 md:px-6">
-          <h2 className="text-3xl sm:text-5xl mb-12 font-bold tracking-tighter">
-            Shop All
-          </h2>
+          <h2 className="text-3xl sm:text-5xl mb-12 font-bold tracking-tighter">Shop All</h2>
 
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 space-y-4 md:space-y-0">
+          <div className="flex items-center mb-6 space-x-4">
             <div className="relative w-full md:w-64">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
@@ -185,142 +131,84 @@ export default function ShopPage() {
                 className="pl-8 bg-white"
               />
             </div>
-            <div className="flex flex-col md:flex-row gap-4 md:space-x-4">
-              <Select
-                value={selectedCategory}
-                onValueChange={setSelectedCategory}
-              >
-                <SelectTrigger className="w-[180px] bg-white">
-                  <SelectValue placeholder="Category" className="bg-white" />
-                </SelectTrigger>
-                <SelectContent>
-                  {categories.map((category) => (
-                    <SelectItem key={category} value={category}>
-                      {category}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <Select value={sortBy} onValueChange={setSortBy}>
-				<SelectTrigger className="w-[180px] bg-white">
-					<SelectValue placeholder="Sort by" className="bg-white" />
-				</SelectTrigger>
-				<SelectContent className="bg-white">
-					<SelectItem value="name">Name</SelectItem>
-					<SelectItem value="price_asc">Price: Low to High</SelectItem>
-					<SelectItem value="price_desc">Price: High to Low</SelectItem>
-				</SelectContent>
-				</Select>
-              <Sheet>
-                <SheetTrigger asChild>
-                  <Button variant="outline">
-                    <Filter className="mr-2 h-4 w-4" />
-                    Filters
-                  </Button>
-                </SheetTrigger>
-                <SheetContent>
-                  <SheetHeader>
-                    <SheetTitle>Filters</SheetTitle>
-                    <SheetDescription>
-                      Refine your product search
-                    </SheetDescription>
-                  </SheetHeader>
-                  <div className="grid gap-4 py-4">
-                    <div className="space-y-2">
-                      <h3 className="font-medium">Colors</h3>
-                      {colors.map((color) => (
-                        <div
-                          key={color}
-                          className="flex items-center space-x-2"
-                        >
-                          <Checkbox
-                            id={`color-${color}`}
-                            checked={selectedColors.includes(color)}
-                            onCheckedChange={() => handleColorToggle(color)}
-                          />
-                          <Label htmlFor={`color-${color}`}>{color}</Label>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="space-y-2">
-                      <h3 className="font-medium">Sizes</h3>
-                      {sizes.map((size) => (
-                        <div
-                          key={size}
-                          className="flex items-center space-x-2"
-                        >
-                          <Checkbox
-                            id={`size-${size}`}
-                            checked={selectedSizes.includes(size)}
-                            onCheckedChange={() => handleSizeToggle(size)}
-                          />
-                          <Label htmlFor={`size-${size}`}>{size}</Label>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </SheetContent>
-              </Sheet>
-            </div>
           </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {filteredProducts.map((product) =>
-              product.colors.map((variant, variantIndex) => (
-                <div
-                  key={`${product.id}-${variant.color}-${variantIndex}`}
-                  className="bg-white border rounded-lg overflow-hidden"
-                >
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    width={300}
-                    height={300}
-                    className="w-full object-cover"
-                  />
-                  <div className="p-4">
-                    <h2 className="font-semibold">{product.name}</h2>
-                    <p className="text-sm text-gray-600">{product.category}</p>
-                    <p className="text-sm text-gray-600">
-                      Color: {variant.color}
-                    </p>
-					<div className="mt-2">
-					<label className="block text-sm font-medium">Size:</label>
-					<Select
-						onValueChange={(size) => handleSizeChange(product.id, size)}
-					>
-						<SelectTrigger className="w-full mt-1">
-						<SelectValue placeholder={selectedSize[product.id] || "Select size"} />
-						</SelectTrigger>
-						<SelectContent>
-						{variant.sizes.map((size) => (
-							<SelectItem key={size} value={size}>
-							{size}
-							</SelectItem>
-						))}
-						</SelectContent>
-					</Select>
-					</div>
+            {filteredProducts.map((product) => (
+              <div key={product.id} className="bg-white border rounded-lg overflow-hidden">
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  width={300}
+                  height={300}
+                  className="w-full object-cover"
+                />
+                <div className="p-4">
+                  <h2 className="font-semibold text-lg">{product.name}</h2>
+                  <p className="text-sm text-gray-600">{product.category}</p>
 
-                    <p className="font-bold mt-2">{product.price}</p>
-                    <Button
-						className="w-full mt-4"
-						onClick={() => {
-							const size = selectedSize[product.id]; // Get the selected size for the product
-							if (!size) {
-							alert("Please select a size before adding to cart.");
-							return;
-							}
-							handleAddToCart(product.id, variant.color, size); // Pass the selected size
-						}}
-					>
-					Add to Cart
-					</Button>
-
-
+                  {/* Colors Section */}
+                  <div className="mt-2">
+                    <p className="text-sm font-medium mb-2">Color:</p>
+                    <div className="flex flex-wrap gap-2">
+                      {product.colors.map((colorVariant) => (
+                        <button
+                          key={colorVariant.color}
+                          className={`px-3 py-1 border rounded-md ${
+                            selectedAttributes[product.id]?.color === colorVariant.color
+                              ? "bg-gray-800 text-white"
+                              : "bg-gray-200 text-gray-800"
+                          }`}
+                          onClick={() => handleAttributeChange(product.id, colorVariant.color)}
+                        >
+                          {colorVariant.color}
+                        </button>
+                      ))}
+                    </div>
                   </div>
+
+                  {/* Sizes Section */}
+                  <div className="mt-4">
+                    <p className="text-sm font-medium mb-2">Size:</p>
+                    <div className="flex flex-wrap gap-2">
+                      {product.colors
+                        .find(
+                          (colorVariant) =>
+                            colorVariant.color === selectedAttributes[product.id]?.color
+                        )
+                        ?.sizes.map((size) => (
+                          <button
+                            key={size.id}
+                            className={`px-3 py-1 border rounded-md ${
+                              selectedAttributes[product.id]?.sizeId === size.id
+                                ? "bg-gray-800 text-white"
+                                : "bg-gray-200 text-gray-800"
+                            }`}
+                            onClick={() => handleAttributeChange(product.id, undefined, size.id)}
+                          >
+                            {size.label}
+                          </button>
+                        ))}
+                    </div>
+                  </div>
+
+                  <p className="font-bold mt-4">{product.price}</p>
+                  <Button
+                    className="w-full mt-4"
+                    onClick={() => {
+                      const selectedSizeId = selectedAttributes[product.id]?.sizeId;
+                      if (!selectedSizeId) {
+                        alert("Please select a size before adding to cart.");
+                        return;
+                      }
+                      handleAddToCart(product.id, selectedSizeId);
+                    }}
+                  >
+                    Add to Cart
+                  </Button>
                 </div>
-              ))
-            )}
+              </div>
+            ))}
           </div>
         </div>
       </section>

@@ -20,7 +20,7 @@ CREATE TABLE "User" (
     "updated_at" TIMESTAMPTZ(6),
     "username" TEXT NOT NULL,
     "email" VARCHAR NOT NULL,
-    "user_id" TEXT NOT NULL DEFAULT requesting_user_id(),
+    "user_id" TEXT NOT NULL DEFAULT gen_random_uuid(),
     "address" TEXT NOT NULL DEFAULT '',
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")

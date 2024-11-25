@@ -1,54 +1,115 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { CreditCard, Trash, Plus } from "lucide-react";
 import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import Sidebar from "@/components/Sidebar";
+import axios from "axios";
 
 interface PaymentMethod {
   id: string;
-  name: string;
+  method_name: string;
   description: string;
+  account_name: string;
+  account_number: string;
+  qr_code: string;
+  is_active: boolean;
 }
 
 export default function PaymentMethodsPage() {
   const { isLoaded, isSignedIn, user } = useUser();
 
-  // Static data for payment methods
-  const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([
-    {
-      id: "1",
-      name: "GCash",
-      description: "Popular payment method in the Philippines via mobile app.",
-    },
-    {
-      id: "2",
-      name: "Maya",
-      description: "Digital payment system that integrates with local banks.",
-    },
-    {
-      id: "3",
-      name: "BPI",
-      description: "Bank payment option from the Bank of the Philippine Islands.",
-    },
-  ]);
+  const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
   const [loading, setLoading] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [newMethod, setNewMethod] = useState<Partial<PaymentMethod>>({
+    method_name: "",
+    description: "",
+    account_name: "",
+    account_number: "",
+    qr_code: "",
+    is_active: true,
+  });
+  const [uploading, setUploading] = useState(false);
 
-  // Handle adding a new payment method
-  const handleAddPaymentMethod = () => {
-    // Here we can implement the logic to show a modal or form to add a payment method.
-    // For now, just a simple console log to simulate adding a new method.
-    console.log("Add new payment method");
+  const fetchPaymentMethods = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get("/api/payment-methods");
+      setPaymentMethods(response.data);
+    } catch (error) {
+      console.error("Error fetching payment methods:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  // Handle delete payment method
-  const handleDelete = (id: string) => {
-    setPaymentMethods(paymentMethods.filter((method) => method.id !== id));
+  useEffect(() => {
+    fetchPaymentMethods();
+  }, []);
+
+  const handleAddPaymentMethod = async () => {
+    if (!newMethod.method_name || !newMethod.description) {
+      alert("Please fill out all required fields.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const response = await axios.post("/api/payment-methods", newMethod);
+      setPaymentMethods((prev) => [...prev, response.data]);
+      setNewMethod({
+        method_name: "",
+        description: "",
+        account_name: "",
+        account_number: "",
+        qr_code: "",
+        is_active: true,
+      });
+      setModalOpen(false);
+    } catch (error) {
+      console.error("Error adding payment method:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  // Authorization check for admin
+  const handleDelete = async (id: string) => {
+    setLoading(true);
+    try {
+      await axios.delete(`/api/payment-methods/${id}`);
+      setPaymentMethods((prev) => prev.filter((method) => method.id !== id));
+    } catch (error) {
+      console.error("Error deleting payment method:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleImageUpload = async (file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "upload_qr_code"); // Unsigned preset from Cloudinary
+
+    setUploading(true);
+    try {
+      const response = await axios.post(
+        "https://api.cloudinary.com/v1_1/<your_cloud_name>/upload",
+        formData
+      );
+      setNewMethod((prev) => ({
+        ...prev,
+        qr_code: response.data.secure_url, // Save the Cloudinary URL
+      }));
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const isAdmin = user?.emailAddresses[0]?.emailAddress === "soulepsycle1201@gmail.com";
 
   if (!isAdmin) {
@@ -70,20 +131,17 @@ export default function PaymentMethodsPage() {
 
   return (
     <div className="flex h-screen bg-gray-100">
-      {/* Sidebar */}
-      <Sidebar /> {/* Using Sidebar component */}
+      <Sidebar />
 
-      {/* Main Content */}
       <main className="flex-1 overflow-x-hidden overflow-y-auto">
         <div className="container mx-auto px-6 py-8">
           <div className="flex items-center justify-between mb-4">
             <h1 className="text-3xl font-semibold text-gray-800">Payment Methods</h1>
-            <Button onClick={handleAddPaymentMethod} className="flex items-center">
+            <Button onClick={() => setModalOpen(true)} className="flex items-center">
               <Plus className="mr-2" /> Add Payment Method
             </Button>
           </div>
 
-          {/* Payment Methods Table */}
           {loading ? (
             <p>Loading payment methods...</p>
           ) : (
@@ -102,7 +160,7 @@ export default function PaymentMethodsPage() {
                     paymentMethods.map((method) => (
                       <tr key={method.id}>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{method.id}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{method.name}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{method.method_name}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{method.description}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex gap-2">
                           <Button variant="outline" size="sm">
@@ -123,6 +181,65 @@ export default function PaymentMethodsPage() {
                   )}
                 </tbody>
               </table>
+            </div>
+          )}
+
+          {modalOpen && (
+            <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
+              <div className="bg-white rounded-lg shadow-lg p-6 w-96">
+                <h2 className="text-xl font-semibold mb-4">Add Payment Method</h2>
+                <form>
+                  <input
+                    type="text"
+                    placeholder="Method Name"
+                    className="w-full mb-4 border rounded-md p-2"
+                    value={newMethod.method_name}
+                    onChange={(e) => setNewMethod((prev) => ({ ...prev, method_name: e.target.value }))}
+                  />
+                  <textarea
+                    placeholder="Description"
+                    className="w-full mb-4 border rounded-md p-2"
+                    value={newMethod.description}
+                    onChange={(e) => setNewMethod((prev) => ({ ...prev, description: e.target.value }))}
+                  ></textarea>
+                  <input
+                    type="text"
+                    placeholder="Account Name"
+                    className="w-full mb-4 border rounded-md p-2"
+                    value={newMethod.account_name}
+                    onChange={(e) => setNewMethod((prev) => ({ ...prev, account_name: e.target.value }))}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Account Number"
+                    className="w-full mb-4 border rounded-md p-2"
+                    value={newMethod.account_number}
+                    onChange={(e) => setNewMethod((prev) => ({ ...prev, account_number: e.target.value }))}
+                  />
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="w-full mb-4"
+                    onChange={(e) => e.target.files && handleImageUpload(e.target.files[0])}
+                  />
+                  {uploading && <p>Uploading QR Code...</p>}
+                  <label className="flex items-center mb-4">
+                    <input
+                      type="checkbox"
+                      className="mr-2"
+                      checked={newMethod.is_active}
+                      onChange={(e) => setNewMethod((prev) => ({ ...prev, is_active: e.target.checked }))}
+                    />
+                    Active
+                  </label>
+                  <div className="flex justify-end gap-2">
+                    <Button variant="outline" onClick={() => setModalOpen(false)}>
+                      Cancel
+                    </Button>
+                    <Button onClick={handleAddPaymentMethod}>Save</Button>
+                  </div>
+                </form>
+              </div>
             </div>
           )}
         </div>

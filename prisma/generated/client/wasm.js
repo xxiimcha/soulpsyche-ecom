@@ -238,6 +238,18 @@ exports.Prisma.PaymentDetailScalarFieldEnum = {
   payment_status: 'payment_status'
 };
 
+exports.Prisma.PaymentMethodInfoScalarFieldEnum = {
+  id: 'id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  method_name: 'method_name',
+  description: 'description',
+  account_name: 'account_name',
+  account_number: 'account_number',
+  qr_code: 'qr_code',
+  is_active: 'is_active'
+};
+
 exports.Prisma.ShippingAddressScalarFieldEnum = {
   id: 'id',
   created_at: 'created_at',
@@ -299,7 +311,9 @@ exports.PAYMENT_STATUS = exports.$Enums.PAYMENT_STATUS = {
 exports.PAYMENT_METHOD = exports.$Enums.PAYMENT_METHOD = {
   GCASH: 'GCASH',
   Maya: 'Maya',
-  BPI: 'BPI'
+  BPI: 'BPI',
+  PayPal: 'PayPal',
+  Other: 'Other'
 };
 
 exports.Prisma.ModelName = {
@@ -314,6 +328,7 @@ exports.Prisma.ModelName = {
   Order: 'Order',
   OrderItem: 'OrderItem',
   PaymentDetail: 'PaymentDetail',
+  PaymentMethodInfo: 'PaymentMethodInfo',
   ShippingAddress: 'ShippingAddress'
 };
 

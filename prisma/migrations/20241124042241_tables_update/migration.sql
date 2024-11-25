@@ -6,4 +6,4 @@
 */
 -- AlterTable
 ALTER TABLE "User" ALTER COLUMN "user_id" SET NOT NULL,
-ALTER COLUMN "user_id" SET DEFAULT requesting_user_id();
+ALTER COLUMN "user_id" SET DEFAULT gen_random_uuid();

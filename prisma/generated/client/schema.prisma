@@ -15,10 +15,11 @@ model User {
   updated_at      DateTime?         @db.Timestamptz(6)
   username        String            @unique
   email           String            @unique @db.VarChar
-  user_id         String            @unique @default(dbgenerated("requesting_user_id()"))
+  user_id         String            @unique @default(dbgenerated("gen_random_uuid()"))
   address         String            @default("")
   Address         Address[]
   Order           Order[]
+  Bag             Bag[]
   ShippingAddress ShippingAddress[]
   Wishlist        Wishlist[]
 }
@@ -106,11 +107,12 @@ model Bag {
   id                      String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   created_at              DateTime @default(now()) @db.Timestamptz(6)
   updated_at              DateTime @db.Timestamptz(6)
-  user_id                 String   @db.Text // Changed to text
-  product_id              String   @db.Text // Changed to text
-  product_variant_size_id String   @db.Text // Changed to text
+  user_id                 String   @db.Uuid
+  product_id              String   @db.Uuid
+  product_variant_size_id String   @db.Text // Changed to Text
   quantity                Int
   Product                 Product  @relation(fields: [product_id], references: [id], onDelete: Cascade)
+  User                    User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }
 
 model Order {
@@ -153,6 +155,18 @@ model PaymentDetail {
   Order          Order          @relation(fields: [order_id], references: [id], onDelete: Cascade)
 }
 
+model PaymentMethodInfo {
+  id             String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at     DateTime       @default(now()) @db.Timestamptz(6)
+  updated_at     DateTime?      @db.Timestamptz(6)
+  method_name    PAYMENT_METHOD
+  description    String? // Description of the payment method
+  account_name   String? // Account holder's name
+  account_number String? // Account number or identifier
+  qr_code        String? // URL or base64 image of QR code (if applicable)
+  is_active      Boolean        @default(true) // Status of the payment method
+}
+
 model ShippingAddress {
   id             String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   created_at     DateTime  @default(now()) @db.Timestamptz(6)
@@ -178,6 +192,8 @@ enum PAYMENT_METHOD {
   GCASH
   Maya
   BPI
+  PayPal
+  Other
 }
 
 enum PAYMENT_STATUS {

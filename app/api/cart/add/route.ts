@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json(); // Parse JSON body
+    const body = await req.json();
     const { userId, productId, productVariantSizeId, quantity } = body;
 
     if (!userId || !productId || !productVariantSizeId || !quantity) {
