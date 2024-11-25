@@ -33,7 +33,7 @@ export async function POST(req: Request) {
       );
     }
 
-    // Create the order
+    // Create the order first
     const order = await prisma.order.create({
       data: {
         user_id: userId,
@@ -77,6 +77,19 @@ export async function POST(req: Request) {
     await prisma.orderItem.createMany({ data: orderItems });
 
     console.log("Order items created:", orderItems);
+
+    // Delete items from Bag table after order is created
+    const deleteItems = items.map(async (item: any) => {
+      await prisma.bag.deleteMany({
+        where: {
+          id: item.id, // Ensure you're passing the correct ID from the Bag table
+        },
+      });
+    });
+
+    await Promise.all(deleteItems);
+
+    console.log("Deleted items from Bag table using their ID.");
 
     // Add payment details using the method_name
     await prisma.paymentDetail.create({
