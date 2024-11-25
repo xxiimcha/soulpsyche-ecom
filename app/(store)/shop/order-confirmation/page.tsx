@@ -62,7 +62,7 @@ export default function OrderConfirmationPage() {
     fetchAddresses();
     fetchPaymentMethods();
   }, []);
-
+  
   const handlePaymentMethodChange = (methodId: string) => {
     setPaymentMethod(methodId);
 
@@ -104,30 +104,19 @@ export default function OrderConfirmationPage() {
       setPaymentProof(event.target.files[0]);
     }
   };
-
+  
   const handleSubmit = async () => {
     if (!selectedAddressId) {
       alert("Please select a shipping address!");
       return;
     }
-
-    if (!paymentProof) {
-      alert("Please upload a payment proof before submitting!");
+  
+    if (!paymentMethod) {
+      alert("Please select a payment method!");
       return;
     }
-
-    const formData = new FormData();
-    formData.append("file", paymentProof);
-    formData.append("upload_preset", "product_images_upload");
-
+  
     try {
-      const cloudinaryResponse = await axios.post(
-        "https://api.cloudinary.com/v1_1/your_cloudinary_name/image/upload",
-        formData
-      );
-
-      const paymentProofUrl = cloudinaryResponse.data.secure_url;
-
       const orderData = {
         items,
         subtotal,
@@ -135,16 +124,22 @@ export default function OrderConfirmationPage() {
         total,
         shippingAddressId: selectedAddressId,
         paymentMethod,
-        paymentProof: paymentProofUrl,
       };
-
-      console.log("Order Submitted:", orderData);
-      alert("Order placed successfully!");
+  
+      // Send the order data to your backend API
+      const response = await axios.post("/api/orders", orderData);
+  
+      if (response.status === 201) {
+        alert("Order placed successfully!");
+      } else {
+        alert("Failed to place the order. Please try again.");
+      }
     } catch (error) {
-      console.error("Error uploading payment proof:", error);
-      alert("Failed to upload payment proof. Please try again.");
+      console.error("Error placing order:", error);
+      alert("An error occurred while placing the order. Please try again.");
     }
   };
+  
 
   return (
     <main className="flex-1">
