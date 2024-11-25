@@ -9569,7 +9569,7 @@ export namespace Prisma {
   export type BagGroupByOutputType = {
     id: string
     created_at: Date
-    updated_at: Date
+    updated_at: Date | null
     user_id: string
     product_id: string
     product_variant_size_id: string
@@ -9647,7 +9647,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       created_at: Date
-      updated_at: Date
+      updated_at: Date | null
       user_id: string
       product_id: string
       product_variant_size_id: string
@@ -16258,10 +16258,10 @@ export namespace Prisma {
     NOT?: BagWhereInput | BagWhereInput[]
     id?: UuidFilter<"Bag"> | string
     created_at?: DateTimeFilter<"Bag"> | Date | string
-    updated_at?: DateTimeFilter<"Bag"> | Date | string
+    updated_at?: DateTimeNullableFilter<"Bag"> | Date | string | null
     user_id?: UuidFilter<"Bag"> | string
     product_id?: UuidFilter<"Bag"> | string
-    product_variant_size_id?: StringFilter<"Bag"> | string
+    product_variant_size_id?: UuidFilter<"Bag"> | string
     quantity?: IntFilter<"Bag"> | number
     Product?: XOR<ProductRelationFilter, ProductWhereInput>
     User?: XOR<UserRelationFilter, UserWhereInput>
@@ -16270,7 +16270,7 @@ export namespace Prisma {
   export type BagOrderByWithRelationInput = {
     id?: SortOrder
     created_at?: SortOrder
-    updated_at?: SortOrder
+    updated_at?: SortOrderInput | SortOrder
     user_id?: SortOrder
     product_id?: SortOrder
     product_variant_size_id?: SortOrder
@@ -16285,10 +16285,10 @@ export namespace Prisma {
     OR?: BagWhereInput[]
     NOT?: BagWhereInput | BagWhereInput[]
     created_at?: DateTimeFilter<"Bag"> | Date | string
-    updated_at?: DateTimeFilter<"Bag"> | Date | string
+    updated_at?: DateTimeNullableFilter<"Bag"> | Date | string | null
     user_id?: UuidFilter<"Bag"> | string
     product_id?: UuidFilter<"Bag"> | string
-    product_variant_size_id?: StringFilter<"Bag"> | string
+    product_variant_size_id?: UuidFilter<"Bag"> | string
     quantity?: IntFilter<"Bag"> | number
     Product?: XOR<ProductRelationFilter, ProductWhereInput>
     User?: XOR<UserRelationFilter, UserWhereInput>
@@ -16297,7 +16297,7 @@ export namespace Prisma {
   export type BagOrderByWithAggregationInput = {
     id?: SortOrder
     created_at?: SortOrder
-    updated_at?: SortOrder
+    updated_at?: SortOrderInput | SortOrder
     user_id?: SortOrder
     product_id?: SortOrder
     product_variant_size_id?: SortOrder
@@ -16315,10 +16315,10 @@ export namespace Prisma {
     NOT?: BagScalarWhereWithAggregatesInput | BagScalarWhereWithAggregatesInput[]
     id?: UuidWithAggregatesFilter<"Bag"> | string
     created_at?: DateTimeWithAggregatesFilter<"Bag"> | Date | string
-    updated_at?: DateTimeWithAggregatesFilter<"Bag"> | Date | string
+    updated_at?: DateTimeNullableWithAggregatesFilter<"Bag"> | Date | string | null
     user_id?: UuidWithAggregatesFilter<"Bag"> | string
     product_id?: UuidWithAggregatesFilter<"Bag"> | string
-    product_variant_size_id?: StringWithAggregatesFilter<"Bag"> | string
+    product_variant_size_id?: UuidWithAggregatesFilter<"Bag"> | string
     quantity?: IntWithAggregatesFilter<"Bag"> | number
   }
 
@@ -17263,7 +17263,7 @@ export namespace Prisma {
   export type BagCreateInput = {
     id?: string
     created_at?: Date | string
-    updated_at: Date | string
+    updated_at?: Date | string | null
     product_variant_size_id: string
     quantity: number
     Product: ProductCreateNestedOneWithoutBagInput
@@ -17273,7 +17273,7 @@ export namespace Prisma {
   export type BagUncheckedCreateInput = {
     id?: string
     created_at?: Date | string
-    updated_at: Date | string
+    updated_at?: Date | string | null
     user_id: string
     product_id: string
     product_variant_size_id: string
@@ -17283,7 +17283,7 @@ export namespace Prisma {
   export type BagUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     product_variant_size_id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     Product?: ProductUpdateOneRequiredWithoutBagNestedInput
@@ -17293,7 +17293,7 @@ export namespace Prisma {
   export type BagUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user_id?: StringFieldUpdateOperationsInput | string
     product_id?: StringFieldUpdateOperationsInput | string
     product_variant_size_id?: StringFieldUpdateOperationsInput | string
@@ -17303,7 +17303,7 @@ export namespace Prisma {
   export type BagCreateManyInput = {
     id?: string
     created_at?: Date | string
-    updated_at: Date | string
+    updated_at?: Date | string | null
     user_id: string
     product_id: string
     product_variant_size_id: string
@@ -17313,7 +17313,7 @@ export namespace Prisma {
   export type BagUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     product_variant_size_id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
   }
@@ -17321,7 +17321,7 @@ export namespace Prisma {
   export type BagUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user_id?: StringFieldUpdateOperationsInput | string
     product_id?: StringFieldUpdateOperationsInput | string
     product_variant_size_id?: StringFieldUpdateOperationsInput | string
@@ -19977,7 +19977,7 @@ export namespace Prisma {
   export type BagCreateWithoutUserInput = {
     id?: string
     created_at?: Date | string
-    updated_at: Date | string
+    updated_at?: Date | string | null
     product_variant_size_id: string
     quantity: number
     Product: ProductCreateNestedOneWithoutBagInput
@@ -19986,7 +19986,7 @@ export namespace Prisma {
   export type BagUncheckedCreateWithoutUserInput = {
     id?: string
     created_at?: Date | string
-    updated_at: Date | string
+    updated_at?: Date | string | null
     product_id: string
     product_variant_size_id: string
     quantity: number
@@ -20145,10 +20145,10 @@ export namespace Prisma {
     NOT?: BagScalarWhereInput | BagScalarWhereInput[]
     id?: UuidFilter<"Bag"> | string
     created_at?: DateTimeFilter<"Bag"> | Date | string
-    updated_at?: DateTimeFilter<"Bag"> | Date | string
+    updated_at?: DateTimeNullableFilter<"Bag"> | Date | string | null
     user_id?: UuidFilter<"Bag"> | string
     product_id?: UuidFilter<"Bag"> | string
-    product_variant_size_id?: StringFilter<"Bag"> | string
+    product_variant_size_id?: UuidFilter<"Bag"> | string
     quantity?: IntFilter<"Bag"> | number
   }
 
@@ -20214,7 +20214,7 @@ export namespace Prisma {
   export type BagCreateWithoutProductInput = {
     id?: string
     created_at?: Date | string
-    updated_at: Date | string
+    updated_at?: Date | string | null
     product_variant_size_id: string
     quantity: number
     User: UserCreateNestedOneWithoutBagInput
@@ -20223,7 +20223,7 @@ export namespace Prisma {
   export type BagUncheckedCreateWithoutProductInput = {
     id?: string
     created_at?: Date | string
-    updated_at: Date | string
+    updated_at?: Date | string | null
     user_id: string
     product_variant_size_id: string
     quantity: number
@@ -21900,7 +21900,7 @@ export namespace Prisma {
   export type BagCreateManyUserInput = {
     id?: string
     created_at?: Date | string
-    updated_at: Date | string
+    updated_at?: Date | string | null
     product_id: string
     product_variant_size_id: string
     quantity: number
@@ -22003,7 +22003,7 @@ export namespace Prisma {
   export type BagUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     product_variant_size_id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     Product?: ProductUpdateOneRequiredWithoutBagNestedInput
@@ -22012,7 +22012,7 @@ export namespace Prisma {
   export type BagUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     product_id?: StringFieldUpdateOperationsInput | string
     product_variant_size_id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
@@ -22021,7 +22021,7 @@ export namespace Prisma {
   export type BagUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     product_id?: StringFieldUpdateOperationsInput | string
     product_variant_size_id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
@@ -22087,7 +22087,7 @@ export namespace Prisma {
   export type BagCreateManyProductInput = {
     id?: string
     created_at?: Date | string
-    updated_at: Date | string
+    updated_at?: Date | string | null
     user_id: string
     product_variant_size_id: string
     quantity: number
@@ -22123,7 +22123,7 @@ export namespace Prisma {
   export type BagUpdateWithoutProductInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     product_variant_size_id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     User?: UserUpdateOneRequiredWithoutBagNestedInput
@@ -22132,7 +22132,7 @@ export namespace Prisma {
   export type BagUncheckedUpdateWithoutProductInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user_id?: StringFieldUpdateOperationsInput | string
     product_variant_size_id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
@@ -22141,7 +22141,7 @@ export namespace Prisma {
   export type BagUncheckedUpdateManyWithoutProductInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user_id?: StringFieldUpdateOperationsInput | string
     product_variant_size_id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number

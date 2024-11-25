@@ -83,8 +83,11 @@ export default function ShopPage() {
 
   const handleAddToCart = async (productId: string, productVariantSizeId: string) => {
     try {
-      const userId = "a65e50e5-ce33-421e-9e83-555fb9728a0d"; // Default user ID
+      const userId = "74c9cbc2-255e-40b4-9144-3a0303bf9f1d"; // Default user ID
       const quantity = 1; // Default quantity to add
+
+      // Log the payload for debugging
+      console.log({ userId, productId, productVariantSizeId, quantity });
 
       const response = await fetch("/api/cart/add", {
         method: "POST",

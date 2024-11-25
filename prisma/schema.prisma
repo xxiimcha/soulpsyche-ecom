@@ -107,10 +107,10 @@ model Address {
 model Bag {
   id                      String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   created_at              DateTime           @default(now()) @db.Timestamptz(6)
-  updated_at              DateTime           @db.Timestamptz(6)
+  updated_at              DateTime?          @db.Timestamptz(6)
   user_id                 String             @db.Uuid
   product_id              String             @db.Uuid
-  product_variant_size_id String             @db.Text // Changed to Text
+  product_variant_size_id String             @db.Uuid
   quantity                Int
   Product                 Product            @relation(fields: [product_id], references: [id], onDelete: Cascade)
   User                    User               @relation(fields: [user_id], references: [id], onDelete: Cascade)

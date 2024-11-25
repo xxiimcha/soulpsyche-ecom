@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 export async function GET() {
   try {
-    const userId = "user_2ob9EitQ5Ab58IyHysuDka4Sv83"; // Hardcoded user ID for now
+    const userId = "74c9cbc2-255e-40b4-9144-3a0303bf9f1d"; // Hardcoded user ID for now
 
     // Fetch bag items with Product details
     const bagItems = await prisma.bag.findMany({
