@@ -18,7 +18,6 @@ model User {
   user_id         String            @unique @default(dbgenerated("requesting_user_id()"))
   address         String            @default("")
   Address         Address[]
-  Bag             Bag[]
   Order           Order[]
   ShippingAddress ShippingAddress[]
   Wishlist        Wishlist[]
@@ -62,29 +61,28 @@ model ProductVariantColor {
 }
 
 model ProductVariantSize {
-  id                                                            String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  created_at                                                    DateTime            @default(now()) @db.Timestamptz(6)
-  updated_at                                                    DateTime?           @db.Timestamptz(6)
-  size                                                          PRODUCT_SIZES
-  stock                                                         Int
-  status                                                        PRODUCT_STATUS
-  variant_color_id                                              String              @db.Uuid
-  Bag                                                           Bag[]
-  OrderItem                                                     OrderItem[]
-  ProductVariantColor                                           ProductVariantColor @relation(fields: [variant_color_id], references: [id], onDelete: Cascade)
-  Wishlist                                                      Wishlist[]          @relation("Product_Wishlist")
- }
+  id                 String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at         DateTime            @default(now()) @db.Timestamptz(6)
+  updated_at         DateTime?           @db.Timestamptz(6)
+  size               PRODUCT_SIZES
+  stock              Int
+  status             PRODUCT_STATUS
+  variant_color_id   String              @db.Uuid
+  OrderItem          OrderItem[]
+  ProductVariantColor ProductVariantColor @relation(fields: [variant_color_id], references: [id], onDelete: Cascade)
+  Wishlist           Wishlist[]          @relation("Wishlist_product_variant_size_idToProductVariantSize")
+}
 
 model Wishlist {
-  id                                                                      String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  created_at                                                              DateTime           @default(now()) @db.Timestamptz(6)
-  updated_at                                                              DateTime?          @db.Timestamptz(6)
-  user_id                                                                 String             @db.Uuid
-  product_variant_size_id                                                 String             @db.Uuid
-  product_id                                                              String             @db.Uuid
-  ProductVariantSize_Wishlist_product_variant_size_idToProductVariantSize ProductVariantSize @relation("Wishlist_product_variant_size_idToProductVariantSize", fields: [product_variant_size_id], references: [id], onDelete: Cascade)
-  ProductRelationToProduct                                                Product            @relation("Product_Wishlist", fields: [product_id], references: [id], onDelete: Cascade)
-  User                                                                    User               @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  id                 String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at         DateTime            @default(now()) @db.Timestamptz(6)
+  updated_at         DateTime?           @db.Timestamptz(6)
+  user_id            String              @db.Uuid
+  product_variant_size_id String         @db.Uuid
+  product_id         String              @db.Uuid
+  ProductVariantSize ProductVariantSize  @relation("Wishlist_product_variant_size_idToProductVariantSize", fields: [product_variant_size_id], references: [id], onDelete: Cascade)
+  Product            Product             @relation("Product_Wishlist", fields: [product_id], references: [id], onDelete: Cascade)
+  User               User                @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }
 
 
@@ -114,8 +112,6 @@ model Bag {
   product_variant_size_id String             @db.Text // Changed to text
   quantity                Int
   Product                 Product            @relation(fields: [product_id], references: [id], onDelete: Cascade)
-  ProductVariantSize      ProductVariantSize @relation(fields: [product_variant_size_id], references: [id], onDelete: Cascade)
-  User                    User               @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }
 
 model Order {
