@@ -24,8 +24,8 @@ export async function GET() {
       price: item.Product?.price || 0,
       quantity: item.quantity || 1,
       size: item.product_variant_size_id || "No Size",
-      color: "No Color", // Replace this with the actual logic if color is stored elsewhere
-      image: "/placeholder-dark-image.png", // Add logic for image if available
+      color: "No Color",
+      image: "/placeholder-dark-image.png",
     }));
 
     if (mappedItems.length === 0) {

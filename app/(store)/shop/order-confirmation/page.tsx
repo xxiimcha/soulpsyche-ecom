@@ -1,11 +1,25 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import axios from "axios";
+
+type Address = {
+  id: string;
+  complete_address: string;
+};
+
+type PaymentMethod = {
+  id: string;
+  method_name: string;
+  description?: string;
+  account_name?: string;
+  account_number?: string;
+  qr_code?: string;
+};
 
 export default function OrderConfirmationPage() {
   const searchParams = useSearchParams();
@@ -17,27 +31,71 @@ export default function OrderConfirmationPage() {
   const shipping = 5.99;
   const total = subtotal + shipping;
 
-  const [shippingAddress, setShippingAddress] = useState("");
+  const [selectedAddressId, setSelectedAddressId] = useState("");
+  const [addresses, setAddresses] = useState<Address[]>([]);
   const [paymentMethod, setPaymentMethod] = useState("");
   const [paymentDetails, setPaymentDetails] = useState("");
   const [paymentProof, setPaymentProof] = useState<File | null>(null);
+  const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
+  const userId = "74c9cbc2-255e-40b4-9144-3a0303bf9f1d"; // Default User ID
 
-  const handlePaymentMethodChange = (method: string) => {
-    setPaymentMethod(method);
+  useEffect(() => {
+    async function fetchAddresses() {
+      try {
+        const response = await axios.get(`/api/addresses?userId=${userId}`);
+        setAddresses(response.data);
+      } catch (error) {
+        console.error("Error fetching addresses:", error);
+        alert("Failed to load shipping addresses. Please try again.");
+      }
+    }
 
-    // Set payment details based on method
-    switch (method) {
-      case "GCASH":
-        setPaymentDetails("Send payment to GCash #09123456789");
-        break;
-      case "Maya":
-        setPaymentDetails("Send payment to Maya #09123456789");
-        break;
-      case "BPI":
-        setPaymentDetails("Transfer to BPI Account: 1234-5678-90");
-        break;
-      default:
-        setPaymentDetails("");
+    async function fetchPaymentMethods() {
+      try {
+        const response = await axios.get("/api/payment-methods");
+        setPaymentMethods(response.data);
+      } catch (error) {
+        console.error("Error fetching payment methods:", error);
+      }
+    }
+
+    fetchAddresses();
+    fetchPaymentMethods();
+  }, []);
+
+  const handlePaymentMethodChange = (methodId: string) => {
+    setPaymentMethod(methodId);
+
+    const selectedMethod = paymentMethods.find((method) => method.id === methodId);
+    if (selectedMethod) {
+      setPaymentDetails(
+        `
+        <div class="bg-indigo-50 p-4 rounded-md shadow-sm border border-indigo-200">
+          ${
+            selectedMethod.description
+              ? `<p class="text-indigo-700 font-medium">${selectedMethod.description}</p>`
+              : ""
+          }
+          ${
+            selectedMethod.account_name
+              ? `<p class="text-gray-700 mt-2"><strong>Account Name:</strong> ${selectedMethod.account_name}</p>`
+              : ""
+          }
+          ${
+            selectedMethod.account_number
+              ? `<p class="text-gray-700 mt-2"><strong>Account Number:</strong> ${selectedMethod.account_number}</p>`
+              : ""
+          }
+          ${
+            selectedMethod.qr_code
+              ? `<div class="mt-4">
+                  <img src="${selectedMethod.qr_code}" alt="QR Code" class="w-24 h-24 mx-auto rounded-md shadow-md" />
+                </div>`
+              : ""
+          }
+        </div>
+        `
+      );
     }
   };
 
@@ -48,12 +106,16 @@ export default function OrderConfirmationPage() {
   };
 
   const handleSubmit = async () => {
+    if (!selectedAddressId) {
+      alert("Please select a shipping address!");
+      return;
+    }
+
     if (!paymentProof) {
       alert("Please upload a payment proof before submitting!");
       return;
     }
 
-    // Upload payment proof to Cloudinary
     const formData = new FormData();
     formData.append("file", paymentProof);
     formData.append("upload_preset", "product_images_upload");
@@ -71,7 +133,7 @@ export default function OrderConfirmationPage() {
         subtotal,
         shipping,
         total,
-        shippingAddress,
+        shippingAddressId: selectedAddressId,
         paymentMethod,
         paymentProof: paymentProofUrl,
       };
@@ -110,16 +172,10 @@ export default function OrderConfirmationPage() {
                       className="rounded-md"
                     />
                     <div className="flex-grow">
-                      <h3 className="font-semibold text-lg">
-                        {item.productName}
-                      </h3>
-                      <p className="text-sm text-gray-600">
-                        Color: {item.color}
-                      </p>
+                      <h3 className="font-semibold text-lg">{item.productName}</h3>
+                      <p className="text-sm text-gray-600">Color: {item.color}</p>
                       <p className="text-sm text-gray-600">Size: {item.size}</p>
-                      <p className="text-sm text-gray-600">
-                        Quantity: {item.quantity}
-                      </p>
+                      <p className="text-sm text-gray-600">Quantity: {item.quantity}</p>
                       <p className="font-semibold mt-2">
                         ₱{(item.price * item.quantity).toFixed(2)}
                       </p>
@@ -147,13 +203,20 @@ export default function OrderConfirmationPage() {
             {/* Shipping & Payment Form */}
             <div className="bg-white p-6 rounded-lg shadow-md">
               <h2 className="text-xl font-semibold mb-4">Shipping Address</h2>
-              <textarea
-                value={shippingAddress}
-                onChange={(e) => setShippingAddress(e.target.value)}
-                placeholder="Enter your full shipping address"
-                className="w-full border border-gray-300 rounded-md p-2 mb-6 shadow-sm focus:ring focus:ring-indigo-500"
-                rows={4}
-              />
+              <select
+                value={selectedAddressId}
+                onChange={(e) => setSelectedAddressId(e.target.value)}
+                className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mb-6"
+              >
+                <option value="" disabled>
+                  Select a shipping address
+                </option>
+                {addresses.map((address) => (
+                  <option key={address.id} value={address.id}>
+                    {address.complete_address}
+                  </option>
+                ))}
+              </select>
 
               <h2 className="text-xl font-semibold mb-4">Payment Method</h2>
               <select
@@ -164,15 +227,18 @@ export default function OrderConfirmationPage() {
                 <option value="" disabled>
                   Select a payment method
                 </option>
-                <option value="GCASH">GCash</option>
-                <option value="Maya">Maya</option>
-                <option value="BPI">BPI Bank Transfer</option>
+                {paymentMethods.map((method) => (
+                  <option key={method.id} value={method.id}>
+                    {method.method_name}
+                  </option>
+                ))}
               </select>
 
               {paymentDetails && (
-                <div className="mb-6 bg-gray-50 p-4 rounded-md">
-                  <p className="text-gray-700">{paymentDetails}</p>
-                </div>
+                <div
+                  className="mb-6"
+                  dangerouslySetInnerHTML={{ __html: paymentDetails }}
+                ></div>
               )}
 
               <h2 className="text-xl font-semibold mb-4">Upload Payment Proof</h2>
@@ -187,7 +253,7 @@ export default function OrderConfirmationPage() {
                 className="w-full mt-6"
                 size="lg"
                 onClick={handleSubmit}
-                disabled={!shippingAddress || !paymentMethod || !paymentProof}
+                disabled={!selectedAddressId || !paymentMethod || !paymentProof}
               >
                 Place Order
               </Button>
