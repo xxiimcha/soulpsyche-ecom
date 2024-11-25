@@ -5,6 +5,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import axios from "axios";
 
 export default function OrderConfirmationPage() {
   const searchParams = useSearchParams();
@@ -18,18 +19,69 @@ export default function OrderConfirmationPage() {
 
   const [shippingAddress, setShippingAddress] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
+  const [paymentDetails, setPaymentDetails] = useState("");
+  const [paymentProof, setPaymentProof] = useState<File | null>(null);
 
-  const handleSubmit = () => {
-    const orderData = {
-      items,
-      subtotal,
-      shipping,
-      total,
-      shippingAddress,
-      paymentMethod,
-    };
-    console.log("Order Submitted:", orderData);
-    alert("Order placed successfully!");
+  const handlePaymentMethodChange = (method: string) => {
+    setPaymentMethod(method);
+
+    // Set payment details based on method
+    switch (method) {
+      case "GCASH":
+        setPaymentDetails("Send payment to GCash #09123456789");
+        break;
+      case "Maya":
+        setPaymentDetails("Send payment to Maya #09123456789");
+        break;
+      case "BPI":
+        setPaymentDetails("Transfer to BPI Account: 1234-5678-90");
+        break;
+      default:
+        setPaymentDetails("");
+    }
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      setPaymentProof(event.target.files[0]);
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (!paymentProof) {
+      alert("Please upload a payment proof before submitting!");
+      return;
+    }
+
+    // Upload payment proof to Cloudinary
+    const formData = new FormData();
+    formData.append("file", paymentProof);
+    formData.append("upload_preset", "product_images_upload");
+
+    try {
+      const cloudinaryResponse = await axios.post(
+        "https://api.cloudinary.com/v1_1/your_cloudinary_name/image/upload",
+        formData
+      );
+
+      const paymentProofUrl = cloudinaryResponse.data.secure_url;
+
+      const orderData = {
+        items,
+        subtotal,
+        shipping,
+        total,
+        shippingAddress,
+        paymentMethod,
+        paymentProof: paymentProofUrl,
+      };
+
+      console.log("Order Submitted:", orderData);
+      alert("Order placed successfully!");
+    } catch (error) {
+      console.error("Error uploading payment proof:", error);
+      alert("Failed to upload payment proof. Please try again.");
+    }
   };
 
   return (
@@ -106,7 +158,7 @@ export default function OrderConfirmationPage() {
               <h2 className="text-xl font-semibold mb-4">Payment Method</h2>
               <select
                 value={paymentMethod}
-                onChange={(e) => setPaymentMethod(e.target.value)}
+                onChange={(e) => handlePaymentMethodChange(e.target.value)}
                 className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mb-6"
               >
                 <option value="" disabled>
@@ -117,11 +169,25 @@ export default function OrderConfirmationPage() {
                 <option value="BPI">BPI Bank Transfer</option>
               </select>
 
+              {paymentDetails && (
+                <div className="mb-6 bg-gray-50 p-4 rounded-md">
+                  <p className="text-gray-700">{paymentDetails}</p>
+                </div>
+              )}
+
+              <h2 className="text-xl font-semibold mb-4">Upload Payment Proof</h2>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+                className="block w-full text-gray-700 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-500"
+              />
+
               <Button
                 className="w-full mt-6"
                 size="lg"
                 onClick={handleSubmit}
-                disabled={!shippingAddress || !paymentMethod}
+                disabled={!shippingAddress || !paymentMethod || !paymentProof}
               >
                 Place Order
               </Button>
