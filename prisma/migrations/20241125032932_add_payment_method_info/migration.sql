@@ -40,9 +40,3 @@ CREATE TABLE "PaymentMethodInfo" (
 
     CONSTRAINT "PaymentMethodInfo_pkey" PRIMARY KEY ("id")
 );
-
--- RenameForeignKey
-ALTER TABLE "Wishlist" RENAME CONSTRAINT "Wishlist_product_id_fkey1" TO "Wishlist_product_id_fkey";
-
--- AddForeignKey
-ALTER TABLE "Bag" ADD CONSTRAINT "Bag_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "Product"("id") ON DELETE CASCADE ON UPDATE CASCADE;

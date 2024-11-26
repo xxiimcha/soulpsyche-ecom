@@ -149,7 +149,9 @@ exports.Prisma.CategoryScalarFieldEnum = {
   created_at: 'created_at',
   updated_at: 'updated_at',
   name: 'name',
-  slug: 'slug'
+  slug: 'slug',
+  variant_color_required: 'variant_color_required',
+  variant_size_required: 'variant_size_required'
 };
 
 exports.Prisma.ProductVariantColorScalarFieldEnum = {

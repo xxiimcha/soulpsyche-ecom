@@ -4449,6 +4449,8 @@ export namespace Prisma {
     updated_at: Date | null
     name: string | null
     slug: string | null
+    variant_color_required: boolean | null
+    variant_size_required: boolean | null
   }
 
   export type CategoryMaxAggregateOutputType = {
@@ -4457,6 +4459,8 @@ export namespace Prisma {
     updated_at: Date | null
     name: string | null
     slug: string | null
+    variant_color_required: boolean | null
+    variant_size_required: boolean | null
   }
 
   export type CategoryCountAggregateOutputType = {
@@ -4465,6 +4469,8 @@ export namespace Prisma {
     updated_at: number
     name: number
     slug: number
+    variant_color_required: number
+    variant_size_required: number
     _all: number
   }
 
@@ -4475,6 +4481,8 @@ export namespace Prisma {
     updated_at?: true
     name?: true
     slug?: true
+    variant_color_required?: true
+    variant_size_required?: true
   }
 
   export type CategoryMaxAggregateInputType = {
@@ -4483,6 +4491,8 @@ export namespace Prisma {
     updated_at?: true
     name?: true
     slug?: true
+    variant_color_required?: true
+    variant_size_required?: true
   }
 
   export type CategoryCountAggregateInputType = {
@@ -4491,6 +4501,8 @@ export namespace Prisma {
     updated_at?: true
     name?: true
     slug?: true
+    variant_color_required?: true
+    variant_size_required?: true
     _all?: true
   }
 
@@ -4572,6 +4584,8 @@ export namespace Prisma {
     updated_at: Date | null
     name: string
     slug: string
+    variant_color_required: boolean
+    variant_size_required: boolean
     _count: CategoryCountAggregateOutputType | null
     _min: CategoryMinAggregateOutputType | null
     _max: CategoryMaxAggregateOutputType | null
@@ -4597,6 +4611,8 @@ export namespace Prisma {
     updated_at?: boolean
     name?: boolean
     slug?: boolean
+    variant_color_required?: boolean
+    variant_size_required?: boolean
     Product?: boolean | Category$ProductArgs<ExtArgs>
     _count?: boolean | CategoryCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["category"]>
@@ -4607,6 +4623,8 @@ export namespace Prisma {
     updated_at?: boolean
     name?: boolean
     slug?: boolean
+    variant_color_required?: boolean
+    variant_size_required?: boolean
   }, ExtArgs["result"]["category"]>
 
   export type CategorySelectScalar = {
@@ -4615,6 +4633,8 @@ export namespace Prisma {
     updated_at?: boolean
     name?: boolean
     slug?: boolean
+    variant_color_required?: boolean
+    variant_size_required?: boolean
   }
 
   export type CategoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4634,6 +4654,8 @@ export namespace Prisma {
       updated_at: Date | null
       name: string
       slug: string
+      variant_color_required: boolean
+      variant_size_required: boolean
     }, ExtArgs["result"]["category"]>
     composites: {}
   }
@@ -5033,6 +5055,8 @@ export namespace Prisma {
     readonly updated_at: FieldRef<"Category", 'DateTime'>
     readonly name: FieldRef<"Category", 'String'>
     readonly slug: FieldRef<"Category", 'String'>
+    readonly variant_color_required: FieldRef<"Category", 'Boolean'>
+    readonly variant_size_required: FieldRef<"Category", 'Boolean'>
   }
     
 
@@ -15425,7 +15449,9 @@ export namespace Prisma {
     created_at: 'created_at',
     updated_at: 'updated_at',
     name: 'name',
-    slug: 'slug'
+    slug: 'slug',
+    variant_color_required: 'variant_color_required',
+    variant_size_required: 'variant_size_required'
   };
 
   export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
@@ -15643,6 +15669,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'PRODUCT_SIZES'
    */
   export type EnumPRODUCT_SIZESFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PRODUCT_SIZES'>
@@ -15723,13 +15756,6 @@ export namespace Prisma {
    * Reference to a field of type 'PAYMENT_METHOD[]'
    */
   export type ListEnumPAYMENT_METHODFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PAYMENT_METHOD[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
   /**
    * Deep Input Types
@@ -15911,6 +15937,8 @@ export namespace Prisma {
     updated_at?: DateTimeNullableFilter<"Category"> | Date | string | null
     name?: StringFilter<"Category"> | string
     slug?: StringFilter<"Category"> | string
+    variant_color_required?: BoolFilter<"Category"> | boolean
+    variant_size_required?: BoolFilter<"Category"> | boolean
     Product?: ProductListRelationFilter
   }
 
@@ -15920,6 +15948,8 @@ export namespace Prisma {
     updated_at?: SortOrderInput | SortOrder
     name?: SortOrder
     slug?: SortOrder
+    variant_color_required?: SortOrder
+    variant_size_required?: SortOrder
     Product?: ProductOrderByRelationAggregateInput
   }
 
@@ -15932,6 +15962,8 @@ export namespace Prisma {
     NOT?: CategoryWhereInput | CategoryWhereInput[]
     created_at?: DateTimeFilter<"Category"> | Date | string
     updated_at?: DateTimeNullableFilter<"Category"> | Date | string | null
+    variant_color_required?: BoolFilter<"Category"> | boolean
+    variant_size_required?: BoolFilter<"Category"> | boolean
     Product?: ProductListRelationFilter
   }, "id" | "name" | "slug">
 
@@ -15941,6 +15973,8 @@ export namespace Prisma {
     updated_at?: SortOrderInput | SortOrder
     name?: SortOrder
     slug?: SortOrder
+    variant_color_required?: SortOrder
+    variant_size_required?: SortOrder
     _count?: CategoryCountOrderByAggregateInput
     _max?: CategoryMaxOrderByAggregateInput
     _min?: CategoryMinOrderByAggregateInput
@@ -15955,6 +15989,8 @@ export namespace Prisma {
     updated_at?: DateTimeNullableWithAggregatesFilter<"Category"> | Date | string | null
     name?: StringWithAggregatesFilter<"Category"> | string
     slug?: StringWithAggregatesFilter<"Category"> | string
+    variant_color_required?: BoolWithAggregatesFilter<"Category"> | boolean
+    variant_size_required?: BoolWithAggregatesFilter<"Category"> | boolean
   }
 
   export type ProductVariantColorWhereInput = {
@@ -16895,6 +16931,8 @@ export namespace Prisma {
     updated_at?: Date | string | null
     name: string
     slug: string
+    variant_color_required?: boolean
+    variant_size_required?: boolean
     Product?: ProductCreateNestedManyWithoutCategoryInput
   }
 
@@ -16904,6 +16942,8 @@ export namespace Prisma {
     updated_at?: Date | string | null
     name: string
     slug: string
+    variant_color_required?: boolean
+    variant_size_required?: boolean
     Product?: ProductUncheckedCreateNestedManyWithoutCategoryInput
   }
 
@@ -16913,6 +16953,8 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
+    variant_color_required?: BoolFieldUpdateOperationsInput | boolean
+    variant_size_required?: BoolFieldUpdateOperationsInput | boolean
     Product?: ProductUpdateManyWithoutCategoryNestedInput
   }
 
@@ -16922,6 +16964,8 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
+    variant_color_required?: BoolFieldUpdateOperationsInput | boolean
+    variant_size_required?: BoolFieldUpdateOperationsInput | boolean
     Product?: ProductUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
@@ -16931,6 +16975,8 @@ export namespace Prisma {
     updated_at?: Date | string | null
     name: string
     slug: string
+    variant_color_required?: boolean
+    variant_size_required?: boolean
   }
 
   export type CategoryUpdateManyMutationInput = {
@@ -16939,6 +16985,8 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
+    variant_color_required?: BoolFieldUpdateOperationsInput | boolean
+    variant_size_required?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type CategoryUncheckedUpdateManyInput = {
@@ -16947,6 +16995,8 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
+    variant_color_required?: BoolFieldUpdateOperationsInput | boolean
+    variant_size_required?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type ProductVariantColorCreateInput = {
@@ -18052,6 +18102,11 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type ProductListRelationFilter = {
     every?: ProductWhereInput
     some?: ProductWhereInput
@@ -18068,6 +18123,8 @@ export namespace Prisma {
     updated_at?: SortOrder
     name?: SortOrder
     slug?: SortOrder
+    variant_color_required?: SortOrder
+    variant_size_required?: SortOrder
   }
 
   export type CategoryMaxOrderByAggregateInput = {
@@ -18076,6 +18133,8 @@ export namespace Prisma {
     updated_at?: SortOrder
     name?: SortOrder
     slug?: SortOrder
+    variant_color_required?: SortOrder
+    variant_size_required?: SortOrder
   }
 
   export type CategoryMinOrderByAggregateInput = {
@@ -18084,6 +18143,16 @@ export namespace Prisma {
     updated_at?: SortOrder
     name?: SortOrder
     slug?: SortOrder
+    variant_color_required?: SortOrder
+    variant_size_required?: SortOrder
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type StringNullableListFilter<$PrismaModel = never> = {
@@ -18551,11 +18620,6 @@ export namespace Prisma {
     _max?: NestedEnumPAYMENT_METHODFilter<$PrismaModel>
   }
 
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type PaymentMethodInfoCountOrderByAggregateInput = {
     id?: SortOrder
     created_at?: SortOrder
@@ -18590,14 +18654,6 @@ export namespace Prisma {
     account_number?: SortOrder
     qr_code?: SortOrder
     is_active?: SortOrder
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type AddressRelationFilter = {
@@ -19069,6 +19125,10 @@ export namespace Prisma {
     connectOrCreate?: ProductCreateOrConnectWithoutCategoryInput | ProductCreateOrConnectWithoutCategoryInput[]
     createMany?: ProductCreateManyCategoryInputEnvelope
     connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
   export type ProductUpdateManyWithoutCategoryNestedInput = {
@@ -19570,10 +19630,6 @@ export namespace Prisma {
     update?: XOR<XOR<OrderUpdateToOneWithWhereWithoutPaymentDetailInput, OrderUpdateWithoutPaymentDetailInput>, OrderUncheckedUpdateWithoutPaymentDetailInput>
   }
 
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
-  }
-
   export type AddressCreateNestedOneWithoutShippingAddressInput = {
     create?: XOR<AddressCreateWithoutShippingAddressInput, AddressUncheckedCreateWithoutShippingAddressInput>
     connectOrCreate?: AddressCreateOrConnectWithoutShippingAddressInput
@@ -19788,6 +19844,19 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type NestedEnumPRODUCT_SIZESFilter<$PrismaModel = never> = {
     equals?: $Enums.PRODUCT_SIZES | EnumPRODUCT_SIZESFieldRefInput<$PrismaModel>
     in?: $Enums.PRODUCT_SIZES[] | ListEnumPRODUCT_SIZESFieldRefInput<$PrismaModel>
@@ -19887,19 +19956,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumPAYMENT_METHODFilter<$PrismaModel>
     _max?: NestedEnumPAYMENT_METHODFilter<$PrismaModel>
-  }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type AddressCreateWithoutUserInput = {
@@ -20277,6 +20333,8 @@ export namespace Prisma {
     updated_at?: Date | string | null
     name: string
     slug: string
+    variant_color_required?: boolean
+    variant_size_required?: boolean
   }
 
   export type CategoryUncheckedCreateWithoutProductInput = {
@@ -20285,6 +20343,8 @@ export namespace Prisma {
     updated_at?: Date | string | null
     name: string
     slug: string
+    variant_color_required?: boolean
+    variant_size_required?: boolean
   }
 
   export type CategoryCreateOrConnectWithoutProductInput = {
@@ -20410,6 +20470,8 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
+    variant_color_required?: BoolFieldUpdateOperationsInput | boolean
+    variant_size_required?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type CategoryUncheckedUpdateWithoutProductInput = {
@@ -20418,6 +20480,8 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
+    variant_color_required?: BoolFieldUpdateOperationsInput | boolean
+    variant_size_required?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type ProductVariantColorUpsertWithWhereUniqueWithoutProductInput = {

@@ -6,7 +6,6 @@ import {
   Package,
   ShoppingCart,
   Users,
-  Plus,
   CreditCard,
 } from "lucide-react";
 import {
@@ -48,6 +47,7 @@ const PRODUCT_STATUS = [
 export default function AddProductPage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(false);
+
   const [newProduct, setNewProduct] = useState({
     name: "",
     category: "",
@@ -57,6 +57,7 @@ export default function AddProductPage() {
     variants: [
       {
         color: "",
+        image: "",
         sizes: [{ size: "", stock: 0, status: "Active" }],
       },
     ],
@@ -78,6 +79,32 @@ export default function AddProductPage() {
 
     fetchCategories();
   }, []);
+
+  const handleVariantImageUpload = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+    variantIndex: number
+  ) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "so8qqjk3");
+
+    try {
+      const response = await axios.post(
+        `https://api.cloudinary.com/v1_1/dwa4rcjan/image/upload`,
+        formData
+      );
+
+      const updatedVariants = [...newProduct.variants];
+      updatedVariants[variantIndex].image = response.data.secure_url;
+      setNewProduct({ ...newProduct, variants: updatedVariants });
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      alert("Failed to upload image. Please try again.");
+    }
+  };
 
   const handleSaveProduct = async () => {
     try {
@@ -123,13 +150,20 @@ export default function AddProductPage() {
       <aside className="w-16 bg-gray-800 text-white">
         <nav className="flex flex-col h-full">
           <div className="flex items-center justify-center mt-2">
-            <Image src={SoulePsycleLogo} alt="SoulePsycle-Logo" className="w-12 h-12 rounded-md" />
+            <Image
+              src={SoulePsycleLogo}
+              alt="SoulePsycle-Logo"
+              className="w-12 h-12 rounded-md"
+            />
           </div>
           <TooltipProvider>
             {sidebarItems.map((item) => (
               <Tooltip key={item.name}>
                 <TooltipTrigger asChild>
-                  <Link href={item.href} className="p-4 hover:bg-gray-700 flex justify-center">
+                  <Link
+                    href={item.href}
+                    className="p-4 hover:bg-gray-700 flex justify-center"
+                  >
                     <item.icon className="h-6 w-6" />
                   </Link>
                 </TooltipTrigger>
@@ -145,16 +179,22 @@ export default function AddProductPage() {
       {/* Main Content */}
       <main className="flex-1 overflow-x-hidden overflow-y-auto">
         <div className="container mx-auto px-6 py-8">
-          <h1 className="text-3xl font-semibold text-gray-800 mb-4">Add Product</h1>
+          <h1 className="text-3xl font-semibold text-gray-800 mb-4">
+            Add Product
+          </h1>
           <div className="bg-white p-6 rounded-lg shadow">
             <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
               {/* Product Name */}
               <div>
-                <label className="block text-sm font-medium text-gray-700">Name</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Name
+                </label>
                 <input
                   type="text"
                   value={newProduct.name}
-                  onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
+                  onChange={(e) =>
+                    setNewProduct({ ...newProduct, name: e.target.value })
+                  }
                   className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                   placeholder="Product name"
                   required
@@ -163,11 +203,15 @@ export default function AddProductPage() {
 
               {/* Price */}
               <div>
-                <label className="block text-sm font-medium text-gray-700">Price</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Price
+                </label>
                 <input
                   type="number"
                   value={newProduct.price}
-                  onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
+                  onChange={(e) =>
+                    setNewProduct({ ...newProduct, price: e.target.value })
+                  }
                   className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                   placeholder="Product price"
                   required
@@ -176,10 +220,14 @@ export default function AddProductPage() {
 
               {/* Category */}
               <div>
-                <label className="block text-sm font-medium text-gray-700">Category</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Category
+                </label>
                 <select
                   value={newProduct.category}
-                  onChange={(e) => setNewProduct({ ...newProduct, category: e.target.value })}
+                  onChange={(e) =>
+                    setNewProduct({ ...newProduct, category: e.target.value })
+                  }
                   className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                   required
                   disabled={loading}
@@ -197,10 +245,16 @@ export default function AddProductPage() {
 
               {/* Variants */}
               <div>
-                <label className="block text-sm font-medium text-gray-700">Variants</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Variants
+                </label>
                 {newProduct.variants.map((variant, variantIndex) => (
                   <div key={variantIndex} className="border rounded-md p-4 mb-4">
-                    <div className="flex justify-between items-center">
+                    {/* Variant Color */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">
+                        Variant Color
+                      </label>
                       <input
                         type="text"
                         value={variant.color}
@@ -214,6 +268,29 @@ export default function AddProductPage() {
                         required
                       />
                     </div>
+
+                    {/* Variant Image Upload */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mt-4">
+                        Upload Image
+                      </label>
+                      <input
+                        type="file"
+                        onChange={(e) => handleVariantImageUpload(e, variantIndex)}
+                        className="block w-full mt-1"
+                      />
+                      {variant.image && (
+                        <Image
+                          src={variant.image}
+                          alt={`Variant ${variantIndex + 1} Image`}
+                          className="mt-2 w-32 h-32 object-cover"
+                          width={128}
+                          height={128}
+                        />
+                      )}
+                    </div>
+
+                    {/* Sizes */}
                     <table className="table-auto w-full mt-4 border">
                       <thead className="bg-gray-100">
                         <tr>
@@ -232,7 +309,8 @@ export default function AddProductPage() {
                                 value={size.size}
                                 onChange={(e) => {
                                   const updatedVariants = [...newProduct.variants];
-                                  updatedVariants[variantIndex].sizes[sizeIndex].size = e.target.value;
+                                  updatedVariants[variantIndex].sizes[sizeIndex].size =
+                                    e.target.value;
                                   setNewProduct({ ...newProduct, variants: updatedVariants });
                                 }}
                                 className="w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
@@ -246,7 +324,8 @@ export default function AddProductPage() {
                                 value={size.stock}
                                 onChange={(e) => {
                                   const updatedVariants = [...newProduct.variants];
-                                  updatedVariants[variantIndex].sizes[sizeIndex].stock = parseInt(e.target.value, 10);
+                                  updatedVariants[variantIndex].sizes[sizeIndex].stock =
+                                    parseInt(e.target.value, 10);
                                   setNewProduct({ ...newProduct, variants: updatedVariants });
                                 }}
                                 className="w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
@@ -259,7 +338,8 @@ export default function AddProductPage() {
                                 value={size.status}
                                 onChange={(e) => {
                                   const updatedVariants = [...newProduct.variants];
-                                  updatedVariants[variantIndex].sizes[sizeIndex].status = e.target.value;
+                                  updatedVariants[variantIndex].sizes[sizeIndex].status =
+                                    e.target.value;
                                   setNewProduct({ ...newProduct, variants: updatedVariants });
                                 }}
                                 className="w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
@@ -294,7 +374,11 @@ export default function AddProductPage() {
                       className="mt-2"
                       onClick={() => {
                         const updatedVariants = [...newProduct.variants];
-                        updatedVariants[variantIndex].sizes.push({ size: "", stock: 0, status: "Active" });
+                        updatedVariants[variantIndex].sizes.push({
+                          size: "",
+                          stock: 0,
+                          status: "Active",
+                        });
                         setNewProduct({ ...newProduct, variants: updatedVariants });
                       }}
                     >
@@ -309,7 +393,11 @@ export default function AddProductPage() {
                       ...newProduct,
                       variants: [
                         ...newProduct.variants,
-                        { color: "", sizes: [{ size: "", stock: 0, status: "Active" }] },
+                        {
+                          color: "",
+                          image: "",
+                          sizes: [{ size: "", stock: 0, status: "Active" }],
+                        },
                       ],
                     });
                   }}
@@ -323,7 +411,11 @@ export default function AddProductPage() {
                 <Link href="/admin/inventory">
                   <Button variant="outline">Cancel</Button>
                 </Link>
-                <Button variant="default" onClick={handleSaveProduct} disabled={loading}>
+                <Button
+                  variant="default"
+                  onClick={handleSaveProduct}
+                  disabled={loading}
+                >
                   {loading ? "Saving..." : "Save"}
                 </Button>
               </div>

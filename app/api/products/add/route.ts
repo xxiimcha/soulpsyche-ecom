@@ -30,13 +30,14 @@ export async function POST(request: Request) {
         name: body.name,
         slug: body.slug,
         price: body.price,
-        description: body.description || null, // Optional description
-        category_id: body.category_id, // Foreign key to Category table
-
-        // Insert ProductVariantColor and ProductVariantSize
+        description: body.description || null,
+        category_id: body.category_id,
+    
+        // Create ProductVariantColor and ProductVariantSize
         ProductVariantColor: {
           create: body.variants?.map((variant: any) => ({
             color: variant.color, // Color of the variant
+            images: variant.image ? [variant.image] : [], // Ensure images is always an array
             ProductVariantSize: {
               create: variant.sizes.map((size: any) => ({
                 size: size.size, // Size of the variant
@@ -47,7 +48,7 @@ export async function POST(request: Request) {
           })),
         },
       },
-    });
+    });    
 
     // Return a success response
     return NextResponse.json({

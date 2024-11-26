@@ -213,22 +213,6 @@ export default function InventoryPage() {
     }
   };
 
-  // Update handleEdit to load data for editing
-  const handleEdit = (item: InventoryItem) => {
-    const index = inventory.findIndex((p) => p.id === item.id);
-    setEditIndex(index);
-    setNewProduct({
-      name: item.name,
-      category: item.category.id,
-      price: item.price.toString(),
-      description: item.description || "",
-      sku: item.sku || "",
-      stock: "Active",
-      variants: item.variants,
-    });
-    setModalOpen(true);
-  };
-
   // Handle View Details
   const handleView = (item: InventoryItem) => {
     setViewProduct(item);
@@ -285,7 +269,7 @@ export default function InventoryPage() {
         <div className="container mx-auto px-6 py-8">
           <div className="flex items-center justify-between mb-4">
             <h1 className="text-3xl font-semibold text-gray-800">Inventory</h1>
-            <Link href="/admin/inventory/add-product">
+            <Link href="admin/inventory/add-product">
               <Button className="flex items-center">
                 <Plus className="mr-2" /> Add Product
               </Button>
@@ -331,8 +315,8 @@ export default function InventoryPage() {
                           <Button variant="outline" size="sm" onClick={() => handleView(item)}>
                             <Eye className="h-4 w-4" />
                           </Button>
-                          <Button variant="outline" size="sm" onClick={() => handleEdit(item)}>
-                            <Edit className="h-4 w-4" />
+                          <Button variant="outline" size="sm">
+                            <Link href={`inventory/edit-product/${item.id}`}>Edit</Link>
                           </Button>
                         </td>
                       </tr>

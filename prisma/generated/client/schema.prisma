@@ -42,12 +42,14 @@ model Product {
 }
 
 model Category {
-  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  created_at DateTime  @default(now()) @db.Timestamptz(6)
-  updated_at DateTime? @db.Timestamptz(6)
-  name       String    @unique
-  slug       String    @unique
-  Product    Product[]
+  id                     String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at             DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at             DateTime? @db.Timestamptz(6)
+  name                   String    @unique
+  slug                   String    @unique
+  variant_color_required Boolean   @default(false)
+  variant_size_required  Boolean   @default(false)
+  Product                Product[]
 }
 
 model ProductVariantColor {
