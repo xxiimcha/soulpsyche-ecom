@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,6 +26,7 @@ export default function ShopPage() {
   const [selectedAttributes, setSelectedAttributes] = useState<{
     [key: string]: { color: string; sizeId: string };
   }>({});
+  const router = useRouter();
 
   // Fetch products data on mount
   useEffect(() => {
@@ -81,39 +83,6 @@ export default function ShopPage() {
     }));
   };
 
-  const handleAddToCart = async (productId: string, productVariantSizeId: string) => {
-    try {
-      const userId = "74c9cbc2-255e-40b4-9144-3a0303bf9f1d"; // Default user ID
-      const quantity = 1; // Default quantity to add
-
-      // Log the payload for debugging
-      console.log({ userId, productId, productVariantSizeId, quantity });
-
-      const response = await fetch("/api/cart/add", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId,
-          productId,
-          productVariantSizeId,
-          quantity,
-        }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        alert("Item added to cart successfully!");
-      } else {
-        throw new Error("Failed to add item to cart");
-      }
-    } catch (error) {
-      console.error("Error adding to cart:", error);
-      alert("Error adding item to cart");
-    }
-  };
-
   const filteredProducts = products.filter((product) =>
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -122,7 +91,9 @@ export default function ShopPage() {
     <main className="flex-1">
       <section className="w-full py-8 md:py-14 lg:py-16 bg-gray-100">
         <div className="container px-4 md:px-6">
-          <h2 className="text-3xl sm:text-5xl mb-12 font-bold tracking-tighter">Shop All</h2>
+          <h2 className="text-3xl sm:text-5xl mb-12 font-bold tracking-tighter">
+            Shop All
+          </h2>
 
           <div className="flex items-center mb-6 space-x-4">
             <div className="relative w-full md:w-64">
@@ -138,7 +109,11 @@ export default function ShopPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {filteredProducts.map((product) => (
-              <div key={product.id} className="bg-white border rounded-lg overflow-hidden">
+              <div
+                key={product.id}
+                className="bg-white border rounded-lg overflow-hidden cursor-pointer"
+                onClick={() => router.push(`shop/product-details/${product.id}`)}
+              >
                 <Image
                   src={product.image}
                   alt={product.name}
@@ -162,7 +137,10 @@ export default function ShopPage() {
                               ? "bg-gray-800 text-white"
                               : "bg-gray-200 text-gray-800"
                           }`}
-                          onClick={() => handleAttributeChange(product.id, colorVariant.color)}
+                          onClick={(e) => {
+                            e.stopPropagation(); // Prevent card click
+                            handleAttributeChange(product.id, colorVariant.color);
+                          }}
                         >
                           {colorVariant.color}
                         </button>
@@ -187,7 +165,10 @@ export default function ShopPage() {
                                 ? "bg-gray-800 text-white"
                                 : "bg-gray-200 text-gray-800"
                             }`}
-                            onClick={() => handleAttributeChange(product.id, undefined, size.id)}
+                            onClick={(e) => {
+                              e.stopPropagation(); // Prevent card click
+                              handleAttributeChange(product.id, undefined, size.id);
+                            }}
                           >
                             {size.label}
                           </button>
@@ -198,16 +179,17 @@ export default function ShopPage() {
                   <p className="font-bold mt-4">{product.price}</p>
                   <Button
                     className="w-full mt-4"
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent card click
                       const selectedSizeId = selectedAttributes[product.id]?.sizeId;
                       if (!selectedSizeId) {
-                        alert("Please select a size before adding to cart.");
+                        alert("Please select a size before proceeding.");
                         return;
                       }
-                      handleAddToCart(product.id, selectedSizeId);
+                      router.push(`shop/product-details/${product.id}`);
                     }}
                   >
-                    Add to Cart
+                    Buy Now
                   </Button>
                 </div>
               </div>

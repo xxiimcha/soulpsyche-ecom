@@ -269,7 +269,7 @@ export default function InventoryPage() {
         <div className="container mx-auto px-6 py-8">
           <div className="flex items-center justify-between mb-4">
             <h1 className="text-3xl font-semibold text-gray-800">Inventory</h1>
-            <Link href="admin/inventory/add-product">
+            <Link href="inventory/add-product">
               <Button className="flex items-center">
                 <Plus className="mr-2" /> Add Product
               </Button>

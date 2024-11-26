@@ -1,19 +1,19 @@
-import { PrismaClient } from '../../../prisma/generated/client';
+import { PrismaClient } from "../../../prisma/generated/client";
 import { NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
 export async function GET(req: Request) {
   try {
-    const url = new URL(req.url);
-    const id = url.searchParams.get("id");  // If an 'id' is passed as a query param
+    const { pathname } = new URL(req.url);
+    const id = pathname.split("/").pop(); // Extract the ID from the URL path
 
-    if (id) {
-      // Fetch the specific product by its ID if 'id' is provided
+    if (id && id !== "products") {
+      // Fetch the specific product by its ID
       const product = await prisma.product.findUnique({
         where: { id },
         include: {
-          Category: true,  // Include the category
+          Category: true, // Include the category
           ProductVariantColor: {
             include: {
               ProductVariantSize: true, // Include sizes and stock details
@@ -31,10 +31,10 @@ export async function GET(req: Request) {
 
       return NextResponse.json(product);
     } else {
-      // If no 'id' is provided, fetch all products
+      // If no specific ID, return all products
       const products = await prisma.product.findMany({
         include: {
-          Category: true,  // Include category for each product
+          Category: true, // Include category for each product
           ProductVariantColor: {
             include: {
               ProductVariantSize: true, // Include sizes and stock details
