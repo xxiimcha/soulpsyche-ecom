@@ -55,10 +55,25 @@ export default function PaymentMethodsPage() {
       alert("Please fill out all required fields.");
       return;
     }
-
+  
     setLoading(true);
     try {
-      const response = await axios.post("/api/payment-methods", newMethod);
+      const response = await axios.post(
+        "/api/payment-methods",
+        {
+          method_name: newMethod.method_name,
+          description: newMethod.description,
+          account_name: newMethod.account_name,
+          account_number: newMethod.account_number,
+          qr_code: newMethod.qr_code,
+          is_active: newMethod.is_active,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       setPaymentMethods((prev) => [...prev, response.data]);
       setNewMethod({
         method_name: "",
@@ -74,29 +89,31 @@ export default function PaymentMethodsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  };  
 
   const handleDelete = async (id: string) => {
     setLoading(true);
     try {
-      await axios.delete(`/api/payment-methods/${id}`);
-      setPaymentMethods((prev) => prev.filter((method) => method.id !== id));
+      const response = await axios.delete(`/api/payment-methods/${id}`);
+      if (response.status === 200) {
+        setPaymentMethods((prev) => prev.filter((method) => method.id !== id));
+      }
     } catch (error) {
       console.error("Error deleting payment method:", error);
     } finally {
       setLoading(false);
     }
-  };
+  };  
 
   const handleImageUpload = async (file: File) => {
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("upload_preset", "upload_qr_code"); // Unsigned preset from Cloudinary
+    formData.append("upload_preset", "so8qqjk3"); // Unsigned preset from Cloudinary
 
     setUploading(true);
     try {
       const response = await axios.post(
-        "https://api.cloudinary.com/v1_1/<your_cloud_name>/upload",
+        "https://api.cloudinary.com/v1_1/dwa4rcjan/image/upload",
         formData
       );
       setNewMethod((prev) => ({

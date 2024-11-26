@@ -20,6 +20,10 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
+    if (!body || Object.keys(body).length === 0) {
+      return NextResponse.json({ error: "Request body is empty" }, { status: 400 });
+    }
+
     const { method_name, description, account_name, account_number, qr_code, is_active } = body;
 
     if (!method_name) {
@@ -41,26 +45,5 @@ export async function POST(req: Request) {
   } catch (error) {
     console.error("Error creating payment method:", error);
     return NextResponse.json({ error: "Failed to create payment method" }, { status: 500 });
-  }
-}
-
-// Handler for deleting a payment method
-export async function DELETE(req: Request) {
-  try {
-    const url = new URL(req.url);
-    const id = url.searchParams.get("id");
-
-    if (!id) {
-      return NextResponse.json({ error: "Payment method ID is required" }, { status: 400 });
-    }
-
-    await prisma.paymentMethodInfo.delete({
-      where: { id },
-    });
-
-    return NextResponse.json({ message: "Payment method deleted successfully" }, { status: 200 });
-  } catch (error) {
-    console.error("Error deleting payment method:", error);
-    return NextResponse.json({ error: "Failed to delete payment method" }, { status: 500 });
   }
 }
