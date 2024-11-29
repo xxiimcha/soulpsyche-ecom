@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Menu, ShoppingBag } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SoulePsycleLogo from "@/public/logo.jpg";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -30,6 +30,26 @@ const StoreNavbar = () => {
 
 	const { isLoaded, isSignedIn, user } = useUser();
 
+	const [bagCount, setBagCount] = useState<number>(0);
+
+	// Static user ID for now
+	const userId = "c816e27a-e9dd-411f-b0d4-75e384e71005";
+
+	useEffect(() => {
+		// Fetch bag count based on userId
+		const fetchBagCount = async () => {
+			try {
+				const response = await fetch(`/api/bag/count?userId=${userId}`);
+				const data = await response.json();
+				setBagCount(data.count || 0);
+			} catch (error) {
+				console.error("Error fetching bag count:", error);
+			}
+		};
+
+		fetchBagCount();
+	}, []);
+
 	const isAdmin =
 		user?.emailAddresses[0].emailAddress === "soulepsycle1201@gmail.com";
 
@@ -37,7 +57,7 @@ const StoreNavbar = () => {
 		return null;
 	}
 
-	console.log("user", user)
+	console.log("user", user);
 
 	const links = [
 		{
@@ -92,9 +112,11 @@ const StoreNavbar = () => {
 					>
 						<Link href={"/shop/bag"}>
 							<ShoppingBag className="h-6 w-6" />
-							<span className="absolute top-0 right-0 h-5 w-5 text-[10px] font-bold rounded-full bg-primary text-primary-foreground flex items-center justify-center">
-								3
-							</span>
+							{bagCount > 0 && (
+								<span className="absolute top-0 right-0 h-5 w-5 text-[10px] font-bold rounded-full bg-primary text-primary-foreground flex items-center justify-center">
+									{bagCount}
+								</span>
+							)}
 						</Link>
 					</Button>
 
