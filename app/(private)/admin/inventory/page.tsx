@@ -19,6 +19,14 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import Image from "next/image";
+
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import SoulePsycleLogo from "@/public/logo.jpg";
 import { useUser } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
@@ -32,6 +40,7 @@ interface InventoryItem {
   category: { id: string; name: string; slug: string };
   price: number;
   description?: string; // Optional field
+  isFeatured?: boolean;
   sku?: string; // Optional field
   variants: {
     color: string;
@@ -44,7 +53,8 @@ interface ApiProduct {
   name: string;
   Category?: { id: string; name: string };
   price: number;
-  description?: string; // Add this line to include the description
+  description?: string;
+  isFeatured?: boolean;
   ProductVariantColor?: {
     color: string;
     ProductVariantSize?: {
@@ -78,6 +88,8 @@ export default function InventoryPage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [isModalOpen, setModalOpen] = useState(false);
   const [isViewModalOpen, setViewModalOpen] = useState(false);
+  const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deleteProductId, setDeleteProductId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [newProduct, setNewProduct] = useState({
     name: "",
@@ -118,6 +130,7 @@ export default function InventoryPage() {
             : { id: "", name: "Uncategorized", slug: "" },
           price: item.price,
           description: item.description || "N/A",
+          isFeatured: item.isFeatured || false, // Include isFeatured property
           variants: item.ProductVariantColor
             ? item.ProductVariantColor.map((variant) => ({
                 color: variant.color || "N/A",
@@ -153,6 +166,23 @@ export default function InventoryPage() {
   
     fetchCategories();
   }, []);  
+
+
+  const handleDeleteProduct = async () => {
+    if (!deleteProductId) return;
+    try {
+      await axios.delete(`/api/products/${deleteProductId}`);
+      setInventory((prev) =>
+        prev.filter((product) => product.id !== deleteProductId)
+      );
+      setDeleteProductId(null);
+      setDeleteDialogOpen(false);
+      alert("Product deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting product:", error);
+      alert("Failed to delete product. Please try again.");
+    }
+  };
 
   // Update handleSaveProduct to handle edits
   const handleSaveProduct = async () => {
@@ -283,13 +313,13 @@ export default function InventoryPage() {
             <div className="bg-white rounded-lg shadow-md overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="bg-gray-100">
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Category</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Price</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Stock</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                  <tr className="bg-black text-white">
+                    <th className="px-6 py-3 text-left text-xs font-medium uppercase">ID</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium uppercase">Name</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium uppercase">Category</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium uppercase">Price</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium uppercase">Stock</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium uppercase">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
@@ -311,13 +341,85 @@ export default function InventoryPage() {
                           ) || 0}{" "}
                           units
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex gap-2">
-                          <Button variant="outline" size="sm" onClick={() => handleView(item)}>
-                            <Eye className="h-4 w-4" />
-                          </Button>
-                          <Button variant="outline" size="sm">
-                            <Link href={`inventory/edit-product/${item.id}`}>Edit</Link>
-                          </Button>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm flex gap-2">
+                          <TooltipProvider>
+                            {/* View Button */}
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <Button variant="outline" size="sm" onClick={() => handleView(item)}>
+                                  <Eye className="h-4 w-4" />
+                                </Button>
+                              </TooltipTrigger>
+                              <TooltipContent>View Product</TooltipContent>
+                            </Tooltip>
+
+                            {/* Edit Button */}
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <Button variant="outline" size="sm">
+                                  <Link href={`inventory/edit-product/${item.id}`}>
+                                    <Edit className="h-4 w-4" />
+                                  </Link>
+                                </Button>
+                              </TooltipTrigger>
+                              <TooltipContent>Edit Product</TooltipContent>
+                            </Tooltip>
+
+                            {/* Toggle Featured Button */}
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => {
+                                    const newStatus = !item.isFeatured;
+                                    axios
+                                      .put(`/api/products/set-featured/${item.id}`, { isFeatured: newStatus })
+                                      .then(() => {
+                                        setInventory((prev) =>
+                                          prev.map((product) =>
+                                            product.id === item.id
+                                              ? { ...product, isFeatured: newStatus }
+                                              : product
+                                          )
+                                        );
+                                        alert(`Product is now ${newStatus ? "featured" : "not featured"}.`);
+                                      })
+                                      .catch((error) => {
+                                        console.error("Error updating featured status:", error);
+                                        alert("Failed to update featured status. Please try again.");
+                                      });
+                                  }}
+                                >
+                                  {item.isFeatured ? (
+                                    <Trash className="h-4 w-4 text-green-500" /> // Icon for featured products
+                                  ) : (
+                                    <Plus className="h-4 w-4" /> // Icon for non-featured products
+                                  )}
+                                </Button>
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                {item.isFeatured ? "Unset as Featured" : "Set as Featured"}
+                              </TooltipContent>
+                            </Tooltip>
+
+                            {/* Delete Button */}
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => {
+                                    setDeleteProductId(item.id);
+                                    setDeleteDialogOpen(true);
+                                  }}
+                                >
+                                  <Trash className="h-4 w-4" />
+                                </Button>
+                              </TooltipTrigger>
+                              <TooltipContent>Delete Product</TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
                         </td>
                       </tr>
                     ))
@@ -332,7 +434,23 @@ export default function InventoryPage() {
               </table>
             </div>
           )}
-
+          {/* Confirmation Dialog */}
+          <Dialog open={isDeleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Confirm Deletion</DialogTitle>
+              </DialogHeader>
+              <p>Are you sure you want to delete this product? This action cannot be undone.</p>
+              <DialogFooter>
+                <Button variant="outline" onClick={() => setDeleteDialogOpen(false)}>
+                  Cancel
+                </Button>
+                <Button variant="destructive" onClick={handleDeleteProduct}>
+                  Delete
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
           {/* Add Product Modal */}
             {isModalOpen && (
               <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">

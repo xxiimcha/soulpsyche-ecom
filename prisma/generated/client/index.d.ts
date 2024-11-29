@@ -83,7 +83,37 @@ export type ShippingAddress = $Result.DefaultSelection<Prisma.$ShippingAddressPa
  * Enums
  */
 export namespace $Enums {
-  export const PRODUCT_SIZES: {
+  export const ORDER_STATUS: {
+  pending: 'pending',
+  processing: 'processing',
+  completed: 'completed',
+  canceled: 'canceled'
+};
+
+export type ORDER_STATUS = (typeof ORDER_STATUS)[keyof typeof ORDER_STATUS]
+
+
+export const PAYMENT_METHOD: {
+  GCASH: 'GCASH',
+  Maya: 'Maya',
+  BPI: 'BPI',
+  PayPal: 'PayPal',
+  Other: 'Other'
+};
+
+export type PAYMENT_METHOD = (typeof PAYMENT_METHOD)[keyof typeof PAYMENT_METHOD]
+
+
+export const PAYMENT_STATUS: {
+  paid: 'paid',
+  unpaid: 'unpaid',
+  failed: 'failed'
+};
+
+export type PAYMENT_STATUS = (typeof PAYMENT_STATUS)[keyof typeof PAYMENT_STATUS]
+
+
+export const PRODUCT_SIZES: {
   XS: 'XS',
   S: 'S',
   M: 'M',
@@ -107,37 +137,19 @@ export const PRODUCT_STATUS: {
 
 export type PRODUCT_STATUS = (typeof PRODUCT_STATUS)[keyof typeof PRODUCT_STATUS]
 
-
-export const ORDER_STATUS: {
-  pending: 'pending',
-  processing: 'processing',
-  completed: 'completed',
-  canceled: 'canceled'
-};
-
-export type ORDER_STATUS = (typeof ORDER_STATUS)[keyof typeof ORDER_STATUS]
-
-
-export const PAYMENT_STATUS: {
-  paid: 'paid',
-  unpaid: 'unpaid',
-  failed: 'failed'
-};
-
-export type PAYMENT_STATUS = (typeof PAYMENT_STATUS)[keyof typeof PAYMENT_STATUS]
-
-
-export const PAYMENT_METHOD: {
-  GCASH: 'GCASH',
-  Maya: 'Maya',
-  BPI: 'BPI',
-  PayPal: 'PayPal',
-  Other: 'Other'
-};
-
-export type PAYMENT_METHOD = (typeof PAYMENT_METHOD)[keyof typeof PAYMENT_METHOD]
-
 }
+
+export type ORDER_STATUS = $Enums.ORDER_STATUS
+
+export const ORDER_STATUS: typeof $Enums.ORDER_STATUS
+
+export type PAYMENT_METHOD = $Enums.PAYMENT_METHOD
+
+export const PAYMENT_METHOD: typeof $Enums.PAYMENT_METHOD
+
+export type PAYMENT_STATUS = $Enums.PAYMENT_STATUS
+
+export const PAYMENT_STATUS: typeof $Enums.PAYMENT_STATUS
 
 export type PRODUCT_SIZES = $Enums.PRODUCT_SIZES
 
@@ -146,18 +158,6 @@ export const PRODUCT_SIZES: typeof $Enums.PRODUCT_SIZES
 export type PRODUCT_STATUS = $Enums.PRODUCT_STATUS
 
 export const PRODUCT_STATUS: typeof $Enums.PRODUCT_STATUS
-
-export type ORDER_STATUS = $Enums.ORDER_STATUS
-
-export const ORDER_STATUS: typeof $Enums.ORDER_STATUS
-
-export type PAYMENT_STATUS = $Enums.PAYMENT_STATUS
-
-export const PAYMENT_STATUS: typeof $Enums.PAYMENT_STATUS
-
-export type PAYMENT_METHOD = $Enums.PAYMENT_METHOD
-
-export const PAYMENT_METHOD: typeof $Enums.PAYMENT_METHOD
 
 /**
  * ##  Prisma Client ʲˢ
@@ -431,7 +431,6 @@ export namespace Prisma {
   export import PrismaClientRustPanicError = runtime.PrismaClientRustPanicError
   export import PrismaClientInitializationError = runtime.PrismaClientInitializationError
   export import PrismaClientValidationError = runtime.PrismaClientValidationError
-  export import NotFoundError = runtime.NotFoundError
 
   /**
    * Re-export of sql-template-tag
@@ -470,8 +469,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 5.22.0
-   * Query Engine version: 605197351a3c8bdd595af2d2a9bc3025bca48ea2
+   * Prisma Client JS version: 6.0.0
+   * Query Engine version: 5dbef10bdbfb579e07d35cc85fb1518d357cb99e
    */
   export type PrismaVersion = {
     client: string
@@ -15920,7 +15919,7 @@ export namespace Prisma {
     isFeatured?: BoolFilter<"Product"> | boolean
     Bag?: BagListRelationFilter
     OrderItem?: OrderItemListRelationFilter
-    Category?: XOR<CategoryRelationFilter, CategoryWhereInput>
+    Category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
     ProductVariantColor?: ProductVariantColorListRelationFilter
     Wishlist?: WishlistListRelationFilter
   }
@@ -15959,7 +15958,7 @@ export namespace Prisma {
     isFeatured?: BoolFilter<"Product"> | boolean
     Bag?: BagListRelationFilter
     OrderItem?: OrderItemListRelationFilter
-    Category?: XOR<CategoryRelationFilter, CategoryWhereInput>
+    Category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
     ProductVariantColor?: ProductVariantColorListRelationFilter
     Wishlist?: WishlistListRelationFilter
   }, "id" | "slug" | "sku">
@@ -16073,7 +16072,7 @@ export namespace Prisma {
     color?: StringFilter<"ProductVariantColor"> | string
     images?: StringNullableListFilter<"ProductVariantColor">
     product_id?: UuidFilter<"ProductVariantColor"> | string
-    Product?: XOR<ProductRelationFilter, ProductWhereInput>
+    Product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
     ProductVariantSize?: ProductVariantSizeListRelationFilter
     Bag?: BagListRelationFilter
   }
@@ -16100,7 +16099,7 @@ export namespace Prisma {
     color?: StringFilter<"ProductVariantColor"> | string
     images?: StringNullableListFilter<"ProductVariantColor">
     product_id?: UuidFilter<"ProductVariantColor"> | string
-    Product?: XOR<ProductRelationFilter, ProductWhereInput>
+    Product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
     ProductVariantSize?: ProductVariantSizeListRelationFilter
     Bag?: BagListRelationFilter
   }, "id">
@@ -16141,7 +16140,7 @@ export namespace Prisma {
     status?: EnumPRODUCT_STATUSFilter<"ProductVariantSize"> | $Enums.PRODUCT_STATUS
     variant_color_id?: UuidFilter<"ProductVariantSize"> | string
     OrderItem?: OrderItemListRelationFilter
-    ProductVariantColor?: XOR<ProductVariantColorRelationFilter, ProductVariantColorWhereInput>
+    ProductVariantColor?: XOR<ProductVariantColorScalarRelationFilter, ProductVariantColorWhereInput>
     Wishlist?: WishlistListRelationFilter
   }
 
@@ -16170,7 +16169,7 @@ export namespace Prisma {
     status?: EnumPRODUCT_STATUSFilter<"ProductVariantSize"> | $Enums.PRODUCT_STATUS
     variant_color_id?: UuidFilter<"ProductVariantSize"> | string
     OrderItem?: OrderItemListRelationFilter
-    ProductVariantColor?: XOR<ProductVariantColorRelationFilter, ProductVariantColorWhereInput>
+    ProductVariantColor?: XOR<ProductVariantColorScalarRelationFilter, ProductVariantColorWhereInput>
     Wishlist?: WishlistListRelationFilter
   }, "id">
 
@@ -16212,9 +16211,9 @@ export namespace Prisma {
     user_id?: UuidFilter<"Wishlist"> | string
     product_variant_size_id?: UuidFilter<"Wishlist"> | string
     product_id?: UuidFilter<"Wishlist"> | string
-    ProductVariantSize?: XOR<ProductVariantSizeRelationFilter, ProductVariantSizeWhereInput>
-    Product?: XOR<ProductRelationFilter, ProductWhereInput>
-    User?: XOR<UserRelationFilter, UserWhereInput>
+    ProductVariantSize?: XOR<ProductVariantSizeScalarRelationFilter, ProductVariantSizeWhereInput>
+    Product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
+    User?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type WishlistOrderByWithRelationInput = {
@@ -16239,9 +16238,9 @@ export namespace Prisma {
     user_id?: UuidFilter<"Wishlist"> | string
     product_variant_size_id?: UuidFilter<"Wishlist"> | string
     product_id?: UuidFilter<"Wishlist"> | string
-    ProductVariantSize?: XOR<ProductVariantSizeRelationFilter, ProductVariantSizeWhereInput>
-    Product?: XOR<ProductRelationFilter, ProductWhereInput>
-    User?: XOR<UserRelationFilter, UserWhereInput>
+    ProductVariantSize?: XOR<ProductVariantSizeScalarRelationFilter, ProductVariantSizeWhereInput>
+    Product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
+    User?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
 
   export type WishlistOrderByWithAggregationInput = {
@@ -16284,7 +16283,7 @@ export namespace Prisma {
     complete_address?: StringFilter<"Address"> | string
     additional_address?: StringNullableFilter<"Address"> | string | null
     user_id?: UuidFilter<"Address"> | string
-    User?: XOR<UserRelationFilter, UserWhereInput>
+    User?: XOR<UserScalarRelationFilter, UserWhereInput>
     ShippingAddress?: ShippingAddressListRelationFilter
   }
 
@@ -16321,7 +16320,7 @@ export namespace Prisma {
     complete_address?: StringFilter<"Address"> | string
     additional_address?: StringNullableFilter<"Address"> | string | null
     user_id?: UuidFilter<"Address"> | string
-    User?: XOR<UserRelationFilter, UserWhereInput>
+    User?: XOR<UserScalarRelationFilter, UserWhereInput>
     ShippingAddress?: ShippingAddressListRelationFilter
   }, "id">
 
@@ -16373,9 +16372,9 @@ export namespace Prisma {
     product_variant_size_id?: UuidFilter<"Bag"> | string
     product_variant_color_id?: UuidFilter<"Bag"> | string
     quantity?: IntFilter<"Bag"> | number
-    Product?: XOR<ProductRelationFilter, ProductWhereInput>
-    ProductVariantColor?: XOR<ProductVariantColorRelationFilter, ProductVariantColorWhereInput>
-    User?: XOR<UserRelationFilter, UserWhereInput>
+    Product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
+    ProductVariantColor?: XOR<ProductVariantColorScalarRelationFilter, ProductVariantColorWhereInput>
+    User?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type BagOrderByWithRelationInput = {
@@ -16404,9 +16403,9 @@ export namespace Prisma {
     product_variant_size_id?: UuidFilter<"Bag"> | string
     product_variant_color_id?: UuidFilter<"Bag"> | string
     quantity?: IntFilter<"Bag"> | number
-    Product?: XOR<ProductRelationFilter, ProductWhereInput>
-    ProductVariantColor?: XOR<ProductVariantColorRelationFilter, ProductVariantColorWhereInput>
-    User?: XOR<UserRelationFilter, UserWhereInput>
+    Product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
+    ProductVariantColor?: XOR<ProductVariantColorScalarRelationFilter, ProductVariantColorWhereInput>
+    User?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
 
   export type BagOrderByWithAggregationInput = {
@@ -16450,7 +16449,7 @@ export namespace Prisma {
     order_status?: EnumORDER_STATUSFilter<"Order"> | $Enums.ORDER_STATUS
     total_amount?: FloatFilter<"Order"> | number
     payment_status?: EnumPAYMENT_STATUSFilter<"Order"> | $Enums.PAYMENT_STATUS
-    User?: XOR<UserRelationFilter, UserWhereInput>
+    User?: XOR<UserScalarRelationFilter, UserWhereInput>
     OrderItem?: OrderItemListRelationFilter
     PaymentDetail?: PaymentDetailListRelationFilter
   }
@@ -16479,7 +16478,7 @@ export namespace Prisma {
     order_status?: EnumORDER_STATUSFilter<"Order"> | $Enums.ORDER_STATUS
     total_amount?: FloatFilter<"Order"> | number
     payment_status?: EnumPAYMENT_STATUSFilter<"Order"> | $Enums.PAYMENT_STATUS
-    User?: XOR<UserRelationFilter, UserWhereInput>
+    User?: XOR<UserScalarRelationFilter, UserWhereInput>
     OrderItem?: OrderItemListRelationFilter
     PaymentDetail?: PaymentDetailListRelationFilter
   }, "id">
@@ -16525,9 +16524,9 @@ export namespace Prisma {
     quantity?: IntFilter<"OrderItem"> | number
     price?: FloatFilter<"OrderItem"> | number
     subtotal?: FloatFilter<"OrderItem"> | number
-    Order?: XOR<OrderRelationFilter, OrderWhereInput>
-    Product?: XOR<ProductRelationFilter, ProductWhereInput>
-    ProductVariantSize?: XOR<ProductVariantSizeRelationFilter, ProductVariantSizeWhereInput>
+    Order?: XOR<OrderScalarRelationFilter, OrderWhereInput>
+    Product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
+    ProductVariantSize?: XOR<ProductVariantSizeScalarRelationFilter, ProductVariantSizeWhereInput>
   }
 
   export type OrderItemOrderByWithRelationInput = {
@@ -16558,9 +16557,9 @@ export namespace Prisma {
     quantity?: IntFilter<"OrderItem"> | number
     price?: FloatFilter<"OrderItem"> | number
     subtotal?: FloatFilter<"OrderItem"> | number
-    Order?: XOR<OrderRelationFilter, OrderWhereInput>
-    Product?: XOR<ProductRelationFilter, ProductWhereInput>
-    ProductVariantSize?: XOR<ProductVariantSizeRelationFilter, ProductVariantSizeWhereInput>
+    Order?: XOR<OrderScalarRelationFilter, OrderWhereInput>
+    Product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
+    ProductVariantSize?: XOR<ProductVariantSizeScalarRelationFilter, ProductVariantSizeWhereInput>
   }, "id">
 
   export type OrderItemOrderByWithAggregationInput = {
@@ -16607,7 +16606,7 @@ export namespace Prisma {
     transaction_id?: StringFilter<"PaymentDetail"> | string
     amount_paid?: FloatFilter<"PaymentDetail"> | number
     payment_status?: StringFilter<"PaymentDetail"> | string
-    Order?: XOR<OrderRelationFilter, OrderWhereInput>
+    Order?: XOR<OrderScalarRelationFilter, OrderWhereInput>
   }
 
   export type PaymentDetailOrderByWithRelationInput = {
@@ -16634,7 +16633,7 @@ export namespace Prisma {
     transaction_id?: StringFilter<"PaymentDetail"> | string
     amount_paid?: FloatFilter<"PaymentDetail"> | number
     payment_status?: StringFilter<"PaymentDetail"> | string
-    Order?: XOR<OrderRelationFilter, OrderWhereInput>
+    Order?: XOR<OrderScalarRelationFilter, OrderWhereInput>
   }, "id">
 
   export type PaymentDetailOrderByWithAggregationInput = {
@@ -16752,8 +16751,8 @@ export namespace Prisma {
     email_address?: StringNullableFilter<"ShippingAddress"> | string | null
     contact_number?: StringFilter<"ShippingAddress"> | string
     is_default?: BoolFilter<"ShippingAddress"> | boolean
-    Address?: XOR<AddressRelationFilter, AddressWhereInput>
-    User?: XOR<UserRelationFilter, UserWhereInput>
+    Address?: XOR<AddressScalarRelationFilter, AddressWhereInput>
+    User?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type ShippingAddressOrderByWithRelationInput = {
@@ -16783,8 +16782,8 @@ export namespace Prisma {
     email_address?: StringNullableFilter<"ShippingAddress"> | string | null
     contact_number?: StringFilter<"ShippingAddress"> | string
     is_default?: BoolFilter<"ShippingAddress"> | boolean
-    Address?: XOR<AddressRelationFilter, AddressWhereInput>
-    User?: XOR<UserRelationFilter, UserWhereInput>
+    Address?: XOR<AddressScalarRelationFilter, AddressWhereInput>
+    User?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
 
   export type ShippingAddressOrderByWithAggregationInput = {
@@ -18108,7 +18107,7 @@ export namespace Prisma {
     none?: OrderItemWhereInput
   }
 
-  export type CategoryRelationFilter = {
+  export type CategoryScalarRelationFilter = {
     is?: CategoryWhereInput
     isNot?: CategoryWhereInput
   }
@@ -18264,7 +18263,7 @@ export namespace Prisma {
     isEmpty?: boolean
   }
 
-  export type ProductRelationFilter = {
+  export type ProductScalarRelationFilter = {
     is?: ProductWhereInput
     isNot?: ProductWhereInput
   }
@@ -18329,7 +18328,7 @@ export namespace Prisma {
     not?: NestedEnumPRODUCT_STATUSFilter<$PrismaModel> | $Enums.PRODUCT_STATUS
   }
 
-  export type ProductVariantColorRelationFilter = {
+  export type ProductVariantColorScalarRelationFilter = {
     is?: ProductVariantColorWhereInput
     isNot?: ProductVariantColorWhereInput
   }
@@ -18408,12 +18407,12 @@ export namespace Prisma {
     _max?: NestedEnumPRODUCT_STATUSFilter<$PrismaModel>
   }
 
-  export type ProductVariantSizeRelationFilter = {
+  export type ProductVariantSizeScalarRelationFilter = {
     is?: ProductVariantSizeWhereInput
     isNot?: ProductVariantSizeWhereInput
   }
 
-  export type UserRelationFilter = {
+  export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
   }
@@ -18613,7 +18612,7 @@ export namespace Prisma {
     _max?: NestedEnumPAYMENT_STATUSFilter<$PrismaModel>
   }
 
-  export type OrderRelationFilter = {
+  export type OrderScalarRelationFilter = {
     is?: OrderWhereInput
     isNot?: OrderWhereInput
   }
@@ -18760,7 +18759,7 @@ export namespace Prisma {
     is_active?: SortOrder
   }
 
-  export type AddressRelationFilter = {
+  export type AddressScalarRelationFilter = {
     is?: AddressWhereInput
     isNot?: AddressWhereInput
   }
@@ -22937,90 +22936,6 @@ export namespace Prisma {
   }
 
 
-
-  /**
-   * Aliases for legacy arg types
-   */
-    /**
-     * @deprecated Use UserCountOutputTypeDefaultArgs instead
-     */
-    export type UserCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = UserCountOutputTypeDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use ProductCountOutputTypeDefaultArgs instead
-     */
-    export type ProductCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ProductCountOutputTypeDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use CategoryCountOutputTypeDefaultArgs instead
-     */
-    export type CategoryCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CategoryCountOutputTypeDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use ProductVariantColorCountOutputTypeDefaultArgs instead
-     */
-    export type ProductVariantColorCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ProductVariantColorCountOutputTypeDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use ProductVariantSizeCountOutputTypeDefaultArgs instead
-     */
-    export type ProductVariantSizeCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ProductVariantSizeCountOutputTypeDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use AddressCountOutputTypeDefaultArgs instead
-     */
-    export type AddressCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AddressCountOutputTypeDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use OrderCountOutputTypeDefaultArgs instead
-     */
-    export type OrderCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = OrderCountOutputTypeDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use UserDefaultArgs instead
-     */
-    export type UserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = UserDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use ProductDefaultArgs instead
-     */
-    export type ProductArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ProductDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use CategoryDefaultArgs instead
-     */
-    export type CategoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CategoryDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use ProductVariantColorDefaultArgs instead
-     */
-    export type ProductVariantColorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ProductVariantColorDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use ProductVariantSizeDefaultArgs instead
-     */
-    export type ProductVariantSizeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ProductVariantSizeDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use WishlistDefaultArgs instead
-     */
-    export type WishlistArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = WishlistDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use AddressDefaultArgs instead
-     */
-    export type AddressArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AddressDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use BagDefaultArgs instead
-     */
-    export type BagArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = BagDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use OrderDefaultArgs instead
-     */
-    export type OrderArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = OrderDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use OrderItemDefaultArgs instead
-     */
-    export type OrderItemArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = OrderItemDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use PaymentDetailDefaultArgs instead
-     */
-    export type PaymentDetailArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = PaymentDetailDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use PaymentMethodInfoDefaultArgs instead
-     */
-    export type PaymentMethodInfoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = PaymentMethodInfoDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use ShippingAddressDefaultArgs instead
-     */
-    export type ShippingAddressArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ShippingAddressDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany
