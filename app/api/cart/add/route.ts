@@ -42,14 +42,23 @@ export async function POST(req: Request) {
       );
     }
 
-    // Validate productVariantSizeId
+    // Retrieve the `variant_color_id` from `ProductVariantSize`
     const variantSize = await prisma.productVariantSize.findUnique({
       where: { id: productVariantSizeId },
     });
+
     if (!variantSize) {
       console.error('Invalid productVariantSizeId:', productVariantSizeId);
       return new Response(
         JSON.stringify({ error: 'Invalid product_variant_size_id' }),
+        { status: 400 }
+      );
+    }
+
+    const productVariantColorId = variantSize.variant_color_id;
+    if (!productVariantColorId) {
+      return new Response(
+        JSON.stringify({ error: 'No color associated with this size' }),
         { status: 400 }
       );
     }
@@ -68,8 +77,9 @@ export async function POST(req: Request) {
         user_id: userId,
         product_id: productId,
         product_variant_size_id: productVariantSizeId,
+        product_variant_color_id: productVariantColorId,
         quantity,
-        updated_at: new Date(), // Explicitly set the updated_at field
+        updated_at: new Date(),
       },
     });
 

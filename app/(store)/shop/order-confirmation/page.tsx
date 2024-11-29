@@ -37,7 +37,7 @@ export default function OrderConfirmationPage() {
   const [paymentDetails, setPaymentDetails] = useState("");
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
   const [orderPlaced, setOrderPlaced] = useState(false); // State to control the layout visibility
-  const userId = "74c9cbc2-255e-40b4-9144-3a0303bf9f1d"; // Default User ID
+  const userId = "e35f71ea-5bc0-40b1-a7de-2fdff41b0d21"; // Default User ID
 
   useEffect(() => {
     async function fetchAddresses() {

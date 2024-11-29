@@ -13,6 +13,7 @@ type Product = {
   category: string;
   description: string;
   colors: {
+    id: string;
     color: string;
     images: string[]; // Array of images for each color
     sizes: { id: string; label: string; stock: number }[];
@@ -23,6 +24,7 @@ export default function ProductDetailsPage() {
   const { id } = useParams(); // Get product ID from route
   const [product, setProduct] = useState<Product | null>(null);
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
+  const [selectedColorId, setSelectedColorId] = useState<string | null>(null); // Track selected color ID
   const [selectedSizeId, setSelectedSizeId] = useState<string | null>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null); // Track selected image
   const [quantity, setQuantity] = useState<number>(1); // Quantity
@@ -46,6 +48,7 @@ export default function ProductDetailsPage() {
           description: data.description || "No description available.",
           colors: data.colors.map((variant: any) => ({
             color: variant.color || "Unknown Color",
+            id: variant.id,
             images: variant.images || [], // Include images array
             sizes: variant.sizes.map((size: any) => ({
               id: size.id,
@@ -69,6 +72,41 @@ export default function ProductDetailsPage() {
 
     fetchProductDetails();
   }, [id]);
+
+  
+  const handleAddToCart = async () => {
+    if (!selectedSizeId || !selectedColor || !product) {
+      alert("Please select a color and size before adding to cart.");
+      return;
+    }
+  
+    try {
+      const userId = "c816e27a-e9dd-411f-b0d4-75e384e71005"; // Replace with actual user ID
+      const response = await fetch("/api/cart/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId,
+          productId: product.id,
+          productVariantSizeId: selectedSizeId,
+         // productVariantColorId: selectedColorId, 
+          quantity,
+        }),
+      });
+  
+      if (response.ok) {
+        alert("Item added to cart successfully!");
+      } else {
+        const error = await response.json();
+        alert(`Failed to add to cart: ${error.error}`);
+      }
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      alert("An error occurred while adding to the cart.");
+    }
+  };  
 
   const getStockColor = (stock: number) => {
     if (stock === 0) return "text-red-500"; // Out of stock
@@ -158,14 +196,15 @@ export default function ProductDetailsPage() {
             <div className="flex flex-wrap gap-2">
               {product.colors.map((colorVariant) => (
                 <button
-                  key={colorVariant.color}
+                  key={colorVariant.id}
                   className={`px-3 py-1 border rounded-md ${
                     selectedColor === colorVariant.color
                       ? "bg-gray-800 text-white"
                       : "bg-gray-200 text-gray-800"
                   }`}
                   onClick={() => {
-                    setSelectedColor(colorVariant.color);
+                    setSelectedColor(colorVariant.color); // Set the color name
+                    setSelectedColorId(colorVariant.id); // Set the color ID
                     setSelectedImage(colorVariant.images[0] || null); // Set the first image as default
                   }}
                 >
@@ -227,7 +266,9 @@ export default function ProductDetailsPage() {
           </div>
 
           <div className="flex gap-4">
-            <Button className="w-full">Add to Cart</Button>
+            <Button className="w-full" onClick={handleAddToCart}>
+              Add to Cart
+            </Button>
             <button
               onClick={handleAddToWishlist}
               className="p-2 border rounded-md hover:bg-gray-200"
