@@ -78,7 +78,7 @@ export default function ProductDetailsPage() {
 
   const handleAddToWishlist = async () => {
     try {
-      const response = await fetch("/api/wishlist/add", {
+      const response = await fetch("/api/cart/add", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
