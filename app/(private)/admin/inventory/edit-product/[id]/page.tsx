@@ -1,14 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
 import Sidebar from "@/components/Sidebar";
 import { Button } from "@/components/ui/button";
 
 export default function EditProductPage() {
   const router = useRouter();
-  const { id } = router.query;
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id"); // Retrieve `id` from query parameters
 
   const [product, setProduct] = useState<any>(null);
   const [loading, setLoading] = useState(false);

@@ -2112,10 +2112,12 @@ export namespace Prisma {
 
   export type ProductVariantColorCountOutputType = {
     ProductVariantSize: number
+    Bag: number
   }
 
   export type ProductVariantColorCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     ProductVariantSize?: boolean | ProductVariantColorCountOutputTypeCountProductVariantSizeArgs
+    Bag?: boolean | ProductVariantColorCountOutputTypeCountBagArgs
   }
 
   // Custom InputTypes
@@ -2134,6 +2136,13 @@ export namespace Prisma {
    */
   export type ProductVariantColorCountOutputTypeCountProductVariantSizeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ProductVariantSizeWhereInput
+  }
+
+  /**
+   * ProductVariantColorCountOutputType without action
+   */
+  export type ProductVariantColorCountOutputTypeCountBagArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BagWhereInput
   }
 
 
@@ -3350,6 +3359,7 @@ export namespace Prisma {
     sku: string | null
     category_id: string | null
     description: string | null
+    isFeatured: boolean | null
   }
 
   export type ProductMaxAggregateOutputType = {
@@ -3362,6 +3372,7 @@ export namespace Prisma {
     sku: string | null
     category_id: string | null
     description: string | null
+    isFeatured: boolean | null
   }
 
   export type ProductCountAggregateOutputType = {
@@ -3374,6 +3385,7 @@ export namespace Prisma {
     sku: number
     category_id: number
     description: number
+    isFeatured: number
     _all: number
   }
 
@@ -3396,6 +3408,7 @@ export namespace Prisma {
     sku?: true
     category_id?: true
     description?: true
+    isFeatured?: true
   }
 
   export type ProductMaxAggregateInputType = {
@@ -3408,6 +3421,7 @@ export namespace Prisma {
     sku?: true
     category_id?: true
     description?: true
+    isFeatured?: true
   }
 
   export type ProductCountAggregateInputType = {
@@ -3420,6 +3434,7 @@ export namespace Prisma {
     sku?: true
     category_id?: true
     description?: true
+    isFeatured?: true
     _all?: true
   }
 
@@ -3519,6 +3534,7 @@ export namespace Prisma {
     sku: string | null
     category_id: string
     description: string | null
+    isFeatured: boolean
     _count: ProductCountAggregateOutputType | null
     _avg: ProductAvgAggregateOutputType | null
     _sum: ProductSumAggregateOutputType | null
@@ -3550,6 +3566,7 @@ export namespace Prisma {
     sku?: boolean
     category_id?: boolean
     description?: boolean
+    isFeatured?: boolean
     Bag?: boolean | Product$BagArgs<ExtArgs>
     OrderItem?: boolean | Product$OrderItemArgs<ExtArgs>
     Category?: boolean | CategoryDefaultArgs<ExtArgs>
@@ -3568,6 +3585,7 @@ export namespace Prisma {
     sku?: boolean
     category_id?: boolean
     description?: boolean
+    isFeatured?: boolean
     Category?: boolean | CategoryDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["product"]>
 
@@ -3581,6 +3599,7 @@ export namespace Prisma {
     sku?: boolean
     category_id?: boolean
     description?: boolean
+    isFeatured?: boolean
   }
 
   export type ProductInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3614,6 +3633,7 @@ export namespace Prisma {
       sku: string | null
       category_id: string
       description: string | null
+      isFeatured: boolean
     }, ExtArgs["result"]["product"]>
     composites: {}
   }
@@ -4021,6 +4041,7 @@ export namespace Prisma {
     readonly sku: FieldRef<"Product", 'String'>
     readonly category_id: FieldRef<"Product", 'String'>
     readonly description: FieldRef<"Product", 'String'>
+    readonly isFeatured: FieldRef<"Product", 'Boolean'>
   }
     
 
@@ -5575,6 +5596,7 @@ export namespace Prisma {
     product_id?: boolean
     Product?: boolean | ProductDefaultArgs<ExtArgs>
     ProductVariantSize?: boolean | ProductVariantColor$ProductVariantSizeArgs<ExtArgs>
+    Bag?: boolean | ProductVariantColor$BagArgs<ExtArgs>
     _count?: boolean | ProductVariantColorCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["productVariantColor"]>
 
@@ -5600,6 +5622,7 @@ export namespace Prisma {
   export type ProductVariantColorInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Product?: boolean | ProductDefaultArgs<ExtArgs>
     ProductVariantSize?: boolean | ProductVariantColor$ProductVariantSizeArgs<ExtArgs>
+    Bag?: boolean | ProductVariantColor$BagArgs<ExtArgs>
     _count?: boolean | ProductVariantColorCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ProductVariantColorIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5611,6 +5634,7 @@ export namespace Prisma {
     objects: {
       Product: Prisma.$ProductPayload<ExtArgs>
       ProductVariantSize: Prisma.$ProductVariantSizePayload<ExtArgs>[]
+      Bag: Prisma.$BagPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5985,6 +6009,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     Product<T extends ProductDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProductDefaultArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     ProductVariantSize<T extends ProductVariantColor$ProductVariantSizeArgs<ExtArgs> = {}>(args?: Subset<T, ProductVariantColor$ProductVariantSizeArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductVariantSizePayload<ExtArgs>, T, "findMany"> | Null>
+    Bag<T extends ProductVariantColor$BagArgs<ExtArgs> = {}>(args?: Subset<T, ProductVariantColor$BagArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BagPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6355,6 +6380,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ProductVariantSizeScalarFieldEnum | ProductVariantSizeScalarFieldEnum[]
+  }
+
+  /**
+   * ProductVariantColor.Bag
+   */
+  export type ProductVariantColor$BagArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bag
+     */
+    select?: BagSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BagInclude<ExtArgs> | null
+    where?: BagWhereInput
+    orderBy?: BagOrderByWithRelationInput | BagOrderByWithRelationInput[]
+    cursor?: BagWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BagScalarFieldEnum | BagScalarFieldEnum[]
   }
 
   /**
@@ -9440,6 +9485,7 @@ export namespace Prisma {
     user_id: string | null
     product_id: string | null
     product_variant_size_id: string | null
+    product_variant_color_id: string | null
     quantity: number | null
   }
 
@@ -9450,6 +9496,7 @@ export namespace Prisma {
     user_id: string | null
     product_id: string | null
     product_variant_size_id: string | null
+    product_variant_color_id: string | null
     quantity: number | null
   }
 
@@ -9460,6 +9507,7 @@ export namespace Prisma {
     user_id: number
     product_id: number
     product_variant_size_id: number
+    product_variant_color_id: number
     quantity: number
     _all: number
   }
@@ -9480,6 +9528,7 @@ export namespace Prisma {
     user_id?: true
     product_id?: true
     product_variant_size_id?: true
+    product_variant_color_id?: true
     quantity?: true
   }
 
@@ -9490,6 +9539,7 @@ export namespace Prisma {
     user_id?: true
     product_id?: true
     product_variant_size_id?: true
+    product_variant_color_id?: true
     quantity?: true
   }
 
@@ -9500,6 +9550,7 @@ export namespace Prisma {
     user_id?: true
     product_id?: true
     product_variant_size_id?: true
+    product_variant_color_id?: true
     quantity?: true
     _all?: true
   }
@@ -9597,6 +9648,7 @@ export namespace Prisma {
     user_id: string
     product_id: string
     product_variant_size_id: string
+    product_variant_color_id: string
     quantity: number
     _count: BagCountAggregateOutputType | null
     _avg: BagAvgAggregateOutputType | null
@@ -9626,8 +9678,10 @@ export namespace Prisma {
     user_id?: boolean
     product_id?: boolean
     product_variant_size_id?: boolean
+    product_variant_color_id?: boolean
     quantity?: boolean
     Product?: boolean | ProductDefaultArgs<ExtArgs>
+    ProductVariantColor?: boolean | ProductVariantColorDefaultArgs<ExtArgs>
     User?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["bag"]>
 
@@ -9638,8 +9692,10 @@ export namespace Prisma {
     user_id?: boolean
     product_id?: boolean
     product_variant_size_id?: boolean
+    product_variant_color_id?: boolean
     quantity?: boolean
     Product?: boolean | ProductDefaultArgs<ExtArgs>
+    ProductVariantColor?: boolean | ProductVariantColorDefaultArgs<ExtArgs>
     User?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["bag"]>
 
@@ -9650,15 +9706,18 @@ export namespace Prisma {
     user_id?: boolean
     product_id?: boolean
     product_variant_size_id?: boolean
+    product_variant_color_id?: boolean
     quantity?: boolean
   }
 
   export type BagInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Product?: boolean | ProductDefaultArgs<ExtArgs>
+    ProductVariantColor?: boolean | ProductVariantColorDefaultArgs<ExtArgs>
     User?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type BagIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Product?: boolean | ProductDefaultArgs<ExtArgs>
+    ProductVariantColor?: boolean | ProductVariantColorDefaultArgs<ExtArgs>
     User?: boolean | UserDefaultArgs<ExtArgs>
   }
 
@@ -9666,6 +9725,7 @@ export namespace Prisma {
     name: "Bag"
     objects: {
       Product: Prisma.$ProductPayload<ExtArgs>
+      ProductVariantColor: Prisma.$ProductVariantColorPayload<ExtArgs>
       User: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -9675,6 +9735,7 @@ export namespace Prisma {
       user_id: string
       product_id: string
       product_variant_size_id: string
+      product_variant_color_id: string
       quantity: number
     }, ExtArgs["result"]["bag"]>
     composites: {}
@@ -10041,6 +10102,7 @@ export namespace Prisma {
   export interface Prisma__BagClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     Product<T extends ProductDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProductDefaultArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    ProductVariantColor<T extends ProductVariantColorDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProductVariantColorDefaultArgs<ExtArgs>>): Prisma__ProductVariantColorClient<$Result.GetResult<Prisma.$ProductVariantColorPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     User<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -10077,6 +10139,7 @@ export namespace Prisma {
     readonly user_id: FieldRef<"Bag", 'String'>
     readonly product_id: FieldRef<"Bag", 'String'>
     readonly product_variant_size_id: FieldRef<"Bag", 'String'>
+    readonly product_variant_color_id: FieldRef<"Bag", 'String'>
     readonly quantity: FieldRef<"Bag", 'Int'>
   }
     
@@ -15438,7 +15501,8 @@ export namespace Prisma {
     price: 'price',
     sku: 'sku',
     category_id: 'category_id',
-    description: 'description'
+    description: 'description',
+    isFeatured: 'isFeatured'
   };
 
   export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]
@@ -15519,6 +15583,7 @@ export namespace Prisma {
     user_id: 'user_id',
     product_id: 'product_id',
     product_variant_size_id: 'product_variant_size_id',
+    product_variant_color_id: 'product_variant_color_id',
     quantity: 'quantity'
   };
 
@@ -15852,6 +15917,7 @@ export namespace Prisma {
     sku?: StringNullableFilter<"Product"> | string | null
     category_id?: UuidFilter<"Product"> | string
     description?: StringNullableFilter<"Product"> | string | null
+    isFeatured?: BoolFilter<"Product"> | boolean
     Bag?: BagListRelationFilter
     OrderItem?: OrderItemListRelationFilter
     Category?: XOR<CategoryRelationFilter, CategoryWhereInput>
@@ -15869,6 +15935,7 @@ export namespace Prisma {
     sku?: SortOrderInput | SortOrder
     category_id?: SortOrder
     description?: SortOrderInput | SortOrder
+    isFeatured?: SortOrder
     Bag?: BagOrderByRelationAggregateInput
     OrderItem?: OrderItemOrderByRelationAggregateInput
     Category?: CategoryOrderByWithRelationInput
@@ -15889,6 +15956,7 @@ export namespace Prisma {
     price?: FloatFilter<"Product"> | number
     category_id?: UuidFilter<"Product"> | string
     description?: StringNullableFilter<"Product"> | string | null
+    isFeatured?: BoolFilter<"Product"> | boolean
     Bag?: BagListRelationFilter
     OrderItem?: OrderItemListRelationFilter
     Category?: XOR<CategoryRelationFilter, CategoryWhereInput>
@@ -15906,6 +15974,7 @@ export namespace Prisma {
     sku?: SortOrderInput | SortOrder
     category_id?: SortOrder
     description?: SortOrderInput | SortOrder
+    isFeatured?: SortOrder
     _count?: ProductCountOrderByAggregateInput
     _avg?: ProductAvgOrderByAggregateInput
     _max?: ProductMaxOrderByAggregateInput
@@ -15926,6 +15995,7 @@ export namespace Prisma {
     sku?: StringNullableWithAggregatesFilter<"Product"> | string | null
     category_id?: UuidWithAggregatesFilter<"Product"> | string
     description?: StringNullableWithAggregatesFilter<"Product"> | string | null
+    isFeatured?: BoolWithAggregatesFilter<"Product"> | boolean
   }
 
   export type CategoryWhereInput = {
@@ -16005,6 +16075,7 @@ export namespace Prisma {
     product_id?: UuidFilter<"ProductVariantColor"> | string
     Product?: XOR<ProductRelationFilter, ProductWhereInput>
     ProductVariantSize?: ProductVariantSizeListRelationFilter
+    Bag?: BagListRelationFilter
   }
 
   export type ProductVariantColorOrderByWithRelationInput = {
@@ -16016,6 +16087,7 @@ export namespace Prisma {
     product_id?: SortOrder
     Product?: ProductOrderByWithRelationInput
     ProductVariantSize?: ProductVariantSizeOrderByRelationAggregateInput
+    Bag?: BagOrderByRelationAggregateInput
   }
 
   export type ProductVariantColorWhereUniqueInput = Prisma.AtLeast<{
@@ -16030,6 +16102,7 @@ export namespace Prisma {
     product_id?: UuidFilter<"ProductVariantColor"> | string
     Product?: XOR<ProductRelationFilter, ProductWhereInput>
     ProductVariantSize?: ProductVariantSizeListRelationFilter
+    Bag?: BagListRelationFilter
   }, "id">
 
   export type ProductVariantColorOrderByWithAggregationInput = {
@@ -16298,8 +16371,10 @@ export namespace Prisma {
     user_id?: UuidFilter<"Bag"> | string
     product_id?: UuidFilter<"Bag"> | string
     product_variant_size_id?: UuidFilter<"Bag"> | string
+    product_variant_color_id?: UuidFilter<"Bag"> | string
     quantity?: IntFilter<"Bag"> | number
     Product?: XOR<ProductRelationFilter, ProductWhereInput>
+    ProductVariantColor?: XOR<ProductVariantColorRelationFilter, ProductVariantColorWhereInput>
     User?: XOR<UserRelationFilter, UserWhereInput>
   }
 
@@ -16310,8 +16385,10 @@ export namespace Prisma {
     user_id?: SortOrder
     product_id?: SortOrder
     product_variant_size_id?: SortOrder
+    product_variant_color_id?: SortOrder
     quantity?: SortOrder
     Product?: ProductOrderByWithRelationInput
+    ProductVariantColor?: ProductVariantColorOrderByWithRelationInput
     User?: UserOrderByWithRelationInput
   }
 
@@ -16325,8 +16402,10 @@ export namespace Prisma {
     user_id?: UuidFilter<"Bag"> | string
     product_id?: UuidFilter<"Bag"> | string
     product_variant_size_id?: UuidFilter<"Bag"> | string
+    product_variant_color_id?: UuidFilter<"Bag"> | string
     quantity?: IntFilter<"Bag"> | number
     Product?: XOR<ProductRelationFilter, ProductWhereInput>
+    ProductVariantColor?: XOR<ProductVariantColorRelationFilter, ProductVariantColorWhereInput>
     User?: XOR<UserRelationFilter, UserWhereInput>
   }, "id">
 
@@ -16337,6 +16416,7 @@ export namespace Prisma {
     user_id?: SortOrder
     product_id?: SortOrder
     product_variant_size_id?: SortOrder
+    product_variant_color_id?: SortOrder
     quantity?: SortOrder
     _count?: BagCountOrderByAggregateInput
     _avg?: BagAvgOrderByAggregateInput
@@ -16355,6 +16435,7 @@ export namespace Prisma {
     user_id?: UuidWithAggregatesFilter<"Bag"> | string
     product_id?: UuidWithAggregatesFilter<"Bag"> | string
     product_variant_size_id?: UuidWithAggregatesFilter<"Bag"> | string
+    product_variant_color_id?: UuidWithAggregatesFilter<"Bag"> | string
     quantity?: IntWithAggregatesFilter<"Bag"> | number
   }
 
@@ -16835,6 +16916,7 @@ export namespace Prisma {
     price: number
     sku?: string | null
     description?: string | null
+    isFeatured?: boolean
     Bag?: BagCreateNestedManyWithoutProductInput
     OrderItem?: OrderItemCreateNestedManyWithoutProductInput
     Category: CategoryCreateNestedOneWithoutProductInput
@@ -16852,6 +16934,7 @@ export namespace Prisma {
     sku?: string | null
     category_id: string
     description?: string | null
+    isFeatured?: boolean
     Bag?: BagUncheckedCreateNestedManyWithoutProductInput
     OrderItem?: OrderItemUncheckedCreateNestedManyWithoutProductInput
     ProductVariantColor?: ProductVariantColorUncheckedCreateNestedManyWithoutProductInput
@@ -16867,6 +16950,7 @@ export namespace Prisma {
     price?: FloatFieldUpdateOperationsInput | number
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     Bag?: BagUpdateManyWithoutProductNestedInput
     OrderItem?: OrderItemUpdateManyWithoutProductNestedInput
     Category?: CategoryUpdateOneRequiredWithoutProductNestedInput
@@ -16884,6 +16968,7 @@ export namespace Prisma {
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     category_id?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     Bag?: BagUncheckedUpdateManyWithoutProductNestedInput
     OrderItem?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
     ProductVariantColor?: ProductVariantColorUncheckedUpdateManyWithoutProductNestedInput
@@ -16900,6 +16985,7 @@ export namespace Prisma {
     sku?: string | null
     category_id: string
     description?: string | null
+    isFeatured?: boolean
   }
 
   export type ProductUpdateManyMutationInput = {
@@ -16911,6 +16997,7 @@ export namespace Prisma {
     price?: FloatFieldUpdateOperationsInput | number
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type ProductUncheckedUpdateManyInput = {
@@ -16923,6 +17010,7 @@ export namespace Prisma {
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     category_id?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type CategoryCreateInput = {
@@ -17007,6 +17095,7 @@ export namespace Prisma {
     images?: ProductVariantColorCreateimagesInput | string[]
     Product: ProductCreateNestedOneWithoutProductVariantColorInput
     ProductVariantSize?: ProductVariantSizeCreateNestedManyWithoutProductVariantColorInput
+    Bag?: BagCreateNestedManyWithoutProductVariantColorInput
   }
 
   export type ProductVariantColorUncheckedCreateInput = {
@@ -17017,6 +17106,7 @@ export namespace Prisma {
     images?: ProductVariantColorCreateimagesInput | string[]
     product_id: string
     ProductVariantSize?: ProductVariantSizeUncheckedCreateNestedManyWithoutProductVariantColorInput
+    Bag?: BagUncheckedCreateNestedManyWithoutProductVariantColorInput
   }
 
   export type ProductVariantColorUpdateInput = {
@@ -17027,6 +17117,7 @@ export namespace Prisma {
     images?: ProductVariantColorUpdateimagesInput | string[]
     Product?: ProductUpdateOneRequiredWithoutProductVariantColorNestedInput
     ProductVariantSize?: ProductVariantSizeUpdateManyWithoutProductVariantColorNestedInput
+    Bag?: BagUpdateManyWithoutProductVariantColorNestedInput
   }
 
   export type ProductVariantColorUncheckedUpdateInput = {
@@ -17037,6 +17128,7 @@ export namespace Prisma {
     images?: ProductVariantColorUpdateimagesInput | string[]
     product_id?: StringFieldUpdateOperationsInput | string
     ProductVariantSize?: ProductVariantSizeUncheckedUpdateManyWithoutProductVariantColorNestedInput
+    Bag?: BagUncheckedUpdateManyWithoutProductVariantColorNestedInput
   }
 
   export type ProductVariantColorCreateManyInput = {
@@ -17317,6 +17409,7 @@ export namespace Prisma {
     product_variant_size_id: string
     quantity: number
     Product: ProductCreateNestedOneWithoutBagInput
+    ProductVariantColor: ProductVariantColorCreateNestedOneWithoutBagInput
     User: UserCreateNestedOneWithoutBagInput
   }
 
@@ -17327,6 +17420,7 @@ export namespace Prisma {
     user_id: string
     product_id: string
     product_variant_size_id: string
+    product_variant_color_id: string
     quantity: number
   }
 
@@ -17337,6 +17431,7 @@ export namespace Prisma {
     product_variant_size_id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     Product?: ProductUpdateOneRequiredWithoutBagNestedInput
+    ProductVariantColor?: ProductVariantColorUpdateOneRequiredWithoutBagNestedInput
     User?: UserUpdateOneRequiredWithoutBagNestedInput
   }
 
@@ -17347,6 +17442,7 @@ export namespace Prisma {
     user_id?: StringFieldUpdateOperationsInput | string
     product_id?: StringFieldUpdateOperationsInput | string
     product_variant_size_id?: StringFieldUpdateOperationsInput | string
+    product_variant_color_id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
   }
 
@@ -17357,6 +17453,7 @@ export namespace Prisma {
     user_id: string
     product_id: string
     product_variant_size_id: string
+    product_variant_color_id: string
     quantity: number
   }
 
@@ -17375,6 +17472,7 @@ export namespace Prisma {
     user_id?: StringFieldUpdateOperationsInput | string
     product_id?: StringFieldUpdateOperationsInput | string
     product_variant_size_id?: StringFieldUpdateOperationsInput | string
+    product_variant_color_id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
   }
 
@@ -17999,6 +18097,11 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type OrderItemListRelationFilter = {
     every?: OrderItemWhereInput
     some?: OrderItemWhereInput
@@ -18034,6 +18137,7 @@ export namespace Prisma {
     sku?: SortOrder
     category_id?: SortOrder
     description?: SortOrder
+    isFeatured?: SortOrder
   }
 
   export type ProductAvgOrderByAggregateInput = {
@@ -18050,6 +18154,7 @@ export namespace Prisma {
     sku?: SortOrder
     category_id?: SortOrder
     description?: SortOrder
+    isFeatured?: SortOrder
   }
 
   export type ProductMinOrderByAggregateInput = {
@@ -18062,6 +18167,7 @@ export namespace Prisma {
     sku?: SortOrder
     category_id?: SortOrder
     description?: SortOrder
+    isFeatured?: SortOrder
   }
 
   export type ProductSumOrderByAggregateInput = {
@@ -18102,9 +18208,12 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type BoolFilter<$PrismaModel = never> = {
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type ProductListRelationFilter = {
@@ -18145,14 +18254,6 @@ export namespace Prisma {
     slug?: SortOrder
     variant_color_required?: SortOrder
     variant_size_required?: SortOrder
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type StringNullableListFilter<$PrismaModel = never> = {
@@ -18396,6 +18497,7 @@ export namespace Prisma {
     user_id?: SortOrder
     product_id?: SortOrder
     product_variant_size_id?: SortOrder
+    product_variant_color_id?: SortOrder
     quantity?: SortOrder
   }
 
@@ -18410,6 +18512,7 @@ export namespace Prisma {
     user_id?: SortOrder
     product_id?: SortOrder
     product_variant_size_id?: SortOrder
+    product_variant_color_id?: SortOrder
     quantity?: SortOrder
   }
 
@@ -18420,6 +18523,7 @@ export namespace Prisma {
     user_id?: SortOrder
     product_id?: SortOrder
     product_variant_size_id?: SortOrder
+    product_variant_color_id?: SortOrder
     quantity?: SortOrder
   }
 
@@ -18993,6 +19097,10 @@ export namespace Prisma {
     set?: string | null
   }
 
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
   export type BagUpdateManyWithoutProductNestedInput = {
     create?: XOR<BagCreateWithoutProductInput, BagUncheckedCreateWithoutProductInput> | BagCreateWithoutProductInput[] | BagUncheckedCreateWithoutProductInput[]
     connectOrCreate?: BagCreateOrConnectWithoutProductInput | BagCreateOrConnectWithoutProductInput[]
@@ -19127,10 +19235,6 @@ export namespace Prisma {
     connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
   }
 
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
-  }
-
   export type ProductUpdateManyWithoutCategoryNestedInput = {
     create?: XOR<ProductCreateWithoutCategoryInput, ProductUncheckedCreateWithoutCategoryInput> | ProductCreateWithoutCategoryInput[] | ProductUncheckedCreateWithoutCategoryInput[]
     connectOrCreate?: ProductCreateOrConnectWithoutCategoryInput | ProductCreateOrConnectWithoutCategoryInput[]
@@ -19176,11 +19280,25 @@ export namespace Prisma {
     connect?: ProductVariantSizeWhereUniqueInput | ProductVariantSizeWhereUniqueInput[]
   }
 
+  export type BagCreateNestedManyWithoutProductVariantColorInput = {
+    create?: XOR<BagCreateWithoutProductVariantColorInput, BagUncheckedCreateWithoutProductVariantColorInput> | BagCreateWithoutProductVariantColorInput[] | BagUncheckedCreateWithoutProductVariantColorInput[]
+    connectOrCreate?: BagCreateOrConnectWithoutProductVariantColorInput | BagCreateOrConnectWithoutProductVariantColorInput[]
+    createMany?: BagCreateManyProductVariantColorInputEnvelope
+    connect?: BagWhereUniqueInput | BagWhereUniqueInput[]
+  }
+
   export type ProductVariantSizeUncheckedCreateNestedManyWithoutProductVariantColorInput = {
     create?: XOR<ProductVariantSizeCreateWithoutProductVariantColorInput, ProductVariantSizeUncheckedCreateWithoutProductVariantColorInput> | ProductVariantSizeCreateWithoutProductVariantColorInput[] | ProductVariantSizeUncheckedCreateWithoutProductVariantColorInput[]
     connectOrCreate?: ProductVariantSizeCreateOrConnectWithoutProductVariantColorInput | ProductVariantSizeCreateOrConnectWithoutProductVariantColorInput[]
     createMany?: ProductVariantSizeCreateManyProductVariantColorInputEnvelope
     connect?: ProductVariantSizeWhereUniqueInput | ProductVariantSizeWhereUniqueInput[]
+  }
+
+  export type BagUncheckedCreateNestedManyWithoutProductVariantColorInput = {
+    create?: XOR<BagCreateWithoutProductVariantColorInput, BagUncheckedCreateWithoutProductVariantColorInput> | BagCreateWithoutProductVariantColorInput[] | BagUncheckedCreateWithoutProductVariantColorInput[]
+    connectOrCreate?: BagCreateOrConnectWithoutProductVariantColorInput | BagCreateOrConnectWithoutProductVariantColorInput[]
+    createMany?: BagCreateManyProductVariantColorInputEnvelope
+    connect?: BagWhereUniqueInput | BagWhereUniqueInput[]
   }
 
   export type ProductVariantColorUpdateimagesInput = {
@@ -19210,6 +19328,20 @@ export namespace Prisma {
     deleteMany?: ProductVariantSizeScalarWhereInput | ProductVariantSizeScalarWhereInput[]
   }
 
+  export type BagUpdateManyWithoutProductVariantColorNestedInput = {
+    create?: XOR<BagCreateWithoutProductVariantColorInput, BagUncheckedCreateWithoutProductVariantColorInput> | BagCreateWithoutProductVariantColorInput[] | BagUncheckedCreateWithoutProductVariantColorInput[]
+    connectOrCreate?: BagCreateOrConnectWithoutProductVariantColorInput | BagCreateOrConnectWithoutProductVariantColorInput[]
+    upsert?: BagUpsertWithWhereUniqueWithoutProductVariantColorInput | BagUpsertWithWhereUniqueWithoutProductVariantColorInput[]
+    createMany?: BagCreateManyProductVariantColorInputEnvelope
+    set?: BagWhereUniqueInput | BagWhereUniqueInput[]
+    disconnect?: BagWhereUniqueInput | BagWhereUniqueInput[]
+    delete?: BagWhereUniqueInput | BagWhereUniqueInput[]
+    connect?: BagWhereUniqueInput | BagWhereUniqueInput[]
+    update?: BagUpdateWithWhereUniqueWithoutProductVariantColorInput | BagUpdateWithWhereUniqueWithoutProductVariantColorInput[]
+    updateMany?: BagUpdateManyWithWhereWithoutProductVariantColorInput | BagUpdateManyWithWhereWithoutProductVariantColorInput[]
+    deleteMany?: BagScalarWhereInput | BagScalarWhereInput[]
+  }
+
   export type ProductVariantSizeUncheckedUpdateManyWithoutProductVariantColorNestedInput = {
     create?: XOR<ProductVariantSizeCreateWithoutProductVariantColorInput, ProductVariantSizeUncheckedCreateWithoutProductVariantColorInput> | ProductVariantSizeCreateWithoutProductVariantColorInput[] | ProductVariantSizeUncheckedCreateWithoutProductVariantColorInput[]
     connectOrCreate?: ProductVariantSizeCreateOrConnectWithoutProductVariantColorInput | ProductVariantSizeCreateOrConnectWithoutProductVariantColorInput[]
@@ -19222,6 +19354,20 @@ export namespace Prisma {
     update?: ProductVariantSizeUpdateWithWhereUniqueWithoutProductVariantColorInput | ProductVariantSizeUpdateWithWhereUniqueWithoutProductVariantColorInput[]
     updateMany?: ProductVariantSizeUpdateManyWithWhereWithoutProductVariantColorInput | ProductVariantSizeUpdateManyWithWhereWithoutProductVariantColorInput[]
     deleteMany?: ProductVariantSizeScalarWhereInput | ProductVariantSizeScalarWhereInput[]
+  }
+
+  export type BagUncheckedUpdateManyWithoutProductVariantColorNestedInput = {
+    create?: XOR<BagCreateWithoutProductVariantColorInput, BagUncheckedCreateWithoutProductVariantColorInput> | BagCreateWithoutProductVariantColorInput[] | BagUncheckedCreateWithoutProductVariantColorInput[]
+    connectOrCreate?: BagCreateOrConnectWithoutProductVariantColorInput | BagCreateOrConnectWithoutProductVariantColorInput[]
+    upsert?: BagUpsertWithWhereUniqueWithoutProductVariantColorInput | BagUpsertWithWhereUniqueWithoutProductVariantColorInput[]
+    createMany?: BagCreateManyProductVariantColorInputEnvelope
+    set?: BagWhereUniqueInput | BagWhereUniqueInput[]
+    disconnect?: BagWhereUniqueInput | BagWhereUniqueInput[]
+    delete?: BagWhereUniqueInput | BagWhereUniqueInput[]
+    connect?: BagWhereUniqueInput | BagWhereUniqueInput[]
+    update?: BagUpdateWithWhereUniqueWithoutProductVariantColorInput | BagUpdateWithWhereUniqueWithoutProductVariantColorInput[]
+    updateMany?: BagUpdateManyWithWhereWithoutProductVariantColorInput | BagUpdateManyWithWhereWithoutProductVariantColorInput[]
+    deleteMany?: BagScalarWhereInput | BagScalarWhereInput[]
   }
 
   export type OrderItemCreateNestedManyWithoutProductVariantSizeInput = {
@@ -19442,6 +19588,12 @@ export namespace Prisma {
     connect?: ProductWhereUniqueInput
   }
 
+  export type ProductVariantColorCreateNestedOneWithoutBagInput = {
+    create?: XOR<ProductVariantColorCreateWithoutBagInput, ProductVariantColorUncheckedCreateWithoutBagInput>
+    connectOrCreate?: ProductVariantColorCreateOrConnectWithoutBagInput
+    connect?: ProductVariantColorWhereUniqueInput
+  }
+
   export type UserCreateNestedOneWithoutBagInput = {
     create?: XOR<UserCreateWithoutBagInput, UserUncheckedCreateWithoutBagInput>
     connectOrCreate?: UserCreateOrConnectWithoutBagInput
@@ -19454,6 +19606,14 @@ export namespace Prisma {
     upsert?: ProductUpsertWithoutBagInput
     connect?: ProductWhereUniqueInput
     update?: XOR<XOR<ProductUpdateToOneWithWhereWithoutBagInput, ProductUpdateWithoutBagInput>, ProductUncheckedUpdateWithoutBagInput>
+  }
+
+  export type ProductVariantColorUpdateOneRequiredWithoutBagNestedInput = {
+    create?: XOR<ProductVariantColorCreateWithoutBagInput, ProductVariantColorUncheckedCreateWithoutBagInput>
+    connectOrCreate?: ProductVariantColorCreateOrConnectWithoutBagInput
+    upsert?: ProductVariantColorUpsertWithoutBagInput
+    connect?: ProductVariantColorWhereUniqueInput
+    update?: XOR<XOR<ProductVariantColorUpdateToOneWithWhereWithoutBagInput, ProductVariantColorUpdateWithoutBagInput>, ProductVariantColorUncheckedUpdateWithoutBagInput>
   }
 
   export type UserUpdateOneRequiredWithoutBagNestedInput = {
@@ -19811,6 +19971,11 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -19842,11 +20007,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
-  }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -20037,6 +20197,7 @@ export namespace Prisma {
     product_variant_size_id: string
     quantity: number
     Product: ProductCreateNestedOneWithoutBagInput
+    ProductVariantColor: ProductVariantColorCreateNestedOneWithoutBagInput
   }
 
   export type BagUncheckedCreateWithoutUserInput = {
@@ -20045,6 +20206,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     product_id: string
     product_variant_size_id: string
+    product_variant_color_id: string
     quantity: number
   }
 
@@ -20205,6 +20367,7 @@ export namespace Prisma {
     user_id?: UuidFilter<"Bag"> | string
     product_id?: UuidFilter<"Bag"> | string
     product_variant_size_id?: UuidFilter<"Bag"> | string
+    product_variant_color_id?: UuidFilter<"Bag"> | string
     quantity?: IntFilter<"Bag"> | number
   }
 
@@ -20273,6 +20436,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     product_variant_size_id: string
     quantity: number
+    ProductVariantColor: ProductVariantColorCreateNestedOneWithoutBagInput
     User: UserCreateNestedOneWithoutBagInput
   }
 
@@ -20282,6 +20446,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     user_id: string
     product_variant_size_id: string
+    product_variant_color_id: string
     quantity: number
   }
 
@@ -20359,6 +20524,7 @@ export namespace Prisma {
     color: string
     images?: ProductVariantColorCreateimagesInput | string[]
     ProductVariantSize?: ProductVariantSizeCreateNestedManyWithoutProductVariantColorInput
+    Bag?: BagCreateNestedManyWithoutProductVariantColorInput
   }
 
   export type ProductVariantColorUncheckedCreateWithoutProductInput = {
@@ -20368,6 +20534,7 @@ export namespace Prisma {
     color: string
     images?: ProductVariantColorCreateimagesInput | string[]
     ProductVariantSize?: ProductVariantSizeUncheckedCreateNestedManyWithoutProductVariantColorInput
+    Bag?: BagUncheckedCreateNestedManyWithoutProductVariantColorInput
   }
 
   export type ProductVariantColorCreateOrConnectWithoutProductInput = {
@@ -20537,6 +20704,7 @@ export namespace Prisma {
     price: number
     sku?: string | null
     description?: string | null
+    isFeatured?: boolean
     Bag?: BagCreateNestedManyWithoutProductInput
     OrderItem?: OrderItemCreateNestedManyWithoutProductInput
     ProductVariantColor?: ProductVariantColorCreateNestedManyWithoutProductInput
@@ -20552,6 +20720,7 @@ export namespace Prisma {
     price: number
     sku?: string | null
     description?: string | null
+    isFeatured?: boolean
     Bag?: BagUncheckedCreateNestedManyWithoutProductInput
     OrderItem?: OrderItemUncheckedCreateNestedManyWithoutProductInput
     ProductVariantColor?: ProductVariantColorUncheckedCreateNestedManyWithoutProductInput
@@ -20597,6 +20766,7 @@ export namespace Prisma {
     sku?: StringNullableFilter<"Product"> | string | null
     category_id?: UuidFilter<"Product"> | string
     description?: StringNullableFilter<"Product"> | string | null
+    isFeatured?: BoolFilter<"Product"> | boolean
   }
 
   export type ProductCreateWithoutProductVariantColorInput = {
@@ -20608,6 +20778,7 @@ export namespace Prisma {
     price: number
     sku?: string | null
     description?: string | null
+    isFeatured?: boolean
     Bag?: BagCreateNestedManyWithoutProductInput
     OrderItem?: OrderItemCreateNestedManyWithoutProductInput
     Category: CategoryCreateNestedOneWithoutProductInput
@@ -20624,6 +20795,7 @@ export namespace Prisma {
     sku?: string | null
     category_id: string
     description?: string | null
+    isFeatured?: boolean
     Bag?: BagUncheckedCreateNestedManyWithoutProductInput
     OrderItem?: OrderItemUncheckedCreateNestedManyWithoutProductInput
     Wishlist?: WishlistUncheckedCreateNestedManyWithoutProductInput
@@ -20666,6 +20838,36 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type BagCreateWithoutProductVariantColorInput = {
+    id?: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    product_variant_size_id: string
+    quantity: number
+    Product: ProductCreateNestedOneWithoutBagInput
+    User: UserCreateNestedOneWithoutBagInput
+  }
+
+  export type BagUncheckedCreateWithoutProductVariantColorInput = {
+    id?: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    user_id: string
+    product_id: string
+    product_variant_size_id: string
+    quantity: number
+  }
+
+  export type BagCreateOrConnectWithoutProductVariantColorInput = {
+    where: BagWhereUniqueInput
+    create: XOR<BagCreateWithoutProductVariantColorInput, BagUncheckedCreateWithoutProductVariantColorInput>
+  }
+
+  export type BagCreateManyProductVariantColorInputEnvelope = {
+    data: BagCreateManyProductVariantColorInput | BagCreateManyProductVariantColorInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ProductUpsertWithoutProductVariantColorInput = {
     update: XOR<ProductUpdateWithoutProductVariantColorInput, ProductUncheckedUpdateWithoutProductVariantColorInput>
     create: XOR<ProductCreateWithoutProductVariantColorInput, ProductUncheckedCreateWithoutProductVariantColorInput>
@@ -20686,6 +20888,7 @@ export namespace Prisma {
     price?: FloatFieldUpdateOperationsInput | number
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     Bag?: BagUpdateManyWithoutProductNestedInput
     OrderItem?: OrderItemUpdateManyWithoutProductNestedInput
     Category?: CategoryUpdateOneRequiredWithoutProductNestedInput
@@ -20702,6 +20905,7 @@ export namespace Prisma {
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     category_id?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     Bag?: BagUncheckedUpdateManyWithoutProductNestedInput
     OrderItem?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
     Wishlist?: WishlistUncheckedUpdateManyWithoutProductNestedInput
@@ -20734,6 +20938,22 @@ export namespace Prisma {
     stock?: IntFilter<"ProductVariantSize"> | number
     status?: EnumPRODUCT_STATUSFilter<"ProductVariantSize"> | $Enums.PRODUCT_STATUS
     variant_color_id?: UuidFilter<"ProductVariantSize"> | string
+  }
+
+  export type BagUpsertWithWhereUniqueWithoutProductVariantColorInput = {
+    where: BagWhereUniqueInput
+    update: XOR<BagUpdateWithoutProductVariantColorInput, BagUncheckedUpdateWithoutProductVariantColorInput>
+    create: XOR<BagCreateWithoutProductVariantColorInput, BagUncheckedCreateWithoutProductVariantColorInput>
+  }
+
+  export type BagUpdateWithWhereUniqueWithoutProductVariantColorInput = {
+    where: BagWhereUniqueInput
+    data: XOR<BagUpdateWithoutProductVariantColorInput, BagUncheckedUpdateWithoutProductVariantColorInput>
+  }
+
+  export type BagUpdateManyWithWhereWithoutProductVariantColorInput = {
+    where: BagScalarWhereInput
+    data: XOR<BagUpdateManyMutationInput, BagUncheckedUpdateManyWithoutProductVariantColorInput>
   }
 
   export type OrderItemCreateWithoutProductVariantSizeInput = {
@@ -20775,6 +20995,7 @@ export namespace Prisma {
     color: string
     images?: ProductVariantColorCreateimagesInput | string[]
     Product: ProductCreateNestedOneWithoutProductVariantColorInput
+    Bag?: BagCreateNestedManyWithoutProductVariantColorInput
   }
 
   export type ProductVariantColorUncheckedCreateWithoutProductVariantSizeInput = {
@@ -20784,6 +21005,7 @@ export namespace Prisma {
     color: string
     images?: ProductVariantColorCreateimagesInput | string[]
     product_id: string
+    Bag?: BagUncheckedCreateNestedManyWithoutProductVariantColorInput
   }
 
   export type ProductVariantColorCreateOrConnectWithoutProductVariantSizeInput = {
@@ -20851,6 +21073,7 @@ export namespace Prisma {
     color?: StringFieldUpdateOperationsInput | string
     images?: ProductVariantColorUpdateimagesInput | string[]
     Product?: ProductUpdateOneRequiredWithoutProductVariantColorNestedInput
+    Bag?: BagUpdateManyWithoutProductVariantColorNestedInput
   }
 
   export type ProductVariantColorUncheckedUpdateWithoutProductVariantSizeInput = {
@@ -20860,6 +21083,7 @@ export namespace Prisma {
     color?: StringFieldUpdateOperationsInput | string
     images?: ProductVariantColorUpdateimagesInput | string[]
     product_id?: StringFieldUpdateOperationsInput | string
+    Bag?: BagUncheckedUpdateManyWithoutProductVariantColorNestedInput
   }
 
   export type WishlistUpsertWithWhereUniqueWithoutProductVariantSizeInput = {
@@ -20914,6 +21138,7 @@ export namespace Prisma {
     price: number
     sku?: string | null
     description?: string | null
+    isFeatured?: boolean
     Bag?: BagCreateNestedManyWithoutProductInput
     OrderItem?: OrderItemCreateNestedManyWithoutProductInput
     Category: CategoryCreateNestedOneWithoutProductInput
@@ -20930,6 +21155,7 @@ export namespace Prisma {
     sku?: string | null
     category_id: string
     description?: string | null
+    isFeatured?: boolean
     Bag?: BagUncheckedCreateNestedManyWithoutProductInput
     OrderItem?: OrderItemUncheckedCreateNestedManyWithoutProductInput
     ProductVariantColor?: ProductVariantColorUncheckedCreateNestedManyWithoutProductInput
@@ -21026,6 +21252,7 @@ export namespace Prisma {
     price?: FloatFieldUpdateOperationsInput | number
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     Bag?: BagUpdateManyWithoutProductNestedInput
     OrderItem?: OrderItemUpdateManyWithoutProductNestedInput
     Category?: CategoryUpdateOneRequiredWithoutProductNestedInput
@@ -21042,6 +21269,7 @@ export namespace Prisma {
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     category_id?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     Bag?: BagUncheckedUpdateManyWithoutProductNestedInput
     OrderItem?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
     ProductVariantColor?: ProductVariantColorUncheckedUpdateManyWithoutProductNestedInput
@@ -21215,6 +21443,7 @@ export namespace Prisma {
     price: number
     sku?: string | null
     description?: string | null
+    isFeatured?: boolean
     OrderItem?: OrderItemCreateNestedManyWithoutProductInput
     Category: CategoryCreateNestedOneWithoutProductInput
     ProductVariantColor?: ProductVariantColorCreateNestedManyWithoutProductInput
@@ -21231,6 +21460,7 @@ export namespace Prisma {
     sku?: string | null
     category_id: string
     description?: string | null
+    isFeatured?: boolean
     OrderItem?: OrderItemUncheckedCreateNestedManyWithoutProductInput
     ProductVariantColor?: ProductVariantColorUncheckedCreateNestedManyWithoutProductInput
     Wishlist?: WishlistUncheckedCreateNestedManyWithoutProductInput
@@ -21239,6 +21469,31 @@ export namespace Prisma {
   export type ProductCreateOrConnectWithoutBagInput = {
     where: ProductWhereUniqueInput
     create: XOR<ProductCreateWithoutBagInput, ProductUncheckedCreateWithoutBagInput>
+  }
+
+  export type ProductVariantColorCreateWithoutBagInput = {
+    id?: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    color: string
+    images?: ProductVariantColorCreateimagesInput | string[]
+    Product: ProductCreateNestedOneWithoutProductVariantColorInput
+    ProductVariantSize?: ProductVariantSizeCreateNestedManyWithoutProductVariantColorInput
+  }
+
+  export type ProductVariantColorUncheckedCreateWithoutBagInput = {
+    id?: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    color: string
+    images?: ProductVariantColorCreateimagesInput | string[]
+    product_id: string
+    ProductVariantSize?: ProductVariantSizeUncheckedCreateNestedManyWithoutProductVariantColorInput
+  }
+
+  export type ProductVariantColorCreateOrConnectWithoutBagInput = {
+    where: ProductVariantColorWhereUniqueInput
+    create: XOR<ProductVariantColorCreateWithoutBagInput, ProductVariantColorUncheckedCreateWithoutBagInput>
   }
 
   export type UserCreateWithoutBagInput = {
@@ -21294,6 +21549,7 @@ export namespace Prisma {
     price?: FloatFieldUpdateOperationsInput | number
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     OrderItem?: OrderItemUpdateManyWithoutProductNestedInput
     Category?: CategoryUpdateOneRequiredWithoutProductNestedInput
     ProductVariantColor?: ProductVariantColorUpdateManyWithoutProductNestedInput
@@ -21310,9 +21566,41 @@ export namespace Prisma {
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     category_id?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     OrderItem?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
     ProductVariantColor?: ProductVariantColorUncheckedUpdateManyWithoutProductNestedInput
     Wishlist?: WishlistUncheckedUpdateManyWithoutProductNestedInput
+  }
+
+  export type ProductVariantColorUpsertWithoutBagInput = {
+    update: XOR<ProductVariantColorUpdateWithoutBagInput, ProductVariantColorUncheckedUpdateWithoutBagInput>
+    create: XOR<ProductVariantColorCreateWithoutBagInput, ProductVariantColorUncheckedCreateWithoutBagInput>
+    where?: ProductVariantColorWhereInput
+  }
+
+  export type ProductVariantColorUpdateToOneWithWhereWithoutBagInput = {
+    where?: ProductVariantColorWhereInput
+    data: XOR<ProductVariantColorUpdateWithoutBagInput, ProductVariantColorUncheckedUpdateWithoutBagInput>
+  }
+
+  export type ProductVariantColorUpdateWithoutBagInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    color?: StringFieldUpdateOperationsInput | string
+    images?: ProductVariantColorUpdateimagesInput | string[]
+    Product?: ProductUpdateOneRequiredWithoutProductVariantColorNestedInput
+    ProductVariantSize?: ProductVariantSizeUpdateManyWithoutProductVariantColorNestedInput
+  }
+
+  export type ProductVariantColorUncheckedUpdateWithoutBagInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    color?: StringFieldUpdateOperationsInput | string
+    images?: ProductVariantColorUpdateimagesInput | string[]
+    product_id?: StringFieldUpdateOperationsInput | string
+    ProductVariantSize?: ProductVariantSizeUncheckedUpdateManyWithoutProductVariantColorNestedInput
   }
 
   export type UserUpsertWithoutBagInput = {
@@ -21570,6 +21858,7 @@ export namespace Prisma {
     price: number
     sku?: string | null
     description?: string | null
+    isFeatured?: boolean
     Bag?: BagCreateNestedManyWithoutProductInput
     Category: CategoryCreateNestedOneWithoutProductInput
     ProductVariantColor?: ProductVariantColorCreateNestedManyWithoutProductInput
@@ -21586,6 +21875,7 @@ export namespace Prisma {
     sku?: string | null
     category_id: string
     description?: string | null
+    isFeatured?: boolean
     Bag?: BagUncheckedCreateNestedManyWithoutProductInput
     ProductVariantColor?: ProductVariantColorUncheckedCreateNestedManyWithoutProductInput
     Wishlist?: WishlistUncheckedCreateNestedManyWithoutProductInput
@@ -21676,6 +21966,7 @@ export namespace Prisma {
     price?: FloatFieldUpdateOperationsInput | number
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     Bag?: BagUpdateManyWithoutProductNestedInput
     Category?: CategoryUpdateOneRequiredWithoutProductNestedInput
     ProductVariantColor?: ProductVariantColorUpdateManyWithoutProductNestedInput
@@ -21692,6 +21983,7 @@ export namespace Prisma {
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     category_id?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     Bag?: BagUncheckedUpdateManyWithoutProductNestedInput
     ProductVariantColor?: ProductVariantColorUncheckedUpdateManyWithoutProductNestedInput
     Wishlist?: WishlistUncheckedUpdateManyWithoutProductNestedInput
@@ -21967,6 +22259,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     product_id: string
     product_variant_size_id: string
+    product_variant_color_id: string
     quantity: number
   }
 
@@ -22071,6 +22364,7 @@ export namespace Prisma {
     product_variant_size_id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     Product?: ProductUpdateOneRequiredWithoutBagNestedInput
+    ProductVariantColor?: ProductVariantColorUpdateOneRequiredWithoutBagNestedInput
   }
 
   export type BagUncheckedUpdateWithoutUserInput = {
@@ -22079,6 +22373,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     product_id?: StringFieldUpdateOperationsInput | string
     product_variant_size_id?: StringFieldUpdateOperationsInput | string
+    product_variant_color_id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
   }
 
@@ -22088,6 +22383,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     product_id?: StringFieldUpdateOperationsInput | string
     product_variant_size_id?: StringFieldUpdateOperationsInput | string
+    product_variant_color_id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
   }
 
@@ -22154,6 +22450,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     user_id: string
     product_variant_size_id: string
+    product_variant_color_id: string
     quantity: number
   }
 
@@ -22190,6 +22487,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     product_variant_size_id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
+    ProductVariantColor?: ProductVariantColorUpdateOneRequiredWithoutBagNestedInput
     User?: UserUpdateOneRequiredWithoutBagNestedInput
   }
 
@@ -22199,6 +22497,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user_id?: StringFieldUpdateOperationsInput | string
     product_variant_size_id?: StringFieldUpdateOperationsInput | string
+    product_variant_color_id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
   }
 
@@ -22208,6 +22507,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user_id?: StringFieldUpdateOperationsInput | string
     product_variant_size_id?: StringFieldUpdateOperationsInput | string
+    product_variant_color_id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
   }
 
@@ -22251,6 +22551,7 @@ export namespace Prisma {
     color?: StringFieldUpdateOperationsInput | string
     images?: ProductVariantColorUpdateimagesInput | string[]
     ProductVariantSize?: ProductVariantSizeUpdateManyWithoutProductVariantColorNestedInput
+    Bag?: BagUpdateManyWithoutProductVariantColorNestedInput
   }
 
   export type ProductVariantColorUncheckedUpdateWithoutProductInput = {
@@ -22260,6 +22561,7 @@ export namespace Prisma {
     color?: StringFieldUpdateOperationsInput | string
     images?: ProductVariantColorUpdateimagesInput | string[]
     ProductVariantSize?: ProductVariantSizeUncheckedUpdateManyWithoutProductVariantColorNestedInput
+    Bag?: BagUncheckedUpdateManyWithoutProductVariantColorNestedInput
   }
 
   export type ProductVariantColorUncheckedUpdateManyWithoutProductInput = {
@@ -22303,6 +22605,7 @@ export namespace Prisma {
     price: number
     sku?: string | null
     description?: string | null
+    isFeatured?: boolean
   }
 
   export type ProductUpdateWithoutCategoryInput = {
@@ -22314,6 +22617,7 @@ export namespace Prisma {
     price?: FloatFieldUpdateOperationsInput | number
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     Bag?: BagUpdateManyWithoutProductNestedInput
     OrderItem?: OrderItemUpdateManyWithoutProductNestedInput
     ProductVariantColor?: ProductVariantColorUpdateManyWithoutProductNestedInput
@@ -22329,6 +22633,7 @@ export namespace Prisma {
     price?: FloatFieldUpdateOperationsInput | number
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     Bag?: BagUncheckedUpdateManyWithoutProductNestedInput
     OrderItem?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
     ProductVariantColor?: ProductVariantColorUncheckedUpdateManyWithoutProductNestedInput
@@ -22344,6 +22649,7 @@ export namespace Prisma {
     price?: FloatFieldUpdateOperationsInput | number
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type ProductVariantSizeCreateManyProductVariantColorInput = {
@@ -22353,6 +22659,16 @@ export namespace Prisma {
     size: $Enums.PRODUCT_SIZES
     stock: number
     status: $Enums.PRODUCT_STATUS
+  }
+
+  export type BagCreateManyProductVariantColorInput = {
+    id?: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    user_id: string
+    product_id: string
+    product_variant_size_id: string
+    quantity: number
   }
 
   export type ProductVariantSizeUpdateWithoutProductVariantColorInput = {
@@ -22384,6 +22700,36 @@ export namespace Prisma {
     size?: EnumPRODUCT_SIZESFieldUpdateOperationsInput | $Enums.PRODUCT_SIZES
     stock?: IntFieldUpdateOperationsInput | number
     status?: EnumPRODUCT_STATUSFieldUpdateOperationsInput | $Enums.PRODUCT_STATUS
+  }
+
+  export type BagUpdateWithoutProductVariantColorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    product_variant_size_id?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    Product?: ProductUpdateOneRequiredWithoutBagNestedInput
+    User?: UserUpdateOneRequiredWithoutBagNestedInput
+  }
+
+  export type BagUncheckedUpdateWithoutProductVariantColorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user_id?: StringFieldUpdateOperationsInput | string
+    product_id?: StringFieldUpdateOperationsInput | string
+    product_variant_size_id?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type BagUncheckedUpdateManyWithoutProductVariantColorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user_id?: StringFieldUpdateOperationsInput | string
+    product_id?: StringFieldUpdateOperationsInput | string
+    product_variant_size_id?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
   }
 
   export type OrderItemCreateManyProductVariantSizeInput = {
