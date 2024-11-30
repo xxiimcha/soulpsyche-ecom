@@ -129,7 +129,7 @@ export default function AddProductPage() {
       alert("Failed to upload product image. Please try again.");
     }
   };
-  
+
   const handleSaveProduct = async () => {
     try {
       if (!newProduct.name.trim()) {
@@ -152,6 +152,7 @@ export default function AddProductPage() {
         price: parseFloat(newProduct.price),
         category_id: newProduct.category,
         description: newProduct.description.trim(),
+        image: newProduct.image, // Ensure the image field is included here
         variants: newProduct.variants,
       };
 

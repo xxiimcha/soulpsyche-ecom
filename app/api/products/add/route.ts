@@ -8,6 +8,9 @@ export async function POST(request: Request) {
     // Parse the request body
     const body = await request.json();
 
+    // Log the payload for debugging
+    console.log("Received Payload:", body);
+
     // Validate required fields
     if (!body.name || !body.slug || !body.price || !body.category_id) {
       return NextResponse.json(
@@ -24,6 +27,14 @@ export async function POST(request: Request) {
       );
     }
 
+    // Validate image URL
+    if (body.image && typeof body.image !== "string") {
+      return NextResponse.json(
+        { message: "Invalid image URL. It must be a string." },
+        { status: 400 }
+      );
+    }
+
     // Insert the product with nested relations
     const newProduct = await prisma.product.create({
       data: {
@@ -32,7 +43,8 @@ export async function POST(request: Request) {
         price: body.price,
         description: body.description || null,
         category_id: body.category_id,
-    
+        image_url: body.image || null, // Save the main product image
+
         // Create ProductVariantColor and ProductVariantSize
         ProductVariantColor: {
           create: body.variants?.map((variant: any) => ({
@@ -48,7 +60,7 @@ export async function POST(request: Request) {
           })),
         },
       },
-    });    
+    });
 
     // Return a success response
     return NextResponse.json({
