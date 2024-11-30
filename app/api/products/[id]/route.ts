@@ -77,13 +77,36 @@ export async function DELETE(req: Request) {
       );
     }
 
-    // Delete the product
-    await prisma.product.delete({
-      where: { id },
+    // Begin a transaction to ensure all deletions happen atomically
+    await prisma.$transaction(async (tx) => {
+      // Fetch all ProductVariantColor IDs related to the product
+      const variantColors = await tx.productVariantColor.findMany({
+        where: { product_id: id },
+        select: { id: true },
+      });
+
+      const variantColorIds = variantColors.map((variant) => variant.id);
+
+      // Delete ProductVariantSize entries related to the fetched ProductVariantColor IDs
+      await tx.productVariantSize.deleteMany({
+        where: {
+          variant_color_id: { in: variantColorIds },
+        },
+      });
+
+      // Delete ProductVariantColor entries related to the product
+      await tx.productVariantColor.deleteMany({
+        where: { product_id: id },
+      });
+
+      // Delete the product itself
+      await tx.product.delete({
+        where: { id },
+      });
     });
 
     return NextResponse.json(
-      { message: "Product deleted successfully" },
+      { message: "Product and related items deleted successfully" },
       { status: 200 }
     );
   } catch (error) {

@@ -40,10 +40,12 @@ interface InventoryItem {
   category: { id: string; name: string; slug: string };
   price: number;
   description?: string; // Optional field
+  image_url?: string; // Main product image URL
   isFeatured?: boolean;
   sku?: string; // Optional field
   variants: {
     color: string;
+    image?: string; // Variant image URL
     sizes: { size: string; stock: number; status: string }[];
   }[];
 }
@@ -51,6 +53,7 @@ interface InventoryItem {
 interface ApiProduct {
   id: string;
   name: string;
+  image_url?: string; // Main product image URL
   Category?: { id: string; name: string };
   price: number;
   description?: string;
@@ -125,6 +128,7 @@ export default function InventoryPage() {
         const mappedInventory = products.map((item) => ({
           id: item.id,
           name: item.name,
+          image_url: item.image_url,
           category: item.Category
             ? { id: item.Category.id, name: item.Category.name, slug: "" }
             : { id: "", name: "Uncategorized", slug: "" },
@@ -624,12 +628,25 @@ export default function InventoryPage() {
             )}
 
             {isViewModalOpen && viewProduct && (
-              <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-                <div className="bg-white rounded-lg shadow-lg w-full max-w-lg p-8">
+              <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50 p-4 sm:p-8">
+                <div className="bg-white rounded-lg shadow-lg w-full max-w-4xl sm:w-auto p-4 sm:p-8 overflow-auto max-h-[90vh]">
                   <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
                     View Product Details
                   </h2>
                   <div className="space-y-4">
+                    {/* Main Product Image */}
+                    {viewProduct.image_url && (
+                      <div className="flex justify-center mb-4">
+                        <Image
+                          src={viewProduct.image_url}
+                          alt={viewProduct.name}
+                          className="rounded-lg max-w-full h-auto object-cover"
+                          width={512}
+                          height={512}
+                        />
+                      </div>
+                    )}
+
                     {/* Product Details */}
                     <div>
                       <p className="font-bold">Name:</p>
@@ -650,53 +667,82 @@ export default function InventoryPage() {
                       <p>{viewProduct.description || "N/A"}</p>
                     </div>
 
-                    {/* Variants Section */}<div>
-                    <p className="font-bold">Variants:</p>
-                    {viewProduct.variants.length > 0 ? (
-                      <div className="overflow-x-auto">
-                        <table className="table-auto w-full border-collapse border border-gray-300">
-                          <thead>
-                            <tr className="bg-gray-100">
-                              <th className="border border-gray-300 px-4 py-2 text-left">Color</th>
-                              <th className="border border-gray-300 px-4 py-2 text-left">Size</th>
-                              <th className="border border-gray-300 px-4 py-2 text-left">Stock</th>
-                              <th className="border border-gray-300 px-4 py-2 text-left">Status</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {viewProduct.variants.map((variant, variantIndex) => (
-                              variant.sizes.length > 0 ? (
-                                variant.sizes.map((size, sizeIndex) => (
-                                  <tr key={`${variantIndex}-${sizeIndex}`} className="odd:bg-white even:bg-gray-50">
-                                    {sizeIndex === 0 && (
-                                      <td
-                                        className="border border-gray-300 px-4 py-2 text-left align-top"
-                                        rowSpan={variant.sizes.length}
-                                      >
-                                        {variant.color}
-                                      </td>
-                                    )}
-                                    <td className="border border-gray-300 px-4 py-2 text-left">{size.size}</td>
-                                    <td className="border border-gray-300 px-4 py-2 text-left">{size.stock}</td>
-                                    <td className="border border-gray-300 px-4 py-2 text-left">{size.status}</td>
+                    {/* Variants Section */}
+                    <div>
+                      <p className="font-bold">Variants:</p>
+                      {viewProduct.variants.length > 0 ? (
+                        <div className="overflow-x-auto">
+                          <table className="table-auto w-full border-collapse border border-gray-300 text-sm">
+                            <thead>
+                              <tr className="bg-gray-100">
+                                <th className="border border-gray-300 px-4 py-2 text-left">Color</th>
+                                <th className="border border-gray-300 px-4 py-2 text-left">Image</th>
+                                <th className="border border-gray-300 px-4 py-2 text-left">Size</th>
+                                <th className="border border-gray-300 px-4 py-2 text-left">Stock</th>
+                                <th className="border border-gray-300 px-4 py-2 text-left">Status</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {viewProduct.variants.map((variant, variantIndex) => (
+                                variant.sizes.length > 0 ? (
+                                  variant.sizes.map((size, sizeIndex) => (
+                                    <tr key={`${variantIndex}-${sizeIndex}`} className="odd:bg-white even:bg-gray-50">
+                                      {sizeIndex === 0 && (
+                                        <>
+                                          <td
+                                            className="border border-gray-300 px-4 py-2 text-left align-top"
+                                            rowSpan={variant.sizes.length}
+                                          >
+                                            {variant.color}
+                                          </td>
+                                          <td
+                                            className="border border-gray-300 px-4 py-2 text-left align-top"
+                                            rowSpan={variant.sizes.length}
+                                          >
+                                            {variant.image && (
+                                              <Image
+                                                src={variant.image}
+                                                alt={variant.color}
+                                                className="w-16 h-16 object-cover rounded-lg"
+                                                width={64}
+                                                height={64}
+                                              />
+                                            )}
+                                          </td>
+                                        </>
+                                      )}
+                                      <td className="border border-gray-300 px-4 py-2 text-left">{size.size}</td>
+                                      <td className="border border-gray-300 px-4 py-2 text-left">{size.stock}</td>
+                                      <td className="border border-gray-300 px-4 py-2 text-left">{size.status}</td>
+                                    </tr>
+                                  ))
+                                ) : (
+                                  <tr key={variantIndex} className="odd:bg-white even:bg-gray-50">
+                                    <td className="border border-gray-300 px-4 py-2 text-left">{variant.color}</td>
+                                    <td className="border border-gray-300 px-4 py-2 text-left">
+                                      {variant.image && (
+                                        <Image
+                                          src={variant.image}
+                                          alt={variant.color}
+                                          className="w-16 h-16 object-cover rounded-lg"
+                                          width={64}
+                                          height={64}
+                                        />
+                                      )}
+                                    </td>
+                                    <td colSpan={3} className="border border-gray-300 px-4 py-2 text-left">
+                                      No sizes available
+                                    </td>
                                   </tr>
-                                ))
-                              ) : (
-                                <tr key={variantIndex} className="odd:bg-white even:bg-gray-50">
-                                  <td className="border border-gray-300 px-4 py-2 text-left">{variant.color}</td>
-                                  <td colSpan={3} className="border border-gray-300 px-4 py-2 text-left">
-                                    No sizes available
-                                  </td>
-                                </tr>
-                              )
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                    ) : (
-                      <p>No variants available.</p>
-                    )}
-                  </div>
+                                )
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      ) : (
+                        <p>No variants available.</p>
+                      )}
+                    </div>
                   </div>
                   <div className="flex justify-end gap-4 mt-6">
                     <Button variant="outline" onClick={() => setViewModalOpen(false)}>
@@ -708,8 +754,6 @@ export default function InventoryPage() {
             )}
         </div>
       </main>
-    </div>
-
-    
+    </div>   
   );
 }

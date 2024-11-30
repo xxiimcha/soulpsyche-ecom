@@ -8,6 +8,7 @@ interface Product {
   name: string;
   price: number;
   description: string;
+  image_url: string;
 }
 
 const FeaturedProducts = () => {
@@ -41,7 +42,7 @@ const FeaturedProducts = () => {
           id={product.id}
           name={product.name}
           price={product.price}
-          imageUrl={`/placeholder-dark-image.png`} // Replace with real image logic if applicable
+          imageUrl={product.image_url} // Replace with real image logic if applicable
         />
       ))}
     </div>
