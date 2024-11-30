@@ -1,8 +1,8 @@
-import { PrismaClient } from "../../../../prisma/generated/client";
-import { Prisma } from "../../../../prisma/generated/client";
+
+import prisma from "@/lib/db";
+import { Prisma } from "@prisma/client";
 import { NextResponse } from "next/server";
 
-const prisma = new PrismaClient();
 
 // GET method to fetch a product by ID
 export async function GET(req: Request) {

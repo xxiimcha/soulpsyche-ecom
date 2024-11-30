@@ -1,7 +1,5 @@
+import prisma from "@/lib/db";
 import { NextResponse } from "next/server";
-import { PrismaClient } from "../../../prisma/generated/client";
-
-const prisma = new PrismaClient();
 
 export async function GET() {
   try {
@@ -28,12 +26,12 @@ export async function GET() {
       image: "/placeholder-dark-image.png",
     }));
 
-    if (mappedItems.length === 0) {
-      return NextResponse.json(
-        { message: "No bag items found for the provided user ID." },
-        { status: 404 }
-      );
-    }
+    // if (mappedItems.length === 0) {
+    //   return NextResponse.json(
+    //     { message: "No bag items found for the provided user ID." },
+    //     { status: 404 }
+    //   );
+    // }
 
     return NextResponse.json(mappedItems, { status: 200 });
   } catch (error) {
