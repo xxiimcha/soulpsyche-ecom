@@ -1,6 +1,6 @@
 "use client";
 import ProductCard from "@/components/product-card";
-import React, { useState, useEffect } from "react"; // Import useState and useEffect
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 interface Product {
@@ -8,7 +8,7 @@ interface Product {
   name: string;
   price: number;
   description: string;
-  image_url: string;
+  image_url?: string; // Optional in case it's missing
 }
 
 const FeaturedProducts = () => {
@@ -38,11 +38,11 @@ const FeaturedProducts = () => {
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       {products.map((product) => (
         <ProductCard
-        key={product.id} // Add a unique key here
+          key={product.id}
           id={product.id}
           name={product.name}
           price={product.price}
-          imageUrl={product.image_url} // Replace with real image logic if applicable
+          imageUrl={product.image_url || "/placeholder-image.png"} // Fallback to placeholder
         />
       ))}
     </div>
