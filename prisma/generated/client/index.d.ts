@@ -1955,16 +1955,16 @@ export namespace Prisma {
 
   export type UserCountOutputType = {
     Address: number
-    Order: number
     Bag: number
+    Order: number
     ShippingAddress: number
     Wishlist: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Address?: boolean | UserCountOutputTypeCountAddressArgs
-    Order?: boolean | UserCountOutputTypeCountOrderArgs
     Bag?: boolean | UserCountOutputTypeCountBagArgs
+    Order?: boolean | UserCountOutputTypeCountOrderArgs
     ShippingAddress?: boolean | UserCountOutputTypeCountShippingAddressArgs
     Wishlist?: boolean | UserCountOutputTypeCountWishlistArgs
   }
@@ -1990,15 +1990,15 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountOrderArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: OrderWhereInput
+  export type UserCountOutputTypeCountBagArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BagWhereInput
   }
 
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountBagArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: BagWhereInput
+  export type UserCountOutputTypeCountOrderArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OrderWhereInput
   }
 
   /**
@@ -2110,13 +2110,13 @@ export namespace Prisma {
    */
 
   export type ProductVariantColorCountOutputType = {
-    ProductVariantSize: number
     Bag: number
+    ProductVariantSize: number
   }
 
   export type ProductVariantColorCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    ProductVariantSize?: boolean | ProductVariantColorCountOutputTypeCountProductVariantSizeArgs
     Bag?: boolean | ProductVariantColorCountOutputTypeCountBagArgs
+    ProductVariantSize?: boolean | ProductVariantColorCountOutputTypeCountProductVariantSizeArgs
   }
 
   // Custom InputTypes
@@ -2133,15 +2133,15 @@ export namespace Prisma {
   /**
    * ProductVariantColorCountOutputType without action
    */
-  export type ProductVariantColorCountOutputTypeCountProductVariantSizeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ProductVariantSizeWhereInput
+  export type ProductVariantColorCountOutputTypeCountBagArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BagWhereInput
   }
 
   /**
    * ProductVariantColorCountOutputType without action
    */
-  export type ProductVariantColorCountOutputTypeCountBagArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: BagWhereInput
+  export type ProductVariantColorCountOutputTypeCountProductVariantSizeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProductVariantSizeWhereInput
   }
 
 
@@ -2441,8 +2441,8 @@ export namespace Prisma {
     user_id?: boolean
     address?: boolean
     Address?: boolean | User$AddressArgs<ExtArgs>
-    Order?: boolean | User$OrderArgs<ExtArgs>
     Bag?: boolean | User$BagArgs<ExtArgs>
+    Order?: boolean | User$OrderArgs<ExtArgs>
     ShippingAddress?: boolean | User$ShippingAddressArgs<ExtArgs>
     Wishlist?: boolean | User$WishlistArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -2470,8 +2470,8 @@ export namespace Prisma {
 
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Address?: boolean | User$AddressArgs<ExtArgs>
-    Order?: boolean | User$OrderArgs<ExtArgs>
     Bag?: boolean | User$BagArgs<ExtArgs>
+    Order?: boolean | User$OrderArgs<ExtArgs>
     ShippingAddress?: boolean | User$ShippingAddressArgs<ExtArgs>
     Wishlist?: boolean | User$WishlistArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -2482,8 +2482,8 @@ export namespace Prisma {
     name: "User"
     objects: {
       Address: Prisma.$AddressPayload<ExtArgs>[]
-      Order: Prisma.$OrderPayload<ExtArgs>[]
       Bag: Prisma.$BagPayload<ExtArgs>[]
+      Order: Prisma.$OrderPayload<ExtArgs>[]
       ShippingAddress: Prisma.$ShippingAddressPayload<ExtArgs>[]
       Wishlist: Prisma.$WishlistPayload<ExtArgs>[]
     }
@@ -2860,8 +2860,8 @@ export namespace Prisma {
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     Address<T extends User$AddressArgs<ExtArgs> = {}>(args?: Subset<T, User$AddressArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AddressPayload<ExtArgs>, T, "findMany"> | Null>
-    Order<T extends User$OrderArgs<ExtArgs> = {}>(args?: Subset<T, User$OrderArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany"> | Null>
     Bag<T extends User$BagArgs<ExtArgs> = {}>(args?: Subset<T, User$BagArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BagPayload<ExtArgs>, T, "findMany"> | Null>
+    Order<T extends User$OrderArgs<ExtArgs> = {}>(args?: Subset<T, User$OrderArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany"> | Null>
     ShippingAddress<T extends User$ShippingAddressArgs<ExtArgs> = {}>(args?: Subset<T, User$ShippingAddressArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShippingAddressPayload<ExtArgs>, T, "findMany"> | Null>
     Wishlist<T extends User$WishlistArgs<ExtArgs> = {}>(args?: Subset<T, User$WishlistArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WishlistPayload<ExtArgs>, T, "findMany"> | Null>
     /**
@@ -3234,26 +3234,6 @@ export namespace Prisma {
   }
 
   /**
-   * User.Order
-   */
-  export type User$OrderArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Order
-     */
-    select?: OrderSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: OrderInclude<ExtArgs> | null
-    where?: OrderWhereInput
-    orderBy?: OrderOrderByWithRelationInput | OrderOrderByWithRelationInput[]
-    cursor?: OrderWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: OrderScalarFieldEnum | OrderScalarFieldEnum[]
-  }
-
-  /**
    * User.Bag
    */
   export type User$BagArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3271,6 +3251,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: BagScalarFieldEnum | BagScalarFieldEnum[]
+  }
+
+  /**
+   * User.Order
+   */
+  export type User$OrderArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Order
+     */
+    select?: OrderSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderInclude<ExtArgs> | null
+    where?: OrderWhereInput
+    orderBy?: OrderOrderByWithRelationInput | OrderOrderByWithRelationInput[]
+    cursor?: OrderWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OrderScalarFieldEnum | OrderScalarFieldEnum[]
   }
 
   /**
@@ -3352,6 +3352,7 @@ export namespace Prisma {
     id: string | null
     created_at: Date | null
     updated_at: Date | null
+    deleted_at: Date | null
     name: string | null
     slug: string | null
     price: number | null
@@ -3359,12 +3360,15 @@ export namespace Prisma {
     category_id: string | null
     description: string | null
     isFeatured: boolean | null
+    image_url: string | null
+    status: string | null
   }
 
   export type ProductMaxAggregateOutputType = {
     id: string | null
     created_at: Date | null
     updated_at: Date | null
+    deleted_at: Date | null
     name: string | null
     slug: string | null
     price: number | null
@@ -3372,12 +3376,15 @@ export namespace Prisma {
     category_id: string | null
     description: string | null
     isFeatured: boolean | null
+    image_url: string | null
+    status: string | null
   }
 
   export type ProductCountAggregateOutputType = {
     id: number
     created_at: number
     updated_at: number
+    deleted_at: number
     name: number
     slug: number
     price: number
@@ -3385,6 +3392,8 @@ export namespace Prisma {
     category_id: number
     description: number
     isFeatured: number
+    image_url: number
+    status: number
     _all: number
   }
 
@@ -3401,6 +3410,7 @@ export namespace Prisma {
     id?: true
     created_at?: true
     updated_at?: true
+    deleted_at?: true
     name?: true
     slug?: true
     price?: true
@@ -3408,12 +3418,15 @@ export namespace Prisma {
     category_id?: true
     description?: true
     isFeatured?: true
+    image_url?: true
+    status?: true
   }
 
   export type ProductMaxAggregateInputType = {
     id?: true
     created_at?: true
     updated_at?: true
+    deleted_at?: true
     name?: true
     slug?: true
     price?: true
@@ -3421,12 +3434,15 @@ export namespace Prisma {
     category_id?: true
     description?: true
     isFeatured?: true
+    image_url?: true
+    status?: true
   }
 
   export type ProductCountAggregateInputType = {
     id?: true
     created_at?: true
     updated_at?: true
+    deleted_at?: true
     name?: true
     slug?: true
     price?: true
@@ -3434,6 +3450,8 @@ export namespace Prisma {
     category_id?: true
     description?: true
     isFeatured?: true
+    image_url?: true
+    status?: true
     _all?: true
   }
 
@@ -3527,6 +3545,7 @@ export namespace Prisma {
     id: string
     created_at: Date
     updated_at: Date | null
+    deleted_at: Date | null
     name: string
     slug: string
     price: number
@@ -3534,6 +3553,8 @@ export namespace Prisma {
     category_id: string
     description: string | null
     isFeatured: boolean
+    image_url: string | null
+    status: string
     _count: ProductCountAggregateOutputType | null
     _avg: ProductAvgAggregateOutputType | null
     _sum: ProductSumAggregateOutputType | null
@@ -3559,6 +3580,7 @@ export namespace Prisma {
     id?: boolean
     created_at?: boolean
     updated_at?: boolean
+    deleted_at?: boolean
     name?: boolean
     slug?: boolean
     price?: boolean
@@ -3566,6 +3588,8 @@ export namespace Prisma {
     category_id?: boolean
     description?: boolean
     isFeatured?: boolean
+    image_url?: boolean
+    status?: boolean
     Bag?: boolean | Product$BagArgs<ExtArgs>
     OrderItem?: boolean | Product$OrderItemArgs<ExtArgs>
     Category?: boolean | CategoryDefaultArgs<ExtArgs>
@@ -3578,6 +3602,7 @@ export namespace Prisma {
     id?: boolean
     created_at?: boolean
     updated_at?: boolean
+    deleted_at?: boolean
     name?: boolean
     slug?: boolean
     price?: boolean
@@ -3585,6 +3610,8 @@ export namespace Prisma {
     category_id?: boolean
     description?: boolean
     isFeatured?: boolean
+    image_url?: boolean
+    status?: boolean
     Category?: boolean | CategoryDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["product"]>
 
@@ -3592,6 +3619,7 @@ export namespace Prisma {
     id?: boolean
     created_at?: boolean
     updated_at?: boolean
+    deleted_at?: boolean
     name?: boolean
     slug?: boolean
     price?: boolean
@@ -3599,6 +3627,8 @@ export namespace Prisma {
     category_id?: boolean
     description?: boolean
     isFeatured?: boolean
+    image_url?: boolean
+    status?: boolean
   }
 
   export type ProductInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3626,6 +3656,7 @@ export namespace Prisma {
       id: string
       created_at: Date
       updated_at: Date | null
+      deleted_at: Date | null
       name: string
       slug: string
       price: number
@@ -3633,6 +3664,8 @@ export namespace Prisma {
       category_id: string
       description: string | null
       isFeatured: boolean
+      image_url: string | null
+      status: string
     }, ExtArgs["result"]["product"]>
     composites: {}
   }
@@ -4034,6 +4067,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Product", 'String'>
     readonly created_at: FieldRef<"Product", 'DateTime'>
     readonly updated_at: FieldRef<"Product", 'DateTime'>
+    readonly deleted_at: FieldRef<"Product", 'DateTime'>
     readonly name: FieldRef<"Product", 'String'>
     readonly slug: FieldRef<"Product", 'String'>
     readonly price: FieldRef<"Product", 'Float'>
@@ -4041,6 +4075,8 @@ export namespace Prisma {
     readonly category_id: FieldRef<"Product", 'String'>
     readonly description: FieldRef<"Product", 'String'>
     readonly isFeatured: FieldRef<"Product", 'Boolean'>
+    readonly image_url: FieldRef<"Product", 'String'>
+    readonly status: FieldRef<"Product", 'String'>
   }
     
 
@@ -5593,9 +5629,9 @@ export namespace Prisma {
     color?: boolean
     images?: boolean
     product_id?: boolean
+    Bag?: boolean | ProductVariantColor$BagArgs<ExtArgs>
     Product?: boolean | ProductDefaultArgs<ExtArgs>
     ProductVariantSize?: boolean | ProductVariantColor$ProductVariantSizeArgs<ExtArgs>
-    Bag?: boolean | ProductVariantColor$BagArgs<ExtArgs>
     _count?: boolean | ProductVariantColorCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["productVariantColor"]>
 
@@ -5619,9 +5655,9 @@ export namespace Prisma {
   }
 
   export type ProductVariantColorInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Bag?: boolean | ProductVariantColor$BagArgs<ExtArgs>
     Product?: boolean | ProductDefaultArgs<ExtArgs>
     ProductVariantSize?: boolean | ProductVariantColor$ProductVariantSizeArgs<ExtArgs>
-    Bag?: boolean | ProductVariantColor$BagArgs<ExtArgs>
     _count?: boolean | ProductVariantColorCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ProductVariantColorIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5631,9 +5667,9 @@ export namespace Prisma {
   export type $ProductVariantColorPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "ProductVariantColor"
     objects: {
+      Bag: Prisma.$BagPayload<ExtArgs>[]
       Product: Prisma.$ProductPayload<ExtArgs>
       ProductVariantSize: Prisma.$ProductVariantSizePayload<ExtArgs>[]
-      Bag: Prisma.$BagPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6006,9 +6042,9 @@ export namespace Prisma {
    */
   export interface Prisma__ProductVariantColorClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    Bag<T extends ProductVariantColor$BagArgs<ExtArgs> = {}>(args?: Subset<T, ProductVariantColor$BagArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BagPayload<ExtArgs>, T, "findMany"> | Null>
     Product<T extends ProductDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProductDefaultArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     ProductVariantSize<T extends ProductVariantColor$ProductVariantSizeArgs<ExtArgs> = {}>(args?: Subset<T, ProductVariantColor$ProductVariantSizeArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductVariantSizePayload<ExtArgs>, T, "findMany"> | Null>
-    Bag<T extends ProductVariantColor$BagArgs<ExtArgs> = {}>(args?: Subset<T, ProductVariantColor$BagArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BagPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6362,26 +6398,6 @@ export namespace Prisma {
   }
 
   /**
-   * ProductVariantColor.ProductVariantSize
-   */
-  export type ProductVariantColor$ProductVariantSizeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ProductVariantSize
-     */
-    select?: ProductVariantSizeSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProductVariantSizeInclude<ExtArgs> | null
-    where?: ProductVariantSizeWhereInput
-    orderBy?: ProductVariantSizeOrderByWithRelationInput | ProductVariantSizeOrderByWithRelationInput[]
-    cursor?: ProductVariantSizeWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ProductVariantSizeScalarFieldEnum | ProductVariantSizeScalarFieldEnum[]
-  }
-
-  /**
    * ProductVariantColor.Bag
    */
   export type ProductVariantColor$BagArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6399,6 +6415,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: BagScalarFieldEnum | BagScalarFieldEnum[]
+  }
+
+  /**
+   * ProductVariantColor.ProductVariantSize
+   */
+  export type ProductVariantColor$ProductVariantSizeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductVariantSize
+     */
+    select?: ProductVariantSizeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductVariantSizeInclude<ExtArgs> | null
+    where?: ProductVariantSizeWhereInput
+    orderBy?: ProductVariantSizeOrderByWithRelationInput | ProductVariantSizeOrderByWithRelationInput[]
+    cursor?: ProductVariantSizeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProductVariantSizeScalarFieldEnum | ProductVariantSizeScalarFieldEnum[]
   }
 
   /**
@@ -7629,8 +7665,8 @@ export namespace Prisma {
     user_id?: boolean
     product_variant_size_id?: boolean
     product_id?: boolean
-    ProductVariantSize?: boolean | ProductVariantSizeDefaultArgs<ExtArgs>
     Product?: boolean | ProductDefaultArgs<ExtArgs>
+    ProductVariantSize?: boolean | ProductVariantSizeDefaultArgs<ExtArgs>
     User?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["wishlist"]>
 
@@ -7641,8 +7677,8 @@ export namespace Prisma {
     user_id?: boolean
     product_variant_size_id?: boolean
     product_id?: boolean
-    ProductVariantSize?: boolean | ProductVariantSizeDefaultArgs<ExtArgs>
     Product?: boolean | ProductDefaultArgs<ExtArgs>
+    ProductVariantSize?: boolean | ProductVariantSizeDefaultArgs<ExtArgs>
     User?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["wishlist"]>
 
@@ -7656,21 +7692,21 @@ export namespace Prisma {
   }
 
   export type WishlistInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    ProductVariantSize?: boolean | ProductVariantSizeDefaultArgs<ExtArgs>
     Product?: boolean | ProductDefaultArgs<ExtArgs>
+    ProductVariantSize?: boolean | ProductVariantSizeDefaultArgs<ExtArgs>
     User?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type WishlistIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    ProductVariantSize?: boolean | ProductVariantSizeDefaultArgs<ExtArgs>
     Product?: boolean | ProductDefaultArgs<ExtArgs>
+    ProductVariantSize?: boolean | ProductVariantSizeDefaultArgs<ExtArgs>
     User?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $WishlistPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Wishlist"
     objects: {
-      ProductVariantSize: Prisma.$ProductVariantSizePayload<ExtArgs>
       Product: Prisma.$ProductPayload<ExtArgs>
+      ProductVariantSize: Prisma.$ProductVariantSizePayload<ExtArgs>
       User: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -8044,8 +8080,8 @@ export namespace Prisma {
    */
   export interface Prisma__WishlistClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    ProductVariantSize<T extends ProductVariantSizeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProductVariantSizeDefaultArgs<ExtArgs>>): Prisma__ProductVariantSizeClient<$Result.GetResult<Prisma.$ProductVariantSizePayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     Product<T extends ProductDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProductDefaultArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    ProductVariantSize<T extends ProductVariantSizeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProductVariantSizeDefaultArgs<ExtArgs>>): Prisma__ProductVariantSizeClient<$Result.GetResult<Prisma.$ProductVariantSizePayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     User<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -9481,33 +9517,33 @@ export namespace Prisma {
     id: string | null
     created_at: Date | null
     updated_at: Date | null
+    quantity: number | null
     user_id: string | null
     product_id: string | null
     product_variant_size_id: string | null
     product_variant_color_id: string | null
-    quantity: number | null
   }
 
   export type BagMaxAggregateOutputType = {
     id: string | null
     created_at: Date | null
     updated_at: Date | null
+    quantity: number | null
     user_id: string | null
     product_id: string | null
     product_variant_size_id: string | null
     product_variant_color_id: string | null
-    quantity: number | null
   }
 
   export type BagCountAggregateOutputType = {
     id: number
     created_at: number
     updated_at: number
+    quantity: number
     user_id: number
     product_id: number
     product_variant_size_id: number
     product_variant_color_id: number
-    quantity: number
     _all: number
   }
 
@@ -9524,33 +9560,33 @@ export namespace Prisma {
     id?: true
     created_at?: true
     updated_at?: true
+    quantity?: true
     user_id?: true
     product_id?: true
     product_variant_size_id?: true
     product_variant_color_id?: true
-    quantity?: true
   }
 
   export type BagMaxAggregateInputType = {
     id?: true
     created_at?: true
     updated_at?: true
+    quantity?: true
     user_id?: true
     product_id?: true
     product_variant_size_id?: true
     product_variant_color_id?: true
-    quantity?: true
   }
 
   export type BagCountAggregateInputType = {
     id?: true
     created_at?: true
     updated_at?: true
+    quantity?: true
     user_id?: true
     product_id?: true
     product_variant_size_id?: true
     product_variant_color_id?: true
-    quantity?: true
     _all?: true
   }
 
@@ -9644,11 +9680,11 @@ export namespace Prisma {
     id: string
     created_at: Date
     updated_at: Date | null
+    quantity: number
     user_id: string
     product_id: string
     product_variant_size_id: string
     product_variant_color_id: string
-    quantity: number
     _count: BagCountAggregateOutputType | null
     _avg: BagAvgAggregateOutputType | null
     _sum: BagSumAggregateOutputType | null
@@ -9674,11 +9710,11 @@ export namespace Prisma {
     id?: boolean
     created_at?: boolean
     updated_at?: boolean
+    quantity?: boolean
     user_id?: boolean
     product_id?: boolean
     product_variant_size_id?: boolean
     product_variant_color_id?: boolean
-    quantity?: boolean
     Product?: boolean | ProductDefaultArgs<ExtArgs>
     ProductVariantColor?: boolean | ProductVariantColorDefaultArgs<ExtArgs>
     User?: boolean | UserDefaultArgs<ExtArgs>
@@ -9688,11 +9724,11 @@ export namespace Prisma {
     id?: boolean
     created_at?: boolean
     updated_at?: boolean
+    quantity?: boolean
     user_id?: boolean
     product_id?: boolean
     product_variant_size_id?: boolean
     product_variant_color_id?: boolean
-    quantity?: boolean
     Product?: boolean | ProductDefaultArgs<ExtArgs>
     ProductVariantColor?: boolean | ProductVariantColorDefaultArgs<ExtArgs>
     User?: boolean | UserDefaultArgs<ExtArgs>
@@ -9702,11 +9738,11 @@ export namespace Prisma {
     id?: boolean
     created_at?: boolean
     updated_at?: boolean
+    quantity?: boolean
     user_id?: boolean
     product_id?: boolean
     product_variant_size_id?: boolean
     product_variant_color_id?: boolean
-    quantity?: boolean
   }
 
   export type BagInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9731,11 +9767,11 @@ export namespace Prisma {
       id: string
       created_at: Date
       updated_at: Date | null
+      quantity: number
       user_id: string
       product_id: string
       product_variant_size_id: string
       product_variant_color_id: string
-      quantity: number
     }, ExtArgs["result"]["bag"]>
     composites: {}
   }
@@ -10135,11 +10171,11 @@ export namespace Prisma {
     readonly id: FieldRef<"Bag", 'String'>
     readonly created_at: FieldRef<"Bag", 'DateTime'>
     readonly updated_at: FieldRef<"Bag", 'DateTime'>
+    readonly quantity: FieldRef<"Bag", 'Int'>
     readonly user_id: FieldRef<"Bag", 'String'>
     readonly product_id: FieldRef<"Bag", 'String'>
     readonly product_variant_size_id: FieldRef<"Bag", 'String'>
     readonly product_variant_color_id: FieldRef<"Bag", 'String'>
-    readonly quantity: FieldRef<"Bag", 'Int'>
   }
     
 
@@ -15495,13 +15531,16 @@ export namespace Prisma {
     id: 'id',
     created_at: 'created_at',
     updated_at: 'updated_at',
+    deleted_at: 'deleted_at',
     name: 'name',
     slug: 'slug',
     price: 'price',
     sku: 'sku',
     category_id: 'category_id',
     description: 'description',
-    isFeatured: 'isFeatured'
+    isFeatured: 'isFeatured',
+    image_url: 'image_url',
+    status: 'status'
   };
 
   export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]
@@ -15579,11 +15618,11 @@ export namespace Prisma {
     id: 'id',
     created_at: 'created_at',
     updated_at: 'updated_at',
+    quantity: 'quantity',
     user_id: 'user_id',
     product_id: 'product_id',
     product_variant_size_id: 'product_variant_size_id',
-    product_variant_color_id: 'product_variant_color_id',
-    quantity: 'quantity'
+    product_variant_color_id: 'product_variant_color_id'
   };
 
   export type BagScalarFieldEnum = (typeof BagScalarFieldEnum)[keyof typeof BagScalarFieldEnum]
@@ -15838,8 +15877,8 @@ export namespace Prisma {
     user_id?: StringFilter<"User"> | string
     address?: StringFilter<"User"> | string
     Address?: AddressListRelationFilter
-    Order?: OrderListRelationFilter
     Bag?: BagListRelationFilter
+    Order?: OrderListRelationFilter
     ShippingAddress?: ShippingAddressListRelationFilter
     Wishlist?: WishlistListRelationFilter
   }
@@ -15853,8 +15892,8 @@ export namespace Prisma {
     user_id?: SortOrder
     address?: SortOrder
     Address?: AddressOrderByRelationAggregateInput
-    Order?: OrderOrderByRelationAggregateInput
     Bag?: BagOrderByRelationAggregateInput
+    Order?: OrderOrderByRelationAggregateInput
     ShippingAddress?: ShippingAddressOrderByRelationAggregateInput
     Wishlist?: WishlistOrderByRelationAggregateInput
   }
@@ -15871,8 +15910,8 @@ export namespace Prisma {
     updated_at?: DateTimeNullableFilter<"User"> | Date | string | null
     address?: StringFilter<"User"> | string
     Address?: AddressListRelationFilter
-    Order?: OrderListRelationFilter
     Bag?: BagListRelationFilter
+    Order?: OrderListRelationFilter
     ShippingAddress?: ShippingAddressListRelationFilter
     Wishlist?: WishlistListRelationFilter
   }, "id" | "username" | "email" | "user_id">
@@ -15910,6 +15949,7 @@ export namespace Prisma {
     id?: UuidFilter<"Product"> | string
     created_at?: DateTimeFilter<"Product"> | Date | string
     updated_at?: DateTimeNullableFilter<"Product"> | Date | string | null
+    deleted_at?: DateTimeNullableFilter<"Product"> | Date | string | null
     name?: StringFilter<"Product"> | string
     slug?: StringFilter<"Product"> | string
     price?: FloatFilter<"Product"> | number
@@ -15917,6 +15957,8 @@ export namespace Prisma {
     category_id?: UuidFilter<"Product"> | string
     description?: StringNullableFilter<"Product"> | string | null
     isFeatured?: BoolFilter<"Product"> | boolean
+    image_url?: StringNullableFilter<"Product"> | string | null
+    status?: StringFilter<"Product"> | string
     Bag?: BagListRelationFilter
     OrderItem?: OrderItemListRelationFilter
     Category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
@@ -15928,6 +15970,7 @@ export namespace Prisma {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrderInput | SortOrder
+    deleted_at?: SortOrderInput | SortOrder
     name?: SortOrder
     slug?: SortOrder
     price?: SortOrder
@@ -15935,6 +15978,8 @@ export namespace Prisma {
     category_id?: SortOrder
     description?: SortOrderInput | SortOrder
     isFeatured?: SortOrder
+    image_url?: SortOrderInput | SortOrder
+    status?: SortOrder
     Bag?: BagOrderByRelationAggregateInput
     OrderItem?: OrderItemOrderByRelationAggregateInput
     Category?: CategoryOrderByWithRelationInput
@@ -15951,11 +15996,14 @@ export namespace Prisma {
     NOT?: ProductWhereInput | ProductWhereInput[]
     created_at?: DateTimeFilter<"Product"> | Date | string
     updated_at?: DateTimeNullableFilter<"Product"> | Date | string | null
+    deleted_at?: DateTimeNullableFilter<"Product"> | Date | string | null
     name?: StringFilter<"Product"> | string
     price?: FloatFilter<"Product"> | number
     category_id?: UuidFilter<"Product"> | string
     description?: StringNullableFilter<"Product"> | string | null
     isFeatured?: BoolFilter<"Product"> | boolean
+    image_url?: StringNullableFilter<"Product"> | string | null
+    status?: StringFilter<"Product"> | string
     Bag?: BagListRelationFilter
     OrderItem?: OrderItemListRelationFilter
     Category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
@@ -15967,6 +16015,7 @@ export namespace Prisma {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrderInput | SortOrder
+    deleted_at?: SortOrderInput | SortOrder
     name?: SortOrder
     slug?: SortOrder
     price?: SortOrder
@@ -15974,6 +16023,8 @@ export namespace Prisma {
     category_id?: SortOrder
     description?: SortOrderInput | SortOrder
     isFeatured?: SortOrder
+    image_url?: SortOrderInput | SortOrder
+    status?: SortOrder
     _count?: ProductCountOrderByAggregateInput
     _avg?: ProductAvgOrderByAggregateInput
     _max?: ProductMaxOrderByAggregateInput
@@ -15988,6 +16039,7 @@ export namespace Prisma {
     id?: UuidWithAggregatesFilter<"Product"> | string
     created_at?: DateTimeWithAggregatesFilter<"Product"> | Date | string
     updated_at?: DateTimeNullableWithAggregatesFilter<"Product"> | Date | string | null
+    deleted_at?: DateTimeNullableWithAggregatesFilter<"Product"> | Date | string | null
     name?: StringWithAggregatesFilter<"Product"> | string
     slug?: StringWithAggregatesFilter<"Product"> | string
     price?: FloatWithAggregatesFilter<"Product"> | number
@@ -15995,6 +16047,8 @@ export namespace Prisma {
     category_id?: UuidWithAggregatesFilter<"Product"> | string
     description?: StringNullableWithAggregatesFilter<"Product"> | string | null
     isFeatured?: BoolWithAggregatesFilter<"Product"> | boolean
+    image_url?: StringNullableWithAggregatesFilter<"Product"> | string | null
+    status?: StringWithAggregatesFilter<"Product"> | string
   }
 
   export type CategoryWhereInput = {
@@ -16072,9 +16126,9 @@ export namespace Prisma {
     color?: StringFilter<"ProductVariantColor"> | string
     images?: StringNullableListFilter<"ProductVariantColor">
     product_id?: UuidFilter<"ProductVariantColor"> | string
+    Bag?: BagListRelationFilter
     Product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
     ProductVariantSize?: ProductVariantSizeListRelationFilter
-    Bag?: BagListRelationFilter
   }
 
   export type ProductVariantColorOrderByWithRelationInput = {
@@ -16084,9 +16138,9 @@ export namespace Prisma {
     color?: SortOrder
     images?: SortOrder
     product_id?: SortOrder
+    Bag?: BagOrderByRelationAggregateInput
     Product?: ProductOrderByWithRelationInput
     ProductVariantSize?: ProductVariantSizeOrderByRelationAggregateInput
-    Bag?: BagOrderByRelationAggregateInput
   }
 
   export type ProductVariantColorWhereUniqueInput = Prisma.AtLeast<{
@@ -16099,9 +16153,9 @@ export namespace Prisma {
     color?: StringFilter<"ProductVariantColor"> | string
     images?: StringNullableListFilter<"ProductVariantColor">
     product_id?: UuidFilter<"ProductVariantColor"> | string
+    Bag?: BagListRelationFilter
     Product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
     ProductVariantSize?: ProductVariantSizeListRelationFilter
-    Bag?: BagListRelationFilter
   }, "id">
 
   export type ProductVariantColorOrderByWithAggregationInput = {
@@ -16211,8 +16265,8 @@ export namespace Prisma {
     user_id?: UuidFilter<"Wishlist"> | string
     product_variant_size_id?: UuidFilter<"Wishlist"> | string
     product_id?: UuidFilter<"Wishlist"> | string
-    ProductVariantSize?: XOR<ProductVariantSizeScalarRelationFilter, ProductVariantSizeWhereInput>
     Product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
+    ProductVariantSize?: XOR<ProductVariantSizeScalarRelationFilter, ProductVariantSizeWhereInput>
     User?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
@@ -16223,8 +16277,8 @@ export namespace Prisma {
     user_id?: SortOrder
     product_variant_size_id?: SortOrder
     product_id?: SortOrder
-    ProductVariantSize?: ProductVariantSizeOrderByWithRelationInput
     Product?: ProductOrderByWithRelationInput
+    ProductVariantSize?: ProductVariantSizeOrderByWithRelationInput
     User?: UserOrderByWithRelationInput
   }
 
@@ -16238,8 +16292,8 @@ export namespace Prisma {
     user_id?: UuidFilter<"Wishlist"> | string
     product_variant_size_id?: UuidFilter<"Wishlist"> | string
     product_id?: UuidFilter<"Wishlist"> | string
-    ProductVariantSize?: XOR<ProductVariantSizeScalarRelationFilter, ProductVariantSizeWhereInput>
     Product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
+    ProductVariantSize?: XOR<ProductVariantSizeScalarRelationFilter, ProductVariantSizeWhereInput>
     User?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
 
@@ -16367,11 +16421,11 @@ export namespace Prisma {
     id?: UuidFilter<"Bag"> | string
     created_at?: DateTimeFilter<"Bag"> | Date | string
     updated_at?: DateTimeNullableFilter<"Bag"> | Date | string | null
+    quantity?: IntFilter<"Bag"> | number
     user_id?: UuidFilter<"Bag"> | string
     product_id?: UuidFilter<"Bag"> | string
     product_variant_size_id?: UuidFilter<"Bag"> | string
     product_variant_color_id?: UuidFilter<"Bag"> | string
-    quantity?: IntFilter<"Bag"> | number
     Product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
     ProductVariantColor?: XOR<ProductVariantColorScalarRelationFilter, ProductVariantColorWhereInput>
     User?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -16381,11 +16435,11 @@ export namespace Prisma {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrderInput | SortOrder
+    quantity?: SortOrder
     user_id?: SortOrder
     product_id?: SortOrder
     product_variant_size_id?: SortOrder
     product_variant_color_id?: SortOrder
-    quantity?: SortOrder
     Product?: ProductOrderByWithRelationInput
     ProductVariantColor?: ProductVariantColorOrderByWithRelationInput
     User?: UserOrderByWithRelationInput
@@ -16398,11 +16452,11 @@ export namespace Prisma {
     NOT?: BagWhereInput | BagWhereInput[]
     created_at?: DateTimeFilter<"Bag"> | Date | string
     updated_at?: DateTimeNullableFilter<"Bag"> | Date | string | null
+    quantity?: IntFilter<"Bag"> | number
     user_id?: UuidFilter<"Bag"> | string
     product_id?: UuidFilter<"Bag"> | string
     product_variant_size_id?: UuidFilter<"Bag"> | string
     product_variant_color_id?: UuidFilter<"Bag"> | string
-    quantity?: IntFilter<"Bag"> | number
     Product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
     ProductVariantColor?: XOR<ProductVariantColorScalarRelationFilter, ProductVariantColorWhereInput>
     User?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -16412,11 +16466,11 @@ export namespace Prisma {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrderInput | SortOrder
+    quantity?: SortOrder
     user_id?: SortOrder
     product_id?: SortOrder
     product_variant_size_id?: SortOrder
     product_variant_color_id?: SortOrder
-    quantity?: SortOrder
     _count?: BagCountOrderByAggregateInput
     _avg?: BagAvgOrderByAggregateInput
     _max?: BagMaxOrderByAggregateInput
@@ -16431,11 +16485,11 @@ export namespace Prisma {
     id?: UuidWithAggregatesFilter<"Bag"> | string
     created_at?: DateTimeWithAggregatesFilter<"Bag"> | Date | string
     updated_at?: DateTimeNullableWithAggregatesFilter<"Bag"> | Date | string | null
+    quantity?: IntWithAggregatesFilter<"Bag"> | number
     user_id?: UuidWithAggregatesFilter<"Bag"> | string
     product_id?: UuidWithAggregatesFilter<"Bag"> | string
     product_variant_size_id?: UuidWithAggregatesFilter<"Bag"> | string
     product_variant_color_id?: UuidWithAggregatesFilter<"Bag"> | string
-    quantity?: IntWithAggregatesFilter<"Bag"> | number
   }
 
   export type OrderWhereInput = {
@@ -16825,8 +16879,8 @@ export namespace Prisma {
     user_id?: string
     address?: string
     Address?: AddressCreateNestedManyWithoutUserInput
-    Order?: OrderCreateNestedManyWithoutUserInput
     Bag?: BagCreateNestedManyWithoutUserInput
+    Order?: OrderCreateNestedManyWithoutUserInput
     ShippingAddress?: ShippingAddressCreateNestedManyWithoutUserInput
     Wishlist?: WishlistCreateNestedManyWithoutUserInput
   }
@@ -16840,8 +16894,8 @@ export namespace Prisma {
     user_id?: string
     address?: string
     Address?: AddressUncheckedCreateNestedManyWithoutUserInput
-    Order?: OrderUncheckedCreateNestedManyWithoutUserInput
     Bag?: BagUncheckedCreateNestedManyWithoutUserInput
+    Order?: OrderUncheckedCreateNestedManyWithoutUserInput
     ShippingAddress?: ShippingAddressUncheckedCreateNestedManyWithoutUserInput
     Wishlist?: WishlistUncheckedCreateNestedManyWithoutUserInput
   }
@@ -16855,8 +16909,8 @@ export namespace Prisma {
     user_id?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     Address?: AddressUpdateManyWithoutUserNestedInput
-    Order?: OrderUpdateManyWithoutUserNestedInput
     Bag?: BagUpdateManyWithoutUserNestedInput
+    Order?: OrderUpdateManyWithoutUserNestedInput
     ShippingAddress?: ShippingAddressUpdateManyWithoutUserNestedInput
     Wishlist?: WishlistUpdateManyWithoutUserNestedInput
   }
@@ -16870,8 +16924,8 @@ export namespace Prisma {
     user_id?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     Address?: AddressUncheckedUpdateManyWithoutUserNestedInput
-    Order?: OrderUncheckedUpdateManyWithoutUserNestedInput
     Bag?: BagUncheckedUpdateManyWithoutUserNestedInput
+    Order?: OrderUncheckedUpdateManyWithoutUserNestedInput
     ShippingAddress?: ShippingAddressUncheckedUpdateManyWithoutUserNestedInput
     Wishlist?: WishlistUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -16910,12 +16964,15 @@ export namespace Prisma {
     id?: string
     created_at?: Date | string
     updated_at?: Date | string | null
+    deleted_at?: Date | string | null
     name: string
     slug: string
     price: number
     sku?: string | null
     description?: string | null
     isFeatured?: boolean
+    image_url?: string | null
+    status?: string
     Bag?: BagCreateNestedManyWithoutProductInput
     OrderItem?: OrderItemCreateNestedManyWithoutProductInput
     Category: CategoryCreateNestedOneWithoutProductInput
@@ -16927,6 +16984,7 @@ export namespace Prisma {
     id?: string
     created_at?: Date | string
     updated_at?: Date | string | null
+    deleted_at?: Date | string | null
     name: string
     slug: string
     price: number
@@ -16934,6 +16992,8 @@ export namespace Prisma {
     category_id: string
     description?: string | null
     isFeatured?: boolean
+    image_url?: string | null
+    status?: string
     Bag?: BagUncheckedCreateNestedManyWithoutProductInput
     OrderItem?: OrderItemUncheckedCreateNestedManyWithoutProductInput
     ProductVariantColor?: ProductVariantColorUncheckedCreateNestedManyWithoutProductInput
@@ -16944,12 +17004,15 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     Bag?: BagUpdateManyWithoutProductNestedInput
     OrderItem?: OrderItemUpdateManyWithoutProductNestedInput
     Category?: CategoryUpdateOneRequiredWithoutProductNestedInput
@@ -16961,6 +17024,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
@@ -16968,6 +17032,8 @@ export namespace Prisma {
     category_id?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     Bag?: BagUncheckedUpdateManyWithoutProductNestedInput
     OrderItem?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
     ProductVariantColor?: ProductVariantColorUncheckedUpdateManyWithoutProductNestedInput
@@ -16978,6 +17044,7 @@ export namespace Prisma {
     id?: string
     created_at?: Date | string
     updated_at?: Date | string | null
+    deleted_at?: Date | string | null
     name: string
     slug: string
     price: number
@@ -16985,24 +17052,30 @@ export namespace Prisma {
     category_id: string
     description?: string | null
     isFeatured?: boolean
+    image_url?: string | null
+    status?: string
   }
 
   export type ProductUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
   }
 
   export type ProductUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
@@ -17010,6 +17083,8 @@ export namespace Prisma {
     category_id?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
   }
 
   export type CategoryCreateInput = {
@@ -17092,9 +17167,9 @@ export namespace Prisma {
     updated_at?: Date | string | null
     color: string
     images?: ProductVariantColorCreateimagesInput | string[]
+    Bag?: BagCreateNestedManyWithoutProductVariantColorInput
     Product: ProductCreateNestedOneWithoutProductVariantColorInput
     ProductVariantSize?: ProductVariantSizeCreateNestedManyWithoutProductVariantColorInput
-    Bag?: BagCreateNestedManyWithoutProductVariantColorInput
   }
 
   export type ProductVariantColorUncheckedCreateInput = {
@@ -17104,8 +17179,8 @@ export namespace Prisma {
     color: string
     images?: ProductVariantColorCreateimagesInput | string[]
     product_id: string
-    ProductVariantSize?: ProductVariantSizeUncheckedCreateNestedManyWithoutProductVariantColorInput
     Bag?: BagUncheckedCreateNestedManyWithoutProductVariantColorInput
+    ProductVariantSize?: ProductVariantSizeUncheckedCreateNestedManyWithoutProductVariantColorInput
   }
 
   export type ProductVariantColorUpdateInput = {
@@ -17114,9 +17189,9 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     color?: StringFieldUpdateOperationsInput | string
     images?: ProductVariantColorUpdateimagesInput | string[]
+    Bag?: BagUpdateManyWithoutProductVariantColorNestedInput
     Product?: ProductUpdateOneRequiredWithoutProductVariantColorNestedInput
     ProductVariantSize?: ProductVariantSizeUpdateManyWithoutProductVariantColorNestedInput
-    Bag?: BagUpdateManyWithoutProductVariantColorNestedInput
   }
 
   export type ProductVariantColorUncheckedUpdateInput = {
@@ -17126,8 +17201,8 @@ export namespace Prisma {
     color?: StringFieldUpdateOperationsInput | string
     images?: ProductVariantColorUpdateimagesInput | string[]
     product_id?: StringFieldUpdateOperationsInput | string
-    ProductVariantSize?: ProductVariantSizeUncheckedUpdateManyWithoutProductVariantColorNestedInput
     Bag?: BagUncheckedUpdateManyWithoutProductVariantColorNestedInput
+    ProductVariantSize?: ProductVariantSizeUncheckedUpdateManyWithoutProductVariantColorNestedInput
   }
 
   export type ProductVariantColorCreateManyInput = {
@@ -17237,8 +17312,8 @@ export namespace Prisma {
     id?: string
     created_at?: Date | string
     updated_at?: Date | string | null
-    ProductVariantSize: ProductVariantSizeCreateNestedOneWithoutWishlistInput
     Product: ProductCreateNestedOneWithoutWishlistInput
+    ProductVariantSize: ProductVariantSizeCreateNestedOneWithoutWishlistInput
     User: UserCreateNestedOneWithoutWishlistInput
   }
 
@@ -17255,8 +17330,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    ProductVariantSize?: ProductVariantSizeUpdateOneRequiredWithoutWishlistNestedInput
     Product?: ProductUpdateOneRequiredWithoutWishlistNestedInput
+    ProductVariantSize?: ProductVariantSizeUpdateOneRequiredWithoutWishlistNestedInput
     User?: UserUpdateOneRequiredWithoutWishlistNestedInput
   }
 
@@ -17405,8 +17480,8 @@ export namespace Prisma {
     id?: string
     created_at?: Date | string
     updated_at?: Date | string | null
-    product_variant_size_id: string
     quantity: number
+    product_variant_size_id: string
     Product: ProductCreateNestedOneWithoutBagInput
     ProductVariantColor: ProductVariantColorCreateNestedOneWithoutBagInput
     User: UserCreateNestedOneWithoutBagInput
@@ -17416,19 +17491,19 @@ export namespace Prisma {
     id?: string
     created_at?: Date | string
     updated_at?: Date | string | null
+    quantity: number
     user_id: string
     product_id: string
     product_variant_size_id: string
     product_variant_color_id: string
-    quantity: number
   }
 
   export type BagUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    product_variant_size_id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
+    product_variant_size_id?: StringFieldUpdateOperationsInput | string
     Product?: ProductUpdateOneRequiredWithoutBagNestedInput
     ProductVariantColor?: ProductVariantColorUpdateOneRequiredWithoutBagNestedInput
     User?: UserUpdateOneRequiredWithoutBagNestedInput
@@ -17438,41 +17513,41 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
     user_id?: StringFieldUpdateOperationsInput | string
     product_id?: StringFieldUpdateOperationsInput | string
     product_variant_size_id?: StringFieldUpdateOperationsInput | string
     product_variant_color_id?: StringFieldUpdateOperationsInput | string
-    quantity?: IntFieldUpdateOperationsInput | number
   }
 
   export type BagCreateManyInput = {
     id?: string
     created_at?: Date | string
     updated_at?: Date | string | null
+    quantity: number
     user_id: string
     product_id: string
     product_variant_size_id: string
     product_variant_color_id: string
-    quantity: number
   }
 
   export type BagUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    product_variant_size_id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
+    product_variant_size_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type BagUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
     user_id?: StringFieldUpdateOperationsInput | string
     product_id?: StringFieldUpdateOperationsInput | string
     product_variant_size_id?: StringFieldUpdateOperationsInput | string
     product_variant_color_id?: StringFieldUpdateOperationsInput | string
-    quantity?: IntFieldUpdateOperationsInput | number
   }
 
   export type OrderCreateInput = {
@@ -17930,16 +18005,16 @@ export namespace Prisma {
     none?: AddressWhereInput
   }
 
-  export type OrderListRelationFilter = {
-    every?: OrderWhereInput
-    some?: OrderWhereInput
-    none?: OrderWhereInput
-  }
-
   export type BagListRelationFilter = {
     every?: BagWhereInput
     some?: BagWhereInput
     none?: BagWhereInput
+  }
+
+  export type OrderListRelationFilter = {
+    every?: OrderWhereInput
+    some?: OrderWhereInput
+    none?: OrderWhereInput
   }
 
   export type ShippingAddressListRelationFilter = {
@@ -17963,11 +18038,11 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type OrderOrderByRelationAggregateInput = {
+  export type BagOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type BagOrderByRelationAggregateInput = {
+  export type OrderOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -18130,6 +18205,7 @@ export namespace Prisma {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
+    deleted_at?: SortOrder
     name?: SortOrder
     slug?: SortOrder
     price?: SortOrder
@@ -18137,6 +18213,8 @@ export namespace Prisma {
     category_id?: SortOrder
     description?: SortOrder
     isFeatured?: SortOrder
+    image_url?: SortOrder
+    status?: SortOrder
   }
 
   export type ProductAvgOrderByAggregateInput = {
@@ -18147,6 +18225,7 @@ export namespace Prisma {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
+    deleted_at?: SortOrder
     name?: SortOrder
     slug?: SortOrder
     price?: SortOrder
@@ -18154,12 +18233,15 @@ export namespace Prisma {
     category_id?: SortOrder
     description?: SortOrder
     isFeatured?: SortOrder
+    image_url?: SortOrder
+    status?: SortOrder
   }
 
   export type ProductMinOrderByAggregateInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
+    deleted_at?: SortOrder
     name?: SortOrder
     slug?: SortOrder
     price?: SortOrder
@@ -18167,6 +18249,8 @@ export namespace Prisma {
     category_id?: SortOrder
     description?: SortOrder
     isFeatured?: SortOrder
+    image_url?: SortOrder
+    status?: SortOrder
   }
 
   export type ProductSumOrderByAggregateInput = {
@@ -18493,11 +18577,11 @@ export namespace Prisma {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
+    quantity?: SortOrder
     user_id?: SortOrder
     product_id?: SortOrder
     product_variant_size_id?: SortOrder
     product_variant_color_id?: SortOrder
-    quantity?: SortOrder
   }
 
   export type BagAvgOrderByAggregateInput = {
@@ -18508,22 +18592,22 @@ export namespace Prisma {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
+    quantity?: SortOrder
     user_id?: SortOrder
     product_id?: SortOrder
     product_variant_size_id?: SortOrder
     product_variant_color_id?: SortOrder
-    quantity?: SortOrder
   }
 
   export type BagMinOrderByAggregateInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
+    quantity?: SortOrder
     user_id?: SortOrder
     product_id?: SortOrder
     product_variant_size_id?: SortOrder
     product_variant_color_id?: SortOrder
-    quantity?: SortOrder
   }
 
   export type BagSumOrderByAggregateInput = {
@@ -18807,18 +18891,18 @@ export namespace Prisma {
     connect?: AddressWhereUniqueInput | AddressWhereUniqueInput[]
   }
 
-  export type OrderCreateNestedManyWithoutUserInput = {
-    create?: XOR<OrderCreateWithoutUserInput, OrderUncheckedCreateWithoutUserInput> | OrderCreateWithoutUserInput[] | OrderUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: OrderCreateOrConnectWithoutUserInput | OrderCreateOrConnectWithoutUserInput[]
-    createMany?: OrderCreateManyUserInputEnvelope
-    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
-  }
-
   export type BagCreateNestedManyWithoutUserInput = {
     create?: XOR<BagCreateWithoutUserInput, BagUncheckedCreateWithoutUserInput> | BagCreateWithoutUserInput[] | BagUncheckedCreateWithoutUserInput[]
     connectOrCreate?: BagCreateOrConnectWithoutUserInput | BagCreateOrConnectWithoutUserInput[]
     createMany?: BagCreateManyUserInputEnvelope
     connect?: BagWhereUniqueInput | BagWhereUniqueInput[]
+  }
+
+  export type OrderCreateNestedManyWithoutUserInput = {
+    create?: XOR<OrderCreateWithoutUserInput, OrderUncheckedCreateWithoutUserInput> | OrderCreateWithoutUserInput[] | OrderUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: OrderCreateOrConnectWithoutUserInput | OrderCreateOrConnectWithoutUserInput[]
+    createMany?: OrderCreateManyUserInputEnvelope
+    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
   }
 
   export type ShippingAddressCreateNestedManyWithoutUserInput = {
@@ -18842,18 +18926,18 @@ export namespace Prisma {
     connect?: AddressWhereUniqueInput | AddressWhereUniqueInput[]
   }
 
-  export type OrderUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<OrderCreateWithoutUserInput, OrderUncheckedCreateWithoutUserInput> | OrderCreateWithoutUserInput[] | OrderUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: OrderCreateOrConnectWithoutUserInput | OrderCreateOrConnectWithoutUserInput[]
-    createMany?: OrderCreateManyUserInputEnvelope
-    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
-  }
-
   export type BagUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<BagCreateWithoutUserInput, BagUncheckedCreateWithoutUserInput> | BagCreateWithoutUserInput[] | BagUncheckedCreateWithoutUserInput[]
     connectOrCreate?: BagCreateOrConnectWithoutUserInput | BagCreateOrConnectWithoutUserInput[]
     createMany?: BagCreateManyUserInputEnvelope
     connect?: BagWhereUniqueInput | BagWhereUniqueInput[]
+  }
+
+  export type OrderUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<OrderCreateWithoutUserInput, OrderUncheckedCreateWithoutUserInput> | OrderCreateWithoutUserInput[] | OrderUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: OrderCreateOrConnectWithoutUserInput | OrderCreateOrConnectWithoutUserInput[]
+    createMany?: OrderCreateManyUserInputEnvelope
+    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
   }
 
   export type ShippingAddressUncheckedCreateNestedManyWithoutUserInput = {
@@ -18896,20 +18980,6 @@ export namespace Prisma {
     deleteMany?: AddressScalarWhereInput | AddressScalarWhereInput[]
   }
 
-  export type OrderUpdateManyWithoutUserNestedInput = {
-    create?: XOR<OrderCreateWithoutUserInput, OrderUncheckedCreateWithoutUserInput> | OrderCreateWithoutUserInput[] | OrderUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: OrderCreateOrConnectWithoutUserInput | OrderCreateOrConnectWithoutUserInput[]
-    upsert?: OrderUpsertWithWhereUniqueWithoutUserInput | OrderUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: OrderCreateManyUserInputEnvelope
-    set?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
-    disconnect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
-    delete?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
-    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
-    update?: OrderUpdateWithWhereUniqueWithoutUserInput | OrderUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: OrderUpdateManyWithWhereWithoutUserInput | OrderUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
-  }
-
   export type BagUpdateManyWithoutUserNestedInput = {
     create?: XOR<BagCreateWithoutUserInput, BagUncheckedCreateWithoutUserInput> | BagCreateWithoutUserInput[] | BagUncheckedCreateWithoutUserInput[]
     connectOrCreate?: BagCreateOrConnectWithoutUserInput | BagCreateOrConnectWithoutUserInput[]
@@ -18922,6 +18992,20 @@ export namespace Prisma {
     update?: BagUpdateWithWhereUniqueWithoutUserInput | BagUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: BagUpdateManyWithWhereWithoutUserInput | BagUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: BagScalarWhereInput | BagScalarWhereInput[]
+  }
+
+  export type OrderUpdateManyWithoutUserNestedInput = {
+    create?: XOR<OrderCreateWithoutUserInput, OrderUncheckedCreateWithoutUserInput> | OrderCreateWithoutUserInput[] | OrderUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: OrderCreateOrConnectWithoutUserInput | OrderCreateOrConnectWithoutUserInput[]
+    upsert?: OrderUpsertWithWhereUniqueWithoutUserInput | OrderUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: OrderCreateManyUserInputEnvelope
+    set?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    disconnect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    delete?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    update?: OrderUpdateWithWhereUniqueWithoutUserInput | OrderUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: OrderUpdateManyWithWhereWithoutUserInput | OrderUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
   }
 
   export type ShippingAddressUpdateManyWithoutUserNestedInput = {
@@ -18966,20 +19050,6 @@ export namespace Prisma {
     deleteMany?: AddressScalarWhereInput | AddressScalarWhereInput[]
   }
 
-  export type OrderUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<OrderCreateWithoutUserInput, OrderUncheckedCreateWithoutUserInput> | OrderCreateWithoutUserInput[] | OrderUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: OrderCreateOrConnectWithoutUserInput | OrderCreateOrConnectWithoutUserInput[]
-    upsert?: OrderUpsertWithWhereUniqueWithoutUserInput | OrderUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: OrderCreateManyUserInputEnvelope
-    set?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
-    disconnect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
-    delete?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
-    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
-    update?: OrderUpdateWithWhereUniqueWithoutUserInput | OrderUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: OrderUpdateManyWithWhereWithoutUserInput | OrderUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
-  }
-
   export type BagUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<BagCreateWithoutUserInput, BagUncheckedCreateWithoutUserInput> | BagCreateWithoutUserInput[] | BagUncheckedCreateWithoutUserInput[]
     connectOrCreate?: BagCreateOrConnectWithoutUserInput | BagCreateOrConnectWithoutUserInput[]
@@ -18992,6 +19062,20 @@ export namespace Prisma {
     update?: BagUpdateWithWhereUniqueWithoutUserInput | BagUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: BagUpdateManyWithWhereWithoutUserInput | BagUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: BagScalarWhereInput | BagScalarWhereInput[]
+  }
+
+  export type OrderUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<OrderCreateWithoutUserInput, OrderUncheckedCreateWithoutUserInput> | OrderCreateWithoutUserInput[] | OrderUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: OrderCreateOrConnectWithoutUserInput | OrderCreateOrConnectWithoutUserInput[]
+    upsert?: OrderUpsertWithWhereUniqueWithoutUserInput | OrderUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: OrderCreateManyUserInputEnvelope
+    set?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    disconnect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    delete?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    update?: OrderUpdateWithWhereUniqueWithoutUserInput | OrderUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: OrderUpdateManyWithWhereWithoutUserInput | OrderUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
   }
 
   export type ShippingAddressUncheckedUpdateManyWithoutUserNestedInput = {
@@ -19266,6 +19350,13 @@ export namespace Prisma {
     set: string[]
   }
 
+  export type BagCreateNestedManyWithoutProductVariantColorInput = {
+    create?: XOR<BagCreateWithoutProductVariantColorInput, BagUncheckedCreateWithoutProductVariantColorInput> | BagCreateWithoutProductVariantColorInput[] | BagUncheckedCreateWithoutProductVariantColorInput[]
+    connectOrCreate?: BagCreateOrConnectWithoutProductVariantColorInput | BagCreateOrConnectWithoutProductVariantColorInput[]
+    createMany?: BagCreateManyProductVariantColorInputEnvelope
+    connect?: BagWhereUniqueInput | BagWhereUniqueInput[]
+  }
+
   export type ProductCreateNestedOneWithoutProductVariantColorInput = {
     create?: XOR<ProductCreateWithoutProductVariantColorInput, ProductUncheckedCreateWithoutProductVariantColorInput>
     connectOrCreate?: ProductCreateOrConnectWithoutProductVariantColorInput
@@ -19279,7 +19370,7 @@ export namespace Prisma {
     connect?: ProductVariantSizeWhereUniqueInput | ProductVariantSizeWhereUniqueInput[]
   }
 
-  export type BagCreateNestedManyWithoutProductVariantColorInput = {
+  export type BagUncheckedCreateNestedManyWithoutProductVariantColorInput = {
     create?: XOR<BagCreateWithoutProductVariantColorInput, BagUncheckedCreateWithoutProductVariantColorInput> | BagCreateWithoutProductVariantColorInput[] | BagUncheckedCreateWithoutProductVariantColorInput[]
     connectOrCreate?: BagCreateOrConnectWithoutProductVariantColorInput | BagCreateOrConnectWithoutProductVariantColorInput[]
     createMany?: BagCreateManyProductVariantColorInputEnvelope
@@ -19293,38 +19384,9 @@ export namespace Prisma {
     connect?: ProductVariantSizeWhereUniqueInput | ProductVariantSizeWhereUniqueInput[]
   }
 
-  export type BagUncheckedCreateNestedManyWithoutProductVariantColorInput = {
-    create?: XOR<BagCreateWithoutProductVariantColorInput, BagUncheckedCreateWithoutProductVariantColorInput> | BagCreateWithoutProductVariantColorInput[] | BagUncheckedCreateWithoutProductVariantColorInput[]
-    connectOrCreate?: BagCreateOrConnectWithoutProductVariantColorInput | BagCreateOrConnectWithoutProductVariantColorInput[]
-    createMany?: BagCreateManyProductVariantColorInputEnvelope
-    connect?: BagWhereUniqueInput | BagWhereUniqueInput[]
-  }
-
   export type ProductVariantColorUpdateimagesInput = {
     set?: string[]
     push?: string | string[]
-  }
-
-  export type ProductUpdateOneRequiredWithoutProductVariantColorNestedInput = {
-    create?: XOR<ProductCreateWithoutProductVariantColorInput, ProductUncheckedCreateWithoutProductVariantColorInput>
-    connectOrCreate?: ProductCreateOrConnectWithoutProductVariantColorInput
-    upsert?: ProductUpsertWithoutProductVariantColorInput
-    connect?: ProductWhereUniqueInput
-    update?: XOR<XOR<ProductUpdateToOneWithWhereWithoutProductVariantColorInput, ProductUpdateWithoutProductVariantColorInput>, ProductUncheckedUpdateWithoutProductVariantColorInput>
-  }
-
-  export type ProductVariantSizeUpdateManyWithoutProductVariantColorNestedInput = {
-    create?: XOR<ProductVariantSizeCreateWithoutProductVariantColorInput, ProductVariantSizeUncheckedCreateWithoutProductVariantColorInput> | ProductVariantSizeCreateWithoutProductVariantColorInput[] | ProductVariantSizeUncheckedCreateWithoutProductVariantColorInput[]
-    connectOrCreate?: ProductVariantSizeCreateOrConnectWithoutProductVariantColorInput | ProductVariantSizeCreateOrConnectWithoutProductVariantColorInput[]
-    upsert?: ProductVariantSizeUpsertWithWhereUniqueWithoutProductVariantColorInput | ProductVariantSizeUpsertWithWhereUniqueWithoutProductVariantColorInput[]
-    createMany?: ProductVariantSizeCreateManyProductVariantColorInputEnvelope
-    set?: ProductVariantSizeWhereUniqueInput | ProductVariantSizeWhereUniqueInput[]
-    disconnect?: ProductVariantSizeWhereUniqueInput | ProductVariantSizeWhereUniqueInput[]
-    delete?: ProductVariantSizeWhereUniqueInput | ProductVariantSizeWhereUniqueInput[]
-    connect?: ProductVariantSizeWhereUniqueInput | ProductVariantSizeWhereUniqueInput[]
-    update?: ProductVariantSizeUpdateWithWhereUniqueWithoutProductVariantColorInput | ProductVariantSizeUpdateWithWhereUniqueWithoutProductVariantColorInput[]
-    updateMany?: ProductVariantSizeUpdateManyWithWhereWithoutProductVariantColorInput | ProductVariantSizeUpdateManyWithWhereWithoutProductVariantColorInput[]
-    deleteMany?: ProductVariantSizeScalarWhereInput | ProductVariantSizeScalarWhereInput[]
   }
 
   export type BagUpdateManyWithoutProductVariantColorNestedInput = {
@@ -19341,7 +19403,15 @@ export namespace Prisma {
     deleteMany?: BagScalarWhereInput | BagScalarWhereInput[]
   }
 
-  export type ProductVariantSizeUncheckedUpdateManyWithoutProductVariantColorNestedInput = {
+  export type ProductUpdateOneRequiredWithoutProductVariantColorNestedInput = {
+    create?: XOR<ProductCreateWithoutProductVariantColorInput, ProductUncheckedCreateWithoutProductVariantColorInput>
+    connectOrCreate?: ProductCreateOrConnectWithoutProductVariantColorInput
+    upsert?: ProductUpsertWithoutProductVariantColorInput
+    connect?: ProductWhereUniqueInput
+    update?: XOR<XOR<ProductUpdateToOneWithWhereWithoutProductVariantColorInput, ProductUpdateWithoutProductVariantColorInput>, ProductUncheckedUpdateWithoutProductVariantColorInput>
+  }
+
+  export type ProductVariantSizeUpdateManyWithoutProductVariantColorNestedInput = {
     create?: XOR<ProductVariantSizeCreateWithoutProductVariantColorInput, ProductVariantSizeUncheckedCreateWithoutProductVariantColorInput> | ProductVariantSizeCreateWithoutProductVariantColorInput[] | ProductVariantSizeUncheckedCreateWithoutProductVariantColorInput[]
     connectOrCreate?: ProductVariantSizeCreateOrConnectWithoutProductVariantColorInput | ProductVariantSizeCreateOrConnectWithoutProductVariantColorInput[]
     upsert?: ProductVariantSizeUpsertWithWhereUniqueWithoutProductVariantColorInput | ProductVariantSizeUpsertWithWhereUniqueWithoutProductVariantColorInput[]
@@ -19367,6 +19437,20 @@ export namespace Prisma {
     update?: BagUpdateWithWhereUniqueWithoutProductVariantColorInput | BagUpdateWithWhereUniqueWithoutProductVariantColorInput[]
     updateMany?: BagUpdateManyWithWhereWithoutProductVariantColorInput | BagUpdateManyWithWhereWithoutProductVariantColorInput[]
     deleteMany?: BagScalarWhereInput | BagScalarWhereInput[]
+  }
+
+  export type ProductVariantSizeUncheckedUpdateManyWithoutProductVariantColorNestedInput = {
+    create?: XOR<ProductVariantSizeCreateWithoutProductVariantColorInput, ProductVariantSizeUncheckedCreateWithoutProductVariantColorInput> | ProductVariantSizeCreateWithoutProductVariantColorInput[] | ProductVariantSizeUncheckedCreateWithoutProductVariantColorInput[]
+    connectOrCreate?: ProductVariantSizeCreateOrConnectWithoutProductVariantColorInput | ProductVariantSizeCreateOrConnectWithoutProductVariantColorInput[]
+    upsert?: ProductVariantSizeUpsertWithWhereUniqueWithoutProductVariantColorInput | ProductVariantSizeUpsertWithWhereUniqueWithoutProductVariantColorInput[]
+    createMany?: ProductVariantSizeCreateManyProductVariantColorInputEnvelope
+    set?: ProductVariantSizeWhereUniqueInput | ProductVariantSizeWhereUniqueInput[]
+    disconnect?: ProductVariantSizeWhereUniqueInput | ProductVariantSizeWhereUniqueInput[]
+    delete?: ProductVariantSizeWhereUniqueInput | ProductVariantSizeWhereUniqueInput[]
+    connect?: ProductVariantSizeWhereUniqueInput | ProductVariantSizeWhereUniqueInput[]
+    update?: ProductVariantSizeUpdateWithWhereUniqueWithoutProductVariantColorInput | ProductVariantSizeUpdateWithWhereUniqueWithoutProductVariantColorInput[]
+    updateMany?: ProductVariantSizeUpdateManyWithWhereWithoutProductVariantColorInput | ProductVariantSizeUpdateManyWithWhereWithoutProductVariantColorInput[]
+    deleteMany?: ProductVariantSizeScalarWhereInput | ProductVariantSizeScalarWhereInput[]
   }
 
   export type OrderItemCreateNestedManyWithoutProductVariantSizeInput = {
@@ -19483,16 +19567,16 @@ export namespace Prisma {
     deleteMany?: WishlistScalarWhereInput | WishlistScalarWhereInput[]
   }
 
-  export type ProductVariantSizeCreateNestedOneWithoutWishlistInput = {
-    create?: XOR<ProductVariantSizeCreateWithoutWishlistInput, ProductVariantSizeUncheckedCreateWithoutWishlistInput>
-    connectOrCreate?: ProductVariantSizeCreateOrConnectWithoutWishlistInput
-    connect?: ProductVariantSizeWhereUniqueInput
-  }
-
   export type ProductCreateNestedOneWithoutWishlistInput = {
     create?: XOR<ProductCreateWithoutWishlistInput, ProductUncheckedCreateWithoutWishlistInput>
     connectOrCreate?: ProductCreateOrConnectWithoutWishlistInput
     connect?: ProductWhereUniqueInput
+  }
+
+  export type ProductVariantSizeCreateNestedOneWithoutWishlistInput = {
+    create?: XOR<ProductVariantSizeCreateWithoutWishlistInput, ProductVariantSizeUncheckedCreateWithoutWishlistInput>
+    connectOrCreate?: ProductVariantSizeCreateOrConnectWithoutWishlistInput
+    connect?: ProductVariantSizeWhereUniqueInput
   }
 
   export type UserCreateNestedOneWithoutWishlistInput = {
@@ -19501,20 +19585,20 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
-  export type ProductVariantSizeUpdateOneRequiredWithoutWishlistNestedInput = {
-    create?: XOR<ProductVariantSizeCreateWithoutWishlistInput, ProductVariantSizeUncheckedCreateWithoutWishlistInput>
-    connectOrCreate?: ProductVariantSizeCreateOrConnectWithoutWishlistInput
-    upsert?: ProductVariantSizeUpsertWithoutWishlistInput
-    connect?: ProductVariantSizeWhereUniqueInput
-    update?: XOR<XOR<ProductVariantSizeUpdateToOneWithWhereWithoutWishlistInput, ProductVariantSizeUpdateWithoutWishlistInput>, ProductVariantSizeUncheckedUpdateWithoutWishlistInput>
-  }
-
   export type ProductUpdateOneRequiredWithoutWishlistNestedInput = {
     create?: XOR<ProductCreateWithoutWishlistInput, ProductUncheckedCreateWithoutWishlistInput>
     connectOrCreate?: ProductCreateOrConnectWithoutWishlistInput
     upsert?: ProductUpsertWithoutWishlistInput
     connect?: ProductWhereUniqueInput
     update?: XOR<XOR<ProductUpdateToOneWithWhereWithoutWishlistInput, ProductUpdateWithoutWishlistInput>, ProductUncheckedUpdateWithoutWishlistInput>
+  }
+
+  export type ProductVariantSizeUpdateOneRequiredWithoutWishlistNestedInput = {
+    create?: XOR<ProductVariantSizeCreateWithoutWishlistInput, ProductVariantSizeUncheckedCreateWithoutWishlistInput>
+    connectOrCreate?: ProductVariantSizeCreateOrConnectWithoutWishlistInput
+    upsert?: ProductVariantSizeUpsertWithoutWishlistInput
+    connect?: ProductVariantSizeWhereUniqueInput
+    update?: XOR<XOR<ProductVariantSizeUpdateToOneWithWhereWithoutWishlistInput, ProductVariantSizeUpdateWithoutWishlistInput>, ProductVariantSizeUncheckedUpdateWithoutWishlistInput>
   }
 
   export type UserUpdateOneRequiredWithoutWishlistNestedInput = {
@@ -20157,6 +20241,36 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type BagCreateWithoutUserInput = {
+    id?: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    quantity: number
+    product_variant_size_id: string
+    Product: ProductCreateNestedOneWithoutBagInput
+    ProductVariantColor: ProductVariantColorCreateNestedOneWithoutBagInput
+  }
+
+  export type BagUncheckedCreateWithoutUserInput = {
+    id?: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    quantity: number
+    product_id: string
+    product_variant_size_id: string
+    product_variant_color_id: string
+  }
+
+  export type BagCreateOrConnectWithoutUserInput = {
+    where: BagWhereUniqueInput
+    create: XOR<BagCreateWithoutUserInput, BagUncheckedCreateWithoutUserInput>
+  }
+
+  export type BagCreateManyUserInputEnvelope = {
+    data: BagCreateManyUserInput | BagCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type OrderCreateWithoutUserInput = {
     id?: string
     created_at?: Date | string
@@ -20186,36 +20300,6 @@ export namespace Prisma {
 
   export type OrderCreateManyUserInputEnvelope = {
     data: OrderCreateManyUserInput | OrderCreateManyUserInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type BagCreateWithoutUserInput = {
-    id?: string
-    created_at?: Date | string
-    updated_at?: Date | string | null
-    product_variant_size_id: string
-    quantity: number
-    Product: ProductCreateNestedOneWithoutBagInput
-    ProductVariantColor: ProductVariantColorCreateNestedOneWithoutBagInput
-  }
-
-  export type BagUncheckedCreateWithoutUserInput = {
-    id?: string
-    created_at?: Date | string
-    updated_at?: Date | string | null
-    product_id: string
-    product_variant_size_id: string
-    product_variant_color_id: string
-    quantity: number
-  }
-
-  export type BagCreateOrConnectWithoutUserInput = {
-    where: BagWhereUniqueInput
-    create: XOR<BagCreateWithoutUserInput, BagUncheckedCreateWithoutUserInput>
-  }
-
-  export type BagCreateManyUserInputEnvelope = {
-    data: BagCreateManyUserInput | BagCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -20255,8 +20339,8 @@ export namespace Prisma {
     id?: string
     created_at?: Date | string
     updated_at?: Date | string | null
-    ProductVariantSize: ProductVariantSizeCreateNestedOneWithoutWishlistInput
     Product: ProductCreateNestedOneWithoutWishlistInput
+    ProductVariantSize: ProductVariantSizeCreateNestedOneWithoutWishlistInput
   }
 
   export type WishlistUncheckedCreateWithoutUserInput = {
@@ -20311,6 +20395,36 @@ export namespace Prisma {
     user_id?: UuidFilter<"Address"> | string
   }
 
+  export type BagUpsertWithWhereUniqueWithoutUserInput = {
+    where: BagWhereUniqueInput
+    update: XOR<BagUpdateWithoutUserInput, BagUncheckedUpdateWithoutUserInput>
+    create: XOR<BagCreateWithoutUserInput, BagUncheckedCreateWithoutUserInput>
+  }
+
+  export type BagUpdateWithWhereUniqueWithoutUserInput = {
+    where: BagWhereUniqueInput
+    data: XOR<BagUpdateWithoutUserInput, BagUncheckedUpdateWithoutUserInput>
+  }
+
+  export type BagUpdateManyWithWhereWithoutUserInput = {
+    where: BagScalarWhereInput
+    data: XOR<BagUpdateManyMutationInput, BagUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type BagScalarWhereInput = {
+    AND?: BagScalarWhereInput | BagScalarWhereInput[]
+    OR?: BagScalarWhereInput[]
+    NOT?: BagScalarWhereInput | BagScalarWhereInput[]
+    id?: UuidFilter<"Bag"> | string
+    created_at?: DateTimeFilter<"Bag"> | Date | string
+    updated_at?: DateTimeNullableFilter<"Bag"> | Date | string | null
+    quantity?: IntFilter<"Bag"> | number
+    user_id?: UuidFilter<"Bag"> | string
+    product_id?: UuidFilter<"Bag"> | string
+    product_variant_size_id?: UuidFilter<"Bag"> | string
+    product_variant_color_id?: UuidFilter<"Bag"> | string
+  }
+
   export type OrderUpsertWithWhereUniqueWithoutUserInput = {
     where: OrderWhereUniqueInput
     update: XOR<OrderUpdateWithoutUserInput, OrderUncheckedUpdateWithoutUserInput>
@@ -20338,36 +20452,6 @@ export namespace Prisma {
     order_status?: EnumORDER_STATUSFilter<"Order"> | $Enums.ORDER_STATUS
     total_amount?: FloatFilter<"Order"> | number
     payment_status?: EnumPAYMENT_STATUSFilter<"Order"> | $Enums.PAYMENT_STATUS
-  }
-
-  export type BagUpsertWithWhereUniqueWithoutUserInput = {
-    where: BagWhereUniqueInput
-    update: XOR<BagUpdateWithoutUserInput, BagUncheckedUpdateWithoutUserInput>
-    create: XOR<BagCreateWithoutUserInput, BagUncheckedCreateWithoutUserInput>
-  }
-
-  export type BagUpdateWithWhereUniqueWithoutUserInput = {
-    where: BagWhereUniqueInput
-    data: XOR<BagUpdateWithoutUserInput, BagUncheckedUpdateWithoutUserInput>
-  }
-
-  export type BagUpdateManyWithWhereWithoutUserInput = {
-    where: BagScalarWhereInput
-    data: XOR<BagUpdateManyMutationInput, BagUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type BagScalarWhereInput = {
-    AND?: BagScalarWhereInput | BagScalarWhereInput[]
-    OR?: BagScalarWhereInput[]
-    NOT?: BagScalarWhereInput | BagScalarWhereInput[]
-    id?: UuidFilter<"Bag"> | string
-    created_at?: DateTimeFilter<"Bag"> | Date | string
-    updated_at?: DateTimeNullableFilter<"Bag"> | Date | string | null
-    user_id?: UuidFilter<"Bag"> | string
-    product_id?: UuidFilter<"Bag"> | string
-    product_variant_size_id?: UuidFilter<"Bag"> | string
-    product_variant_color_id?: UuidFilter<"Bag"> | string
-    quantity?: IntFilter<"Bag"> | number
   }
 
   export type ShippingAddressUpsertWithWhereUniqueWithoutUserInput = {
@@ -20433,8 +20517,8 @@ export namespace Prisma {
     id?: string
     created_at?: Date | string
     updated_at?: Date | string | null
-    product_variant_size_id: string
     quantity: number
+    product_variant_size_id: string
     ProductVariantColor: ProductVariantColorCreateNestedOneWithoutBagInput
     User: UserCreateNestedOneWithoutBagInput
   }
@@ -20443,10 +20527,10 @@ export namespace Prisma {
     id?: string
     created_at?: Date | string
     updated_at?: Date | string | null
+    quantity: number
     user_id: string
     product_variant_size_id: string
     product_variant_color_id: string
-    quantity: number
   }
 
   export type BagCreateOrConnectWithoutProductInput = {
@@ -20522,8 +20606,8 @@ export namespace Prisma {
     updated_at?: Date | string | null
     color: string
     images?: ProductVariantColorCreateimagesInput | string[]
-    ProductVariantSize?: ProductVariantSizeCreateNestedManyWithoutProductVariantColorInput
     Bag?: BagCreateNestedManyWithoutProductVariantColorInput
+    ProductVariantSize?: ProductVariantSizeCreateNestedManyWithoutProductVariantColorInput
   }
 
   export type ProductVariantColorUncheckedCreateWithoutProductInput = {
@@ -20532,8 +20616,8 @@ export namespace Prisma {
     updated_at?: Date | string | null
     color: string
     images?: ProductVariantColorCreateimagesInput | string[]
-    ProductVariantSize?: ProductVariantSizeUncheckedCreateNestedManyWithoutProductVariantColorInput
     Bag?: BagUncheckedCreateNestedManyWithoutProductVariantColorInput
+    ProductVariantSize?: ProductVariantSizeUncheckedCreateNestedManyWithoutProductVariantColorInput
   }
 
   export type ProductVariantColorCreateOrConnectWithoutProductInput = {
@@ -20698,12 +20782,15 @@ export namespace Prisma {
     id?: string
     created_at?: Date | string
     updated_at?: Date | string | null
+    deleted_at?: Date | string | null
     name: string
     slug: string
     price: number
     sku?: string | null
     description?: string | null
     isFeatured?: boolean
+    image_url?: string | null
+    status?: string
     Bag?: BagCreateNestedManyWithoutProductInput
     OrderItem?: OrderItemCreateNestedManyWithoutProductInput
     ProductVariantColor?: ProductVariantColorCreateNestedManyWithoutProductInput
@@ -20714,12 +20801,15 @@ export namespace Prisma {
     id?: string
     created_at?: Date | string
     updated_at?: Date | string | null
+    deleted_at?: Date | string | null
     name: string
     slug: string
     price: number
     sku?: string | null
     description?: string | null
     isFeatured?: boolean
+    image_url?: string | null
+    status?: string
     Bag?: BagUncheckedCreateNestedManyWithoutProductInput
     OrderItem?: OrderItemUncheckedCreateNestedManyWithoutProductInput
     ProductVariantColor?: ProductVariantColorUncheckedCreateNestedManyWithoutProductInput
@@ -20759,6 +20849,7 @@ export namespace Prisma {
     id?: UuidFilter<"Product"> | string
     created_at?: DateTimeFilter<"Product"> | Date | string
     updated_at?: DateTimeNullableFilter<"Product"> | Date | string | null
+    deleted_at?: DateTimeNullableFilter<"Product"> | Date | string | null
     name?: StringFilter<"Product"> | string
     slug?: StringFilter<"Product"> | string
     price?: FloatFilter<"Product"> | number
@@ -20766,18 +20857,53 @@ export namespace Prisma {
     category_id?: UuidFilter<"Product"> | string
     description?: StringNullableFilter<"Product"> | string | null
     isFeatured?: BoolFilter<"Product"> | boolean
+    image_url?: StringNullableFilter<"Product"> | string | null
+    status?: StringFilter<"Product"> | string
+  }
+
+  export type BagCreateWithoutProductVariantColorInput = {
+    id?: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    quantity: number
+    product_variant_size_id: string
+    Product: ProductCreateNestedOneWithoutBagInput
+    User: UserCreateNestedOneWithoutBagInput
+  }
+
+  export type BagUncheckedCreateWithoutProductVariantColorInput = {
+    id?: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    quantity: number
+    user_id: string
+    product_id: string
+    product_variant_size_id: string
+  }
+
+  export type BagCreateOrConnectWithoutProductVariantColorInput = {
+    where: BagWhereUniqueInput
+    create: XOR<BagCreateWithoutProductVariantColorInput, BagUncheckedCreateWithoutProductVariantColorInput>
+  }
+
+  export type BagCreateManyProductVariantColorInputEnvelope = {
+    data: BagCreateManyProductVariantColorInput | BagCreateManyProductVariantColorInput[]
+    skipDuplicates?: boolean
   }
 
   export type ProductCreateWithoutProductVariantColorInput = {
     id?: string
     created_at?: Date | string
     updated_at?: Date | string | null
+    deleted_at?: Date | string | null
     name: string
     slug: string
     price: number
     sku?: string | null
     description?: string | null
     isFeatured?: boolean
+    image_url?: string | null
+    status?: string
     Bag?: BagCreateNestedManyWithoutProductInput
     OrderItem?: OrderItemCreateNestedManyWithoutProductInput
     Category: CategoryCreateNestedOneWithoutProductInput
@@ -20788,6 +20914,7 @@ export namespace Prisma {
     id?: string
     created_at?: Date | string
     updated_at?: Date | string | null
+    deleted_at?: Date | string | null
     name: string
     slug: string
     price: number
@@ -20795,6 +20922,8 @@ export namespace Prisma {
     category_id: string
     description?: string | null
     isFeatured?: boolean
+    image_url?: string | null
+    status?: string
     Bag?: BagUncheckedCreateNestedManyWithoutProductInput
     OrderItem?: OrderItemUncheckedCreateNestedManyWithoutProductInput
     Wishlist?: WishlistUncheckedCreateNestedManyWithoutProductInput
@@ -20837,34 +20966,20 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type BagCreateWithoutProductVariantColorInput = {
-    id?: string
-    created_at?: Date | string
-    updated_at?: Date | string | null
-    product_variant_size_id: string
-    quantity: number
-    Product: ProductCreateNestedOneWithoutBagInput
-    User: UserCreateNestedOneWithoutBagInput
-  }
-
-  export type BagUncheckedCreateWithoutProductVariantColorInput = {
-    id?: string
-    created_at?: Date | string
-    updated_at?: Date | string | null
-    user_id: string
-    product_id: string
-    product_variant_size_id: string
-    quantity: number
-  }
-
-  export type BagCreateOrConnectWithoutProductVariantColorInput = {
+  export type BagUpsertWithWhereUniqueWithoutProductVariantColorInput = {
     where: BagWhereUniqueInput
+    update: XOR<BagUpdateWithoutProductVariantColorInput, BagUncheckedUpdateWithoutProductVariantColorInput>
     create: XOR<BagCreateWithoutProductVariantColorInput, BagUncheckedCreateWithoutProductVariantColorInput>
   }
 
-  export type BagCreateManyProductVariantColorInputEnvelope = {
-    data: BagCreateManyProductVariantColorInput | BagCreateManyProductVariantColorInput[]
-    skipDuplicates?: boolean
+  export type BagUpdateWithWhereUniqueWithoutProductVariantColorInput = {
+    where: BagWhereUniqueInput
+    data: XOR<BagUpdateWithoutProductVariantColorInput, BagUncheckedUpdateWithoutProductVariantColorInput>
+  }
+
+  export type BagUpdateManyWithWhereWithoutProductVariantColorInput = {
+    where: BagScalarWhereInput
+    data: XOR<BagUpdateManyMutationInput, BagUncheckedUpdateManyWithoutProductVariantColorInput>
   }
 
   export type ProductUpsertWithoutProductVariantColorInput = {
@@ -20882,12 +20997,15 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     Bag?: BagUpdateManyWithoutProductNestedInput
     OrderItem?: OrderItemUpdateManyWithoutProductNestedInput
     Category?: CategoryUpdateOneRequiredWithoutProductNestedInput
@@ -20898,6 +21016,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
@@ -20905,6 +21024,8 @@ export namespace Prisma {
     category_id?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     Bag?: BagUncheckedUpdateManyWithoutProductNestedInput
     OrderItem?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
     Wishlist?: WishlistUncheckedUpdateManyWithoutProductNestedInput
@@ -20937,22 +21058,6 @@ export namespace Prisma {
     stock?: IntFilter<"ProductVariantSize"> | number
     status?: EnumPRODUCT_STATUSFilter<"ProductVariantSize"> | $Enums.PRODUCT_STATUS
     variant_color_id?: UuidFilter<"ProductVariantSize"> | string
-  }
-
-  export type BagUpsertWithWhereUniqueWithoutProductVariantColorInput = {
-    where: BagWhereUniqueInput
-    update: XOR<BagUpdateWithoutProductVariantColorInput, BagUncheckedUpdateWithoutProductVariantColorInput>
-    create: XOR<BagCreateWithoutProductVariantColorInput, BagUncheckedCreateWithoutProductVariantColorInput>
-  }
-
-  export type BagUpdateWithWhereUniqueWithoutProductVariantColorInput = {
-    where: BagWhereUniqueInput
-    data: XOR<BagUpdateWithoutProductVariantColorInput, BagUncheckedUpdateWithoutProductVariantColorInput>
-  }
-
-  export type BagUpdateManyWithWhereWithoutProductVariantColorInput = {
-    where: BagScalarWhereInput
-    data: XOR<BagUpdateManyMutationInput, BagUncheckedUpdateManyWithoutProductVariantColorInput>
   }
 
   export type OrderItemCreateWithoutProductVariantSizeInput = {
@@ -20993,8 +21098,8 @@ export namespace Prisma {
     updated_at?: Date | string | null
     color: string
     images?: ProductVariantColorCreateimagesInput | string[]
-    Product: ProductCreateNestedOneWithoutProductVariantColorInput
     Bag?: BagCreateNestedManyWithoutProductVariantColorInput
+    Product: ProductCreateNestedOneWithoutProductVariantColorInput
   }
 
   export type ProductVariantColorUncheckedCreateWithoutProductVariantSizeInput = {
@@ -21071,8 +21176,8 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     color?: StringFieldUpdateOperationsInput | string
     images?: ProductVariantColorUpdateimagesInput | string[]
-    Product?: ProductUpdateOneRequiredWithoutProductVariantColorNestedInput
     Bag?: BagUpdateManyWithoutProductVariantColorNestedInput
+    Product?: ProductUpdateOneRequiredWithoutProductVariantColorNestedInput
   }
 
   export type ProductVariantColorUncheckedUpdateWithoutProductVariantSizeInput = {
@@ -21099,6 +21204,49 @@ export namespace Prisma {
   export type WishlistUpdateManyWithWhereWithoutProductVariantSizeInput = {
     where: WishlistScalarWhereInput
     data: XOR<WishlistUpdateManyMutationInput, WishlistUncheckedUpdateManyWithoutProductVariantSizeInput>
+  }
+
+  export type ProductCreateWithoutWishlistInput = {
+    id?: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    deleted_at?: Date | string | null
+    name: string
+    slug: string
+    price: number
+    sku?: string | null
+    description?: string | null
+    isFeatured?: boolean
+    image_url?: string | null
+    status?: string
+    Bag?: BagCreateNestedManyWithoutProductInput
+    OrderItem?: OrderItemCreateNestedManyWithoutProductInput
+    Category: CategoryCreateNestedOneWithoutProductInput
+    ProductVariantColor?: ProductVariantColorCreateNestedManyWithoutProductInput
+  }
+
+  export type ProductUncheckedCreateWithoutWishlistInput = {
+    id?: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    deleted_at?: Date | string | null
+    name: string
+    slug: string
+    price: number
+    sku?: string | null
+    category_id: string
+    description?: string | null
+    isFeatured?: boolean
+    image_url?: string | null
+    status?: string
+    Bag?: BagUncheckedCreateNestedManyWithoutProductInput
+    OrderItem?: OrderItemUncheckedCreateNestedManyWithoutProductInput
+    ProductVariantColor?: ProductVariantColorUncheckedCreateNestedManyWithoutProductInput
+  }
+
+  export type ProductCreateOrConnectWithoutWishlistInput = {
+    where: ProductWhereUniqueInput
+    create: XOR<ProductCreateWithoutWishlistInput, ProductUncheckedCreateWithoutWishlistInput>
   }
 
   export type ProductVariantSizeCreateWithoutWishlistInput = {
@@ -21128,43 +21276,6 @@ export namespace Prisma {
     create: XOR<ProductVariantSizeCreateWithoutWishlistInput, ProductVariantSizeUncheckedCreateWithoutWishlistInput>
   }
 
-  export type ProductCreateWithoutWishlistInput = {
-    id?: string
-    created_at?: Date | string
-    updated_at?: Date | string | null
-    name: string
-    slug: string
-    price: number
-    sku?: string | null
-    description?: string | null
-    isFeatured?: boolean
-    Bag?: BagCreateNestedManyWithoutProductInput
-    OrderItem?: OrderItemCreateNestedManyWithoutProductInput
-    Category: CategoryCreateNestedOneWithoutProductInput
-    ProductVariantColor?: ProductVariantColorCreateNestedManyWithoutProductInput
-  }
-
-  export type ProductUncheckedCreateWithoutWishlistInput = {
-    id?: string
-    created_at?: Date | string
-    updated_at?: Date | string | null
-    name: string
-    slug: string
-    price: number
-    sku?: string | null
-    category_id: string
-    description?: string | null
-    isFeatured?: boolean
-    Bag?: BagUncheckedCreateNestedManyWithoutProductInput
-    OrderItem?: OrderItemUncheckedCreateNestedManyWithoutProductInput
-    ProductVariantColor?: ProductVariantColorUncheckedCreateNestedManyWithoutProductInput
-  }
-
-  export type ProductCreateOrConnectWithoutWishlistInput = {
-    where: ProductWhereUniqueInput
-    create: XOR<ProductCreateWithoutWishlistInput, ProductUncheckedCreateWithoutWishlistInput>
-  }
-
   export type UserCreateWithoutWishlistInput = {
     id?: string
     created_at?: Date | string
@@ -21174,8 +21285,8 @@ export namespace Prisma {
     user_id?: string
     address?: string
     Address?: AddressCreateNestedManyWithoutUserInput
-    Order?: OrderCreateNestedManyWithoutUserInput
     Bag?: BagCreateNestedManyWithoutUserInput
+    Order?: OrderCreateNestedManyWithoutUserInput
     ShippingAddress?: ShippingAddressCreateNestedManyWithoutUserInput
   }
 
@@ -21188,14 +21299,63 @@ export namespace Prisma {
     user_id?: string
     address?: string
     Address?: AddressUncheckedCreateNestedManyWithoutUserInput
-    Order?: OrderUncheckedCreateNestedManyWithoutUserInput
     Bag?: BagUncheckedCreateNestedManyWithoutUserInput
+    Order?: OrderUncheckedCreateNestedManyWithoutUserInput
     ShippingAddress?: ShippingAddressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutWishlistInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutWishlistInput, UserUncheckedCreateWithoutWishlistInput>
+  }
+
+  export type ProductUpsertWithoutWishlistInput = {
+    update: XOR<ProductUpdateWithoutWishlistInput, ProductUncheckedUpdateWithoutWishlistInput>
+    create: XOR<ProductCreateWithoutWishlistInput, ProductUncheckedCreateWithoutWishlistInput>
+    where?: ProductWhereInput
+  }
+
+  export type ProductUpdateToOneWithWhereWithoutWishlistInput = {
+    where?: ProductWhereInput
+    data: XOR<ProductUpdateWithoutWishlistInput, ProductUncheckedUpdateWithoutWishlistInput>
+  }
+
+  export type ProductUpdateWithoutWishlistInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    price?: FloatFieldUpdateOperationsInput | number
+    sku?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    Bag?: BagUpdateManyWithoutProductNestedInput
+    OrderItem?: OrderItemUpdateManyWithoutProductNestedInput
+    Category?: CategoryUpdateOneRequiredWithoutProductNestedInput
+    ProductVariantColor?: ProductVariantColorUpdateManyWithoutProductNestedInput
+  }
+
+  export type ProductUncheckedUpdateWithoutWishlistInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    price?: FloatFieldUpdateOperationsInput | number
+    sku?: NullableStringFieldUpdateOperationsInput | string | null
+    category_id?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    Bag?: BagUncheckedUpdateManyWithoutProductNestedInput
+    OrderItem?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
+    ProductVariantColor?: ProductVariantColorUncheckedUpdateManyWithoutProductNestedInput
   }
 
   export type ProductVariantSizeUpsertWithoutWishlistInput = {
@@ -21231,49 +21391,6 @@ export namespace Prisma {
     OrderItem?: OrderItemUncheckedUpdateManyWithoutProductVariantSizeNestedInput
   }
 
-  export type ProductUpsertWithoutWishlistInput = {
-    update: XOR<ProductUpdateWithoutWishlistInput, ProductUncheckedUpdateWithoutWishlistInput>
-    create: XOR<ProductCreateWithoutWishlistInput, ProductUncheckedCreateWithoutWishlistInput>
-    where?: ProductWhereInput
-  }
-
-  export type ProductUpdateToOneWithWhereWithoutWishlistInput = {
-    where?: ProductWhereInput
-    data: XOR<ProductUpdateWithoutWishlistInput, ProductUncheckedUpdateWithoutWishlistInput>
-  }
-
-  export type ProductUpdateWithoutWishlistInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    name?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    price?: FloatFieldUpdateOperationsInput | number
-    sku?: NullableStringFieldUpdateOperationsInput | string | null
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    isFeatured?: BoolFieldUpdateOperationsInput | boolean
-    Bag?: BagUpdateManyWithoutProductNestedInput
-    OrderItem?: OrderItemUpdateManyWithoutProductNestedInput
-    Category?: CategoryUpdateOneRequiredWithoutProductNestedInput
-    ProductVariantColor?: ProductVariantColorUpdateManyWithoutProductNestedInput
-  }
-
-  export type ProductUncheckedUpdateWithoutWishlistInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    name?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    price?: FloatFieldUpdateOperationsInput | number
-    sku?: NullableStringFieldUpdateOperationsInput | string | null
-    category_id?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    isFeatured?: BoolFieldUpdateOperationsInput | boolean
-    Bag?: BagUncheckedUpdateManyWithoutProductNestedInput
-    OrderItem?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
-    ProductVariantColor?: ProductVariantColorUncheckedUpdateManyWithoutProductNestedInput
-  }
-
   export type UserUpsertWithoutWishlistInput = {
     update: XOR<UserUpdateWithoutWishlistInput, UserUncheckedUpdateWithoutWishlistInput>
     create: XOR<UserCreateWithoutWishlistInput, UserUncheckedCreateWithoutWishlistInput>
@@ -21294,8 +21411,8 @@ export namespace Prisma {
     user_id?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     Address?: AddressUpdateManyWithoutUserNestedInput
-    Order?: OrderUpdateManyWithoutUserNestedInput
     Bag?: BagUpdateManyWithoutUserNestedInput
+    Order?: OrderUpdateManyWithoutUserNestedInput
     ShippingAddress?: ShippingAddressUpdateManyWithoutUserNestedInput
   }
 
@@ -21308,8 +21425,8 @@ export namespace Prisma {
     user_id?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     Address?: AddressUncheckedUpdateManyWithoutUserNestedInput
-    Order?: OrderUncheckedUpdateManyWithoutUserNestedInput
     Bag?: BagUncheckedUpdateManyWithoutUserNestedInput
+    Order?: OrderUncheckedUpdateManyWithoutUserNestedInput
     ShippingAddress?: ShippingAddressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -21321,8 +21438,8 @@ export namespace Prisma {
     email: string
     user_id?: string
     address?: string
-    Order?: OrderCreateNestedManyWithoutUserInput
     Bag?: BagCreateNestedManyWithoutUserInput
+    Order?: OrderCreateNestedManyWithoutUserInput
     ShippingAddress?: ShippingAddressCreateNestedManyWithoutUserInput
     Wishlist?: WishlistCreateNestedManyWithoutUserInput
   }
@@ -21335,8 +21452,8 @@ export namespace Prisma {
     email: string
     user_id?: string
     address?: string
-    Order?: OrderUncheckedCreateNestedManyWithoutUserInput
     Bag?: BagUncheckedCreateNestedManyWithoutUserInput
+    Order?: OrderUncheckedCreateNestedManyWithoutUserInput
     ShippingAddress?: ShippingAddressUncheckedCreateNestedManyWithoutUserInput
     Wishlist?: WishlistUncheckedCreateNestedManyWithoutUserInput
   }
@@ -21397,8 +21514,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     user_id?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
-    Order?: OrderUpdateManyWithoutUserNestedInput
     Bag?: BagUpdateManyWithoutUserNestedInput
+    Order?: OrderUpdateManyWithoutUserNestedInput
     ShippingAddress?: ShippingAddressUpdateManyWithoutUserNestedInput
     Wishlist?: WishlistUpdateManyWithoutUserNestedInput
   }
@@ -21411,8 +21528,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     user_id?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
-    Order?: OrderUncheckedUpdateManyWithoutUserNestedInput
     Bag?: BagUncheckedUpdateManyWithoutUserNestedInput
+    Order?: OrderUncheckedUpdateManyWithoutUserNestedInput
     ShippingAddress?: ShippingAddressUncheckedUpdateManyWithoutUserNestedInput
     Wishlist?: WishlistUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -21437,12 +21554,15 @@ export namespace Prisma {
     id?: string
     created_at?: Date | string
     updated_at?: Date | string | null
+    deleted_at?: Date | string | null
     name: string
     slug: string
     price: number
     sku?: string | null
     description?: string | null
     isFeatured?: boolean
+    image_url?: string | null
+    status?: string
     OrderItem?: OrderItemCreateNestedManyWithoutProductInput
     Category: CategoryCreateNestedOneWithoutProductInput
     ProductVariantColor?: ProductVariantColorCreateNestedManyWithoutProductInput
@@ -21453,6 +21573,7 @@ export namespace Prisma {
     id?: string
     created_at?: Date | string
     updated_at?: Date | string | null
+    deleted_at?: Date | string | null
     name: string
     slug: string
     price: number
@@ -21460,6 +21581,8 @@ export namespace Prisma {
     category_id: string
     description?: string | null
     isFeatured?: boolean
+    image_url?: string | null
+    status?: string
     OrderItem?: OrderItemUncheckedCreateNestedManyWithoutProductInput
     ProductVariantColor?: ProductVariantColorUncheckedCreateNestedManyWithoutProductInput
     Wishlist?: WishlistUncheckedCreateNestedManyWithoutProductInput
@@ -21543,12 +21666,15 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     OrderItem?: OrderItemUpdateManyWithoutProductNestedInput
     Category?: CategoryUpdateOneRequiredWithoutProductNestedInput
     ProductVariantColor?: ProductVariantColorUpdateManyWithoutProductNestedInput
@@ -21559,6 +21685,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
@@ -21566,6 +21693,8 @@ export namespace Prisma {
     category_id?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     OrderItem?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
     ProductVariantColor?: ProductVariantColorUncheckedUpdateManyWithoutProductNestedInput
     Wishlist?: WishlistUncheckedUpdateManyWithoutProductNestedInput
@@ -21852,12 +21981,15 @@ export namespace Prisma {
     id?: string
     created_at?: Date | string
     updated_at?: Date | string | null
+    deleted_at?: Date | string | null
     name: string
     slug: string
     price: number
     sku?: string | null
     description?: string | null
     isFeatured?: boolean
+    image_url?: string | null
+    status?: string
     Bag?: BagCreateNestedManyWithoutProductInput
     Category: CategoryCreateNestedOneWithoutProductInput
     ProductVariantColor?: ProductVariantColorCreateNestedManyWithoutProductInput
@@ -21868,6 +22000,7 @@ export namespace Prisma {
     id?: string
     created_at?: Date | string
     updated_at?: Date | string | null
+    deleted_at?: Date | string | null
     name: string
     slug: string
     price: number
@@ -21875,6 +22008,8 @@ export namespace Prisma {
     category_id: string
     description?: string | null
     isFeatured?: boolean
+    image_url?: string | null
+    status?: string
     Bag?: BagUncheckedCreateNestedManyWithoutProductInput
     ProductVariantColor?: ProductVariantColorUncheckedCreateNestedManyWithoutProductInput
     Wishlist?: WishlistUncheckedCreateNestedManyWithoutProductInput
@@ -21960,12 +22095,15 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     Bag?: BagUpdateManyWithoutProductNestedInput
     Category?: CategoryUpdateOneRequiredWithoutProductNestedInput
     ProductVariantColor?: ProductVariantColorUpdateManyWithoutProductNestedInput
@@ -21976,6 +22114,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
@@ -21983,6 +22122,8 @@ export namespace Prisma {
     category_id?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     Bag?: BagUncheckedUpdateManyWithoutProductNestedInput
     ProductVariantColor?: ProductVariantColorUncheckedUpdateManyWithoutProductNestedInput
     Wishlist?: WishlistUncheckedUpdateManyWithoutProductNestedInput
@@ -22125,8 +22266,8 @@ export namespace Prisma {
     user_id?: string
     address?: string
     Address?: AddressCreateNestedManyWithoutUserInput
-    Order?: OrderCreateNestedManyWithoutUserInput
     Bag?: BagCreateNestedManyWithoutUserInput
+    Order?: OrderCreateNestedManyWithoutUserInput
     Wishlist?: WishlistCreateNestedManyWithoutUserInput
   }
 
@@ -22139,8 +22280,8 @@ export namespace Prisma {
     user_id?: string
     address?: string
     Address?: AddressUncheckedCreateNestedManyWithoutUserInput
-    Order?: OrderUncheckedCreateNestedManyWithoutUserInput
     Bag?: BagUncheckedCreateNestedManyWithoutUserInput
+    Order?: OrderUncheckedCreateNestedManyWithoutUserInput
     Wishlist?: WishlistUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -22210,8 +22351,8 @@ export namespace Prisma {
     user_id?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     Address?: AddressUpdateManyWithoutUserNestedInput
-    Order?: OrderUpdateManyWithoutUserNestedInput
     Bag?: BagUpdateManyWithoutUserNestedInput
+    Order?: OrderUpdateManyWithoutUserNestedInput
     Wishlist?: WishlistUpdateManyWithoutUserNestedInput
   }
 
@@ -22224,8 +22365,8 @@ export namespace Prisma {
     user_id?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     Address?: AddressUncheckedUpdateManyWithoutUserNestedInput
-    Order?: OrderUncheckedUpdateManyWithoutUserNestedInput
     Bag?: BagUncheckedUpdateManyWithoutUserNestedInput
+    Order?: OrderUncheckedUpdateManyWithoutUserNestedInput
     Wishlist?: WishlistUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -22243,6 +22384,16 @@ export namespace Prisma {
     additional_address?: string | null
   }
 
+  export type BagCreateManyUserInput = {
+    id?: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    quantity: number
+    product_id: string
+    product_variant_size_id: string
+    product_variant_color_id: string
+  }
+
   export type OrderCreateManyUserInput = {
     id?: string
     created_at?: Date | string
@@ -22250,16 +22401,6 @@ export namespace Prisma {
     order_status: $Enums.ORDER_STATUS
     total_amount: number
     payment_status: $Enums.PAYMENT_STATUS
-  }
-
-  export type BagCreateManyUserInput = {
-    id?: string
-    created_at?: Date | string
-    updated_at?: Date | string | null
-    product_id: string
-    product_variant_size_id: string
-    product_variant_color_id: string
-    quantity: number
   }
 
   export type ShippingAddressCreateManyUserInput = {
@@ -22325,6 +22466,36 @@ export namespace Prisma {
     additional_address?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type BagUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
+    product_variant_size_id?: StringFieldUpdateOperationsInput | string
+    Product?: ProductUpdateOneRequiredWithoutBagNestedInput
+    ProductVariantColor?: ProductVariantColorUpdateOneRequiredWithoutBagNestedInput
+  }
+
+  export type BagUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
+    product_id?: StringFieldUpdateOperationsInput | string
+    product_variant_size_id?: StringFieldUpdateOperationsInput | string
+    product_variant_color_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type BagUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
+    product_id?: StringFieldUpdateOperationsInput | string
+    product_variant_size_id?: StringFieldUpdateOperationsInput | string
+    product_variant_color_id?: StringFieldUpdateOperationsInput | string
+  }
+
   export type OrderUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22354,36 +22525,6 @@ export namespace Prisma {
     order_status?: EnumORDER_STATUSFieldUpdateOperationsInput | $Enums.ORDER_STATUS
     total_amount?: FloatFieldUpdateOperationsInput | number
     payment_status?: EnumPAYMENT_STATUSFieldUpdateOperationsInput | $Enums.PAYMENT_STATUS
-  }
-
-  export type BagUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    product_variant_size_id?: StringFieldUpdateOperationsInput | string
-    quantity?: IntFieldUpdateOperationsInput | number
-    Product?: ProductUpdateOneRequiredWithoutBagNestedInput
-    ProductVariantColor?: ProductVariantColorUpdateOneRequiredWithoutBagNestedInput
-  }
-
-  export type BagUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    product_id?: StringFieldUpdateOperationsInput | string
-    product_variant_size_id?: StringFieldUpdateOperationsInput | string
-    product_variant_color_id?: StringFieldUpdateOperationsInput | string
-    quantity?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type BagUncheckedUpdateManyWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    product_id?: StringFieldUpdateOperationsInput | string
-    product_variant_size_id?: StringFieldUpdateOperationsInput | string
-    product_variant_color_id?: StringFieldUpdateOperationsInput | string
-    quantity?: IntFieldUpdateOperationsInput | number
   }
 
   export type ShippingAddressUpdateWithoutUserInput = {
@@ -22423,8 +22564,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    ProductVariantSize?: ProductVariantSizeUpdateOneRequiredWithoutWishlistNestedInput
     Product?: ProductUpdateOneRequiredWithoutWishlistNestedInput
+    ProductVariantSize?: ProductVariantSizeUpdateOneRequiredWithoutWishlistNestedInput
   }
 
   export type WishlistUncheckedUpdateWithoutUserInput = {
@@ -22447,10 +22588,10 @@ export namespace Prisma {
     id?: string
     created_at?: Date | string
     updated_at?: Date | string | null
+    quantity: number
     user_id: string
     product_variant_size_id: string
     product_variant_color_id: string
-    quantity: number
   }
 
   export type OrderItemCreateManyProductInput = {
@@ -22484,8 +22625,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    product_variant_size_id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
+    product_variant_size_id?: StringFieldUpdateOperationsInput | string
     ProductVariantColor?: ProductVariantColorUpdateOneRequiredWithoutBagNestedInput
     User?: UserUpdateOneRequiredWithoutBagNestedInput
   }
@@ -22494,20 +22635,20 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
     user_id?: StringFieldUpdateOperationsInput | string
     product_variant_size_id?: StringFieldUpdateOperationsInput | string
     product_variant_color_id?: StringFieldUpdateOperationsInput | string
-    quantity?: IntFieldUpdateOperationsInput | number
   }
 
   export type BagUncheckedUpdateManyWithoutProductInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
     user_id?: StringFieldUpdateOperationsInput | string
     product_variant_size_id?: StringFieldUpdateOperationsInput | string
     product_variant_color_id?: StringFieldUpdateOperationsInput | string
-    quantity?: IntFieldUpdateOperationsInput | number
   }
 
   export type OrderItemUpdateWithoutProductInput = {
@@ -22549,8 +22690,8 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     color?: StringFieldUpdateOperationsInput | string
     images?: ProductVariantColorUpdateimagesInput | string[]
-    ProductVariantSize?: ProductVariantSizeUpdateManyWithoutProductVariantColorNestedInput
     Bag?: BagUpdateManyWithoutProductVariantColorNestedInput
+    ProductVariantSize?: ProductVariantSizeUpdateManyWithoutProductVariantColorNestedInput
   }
 
   export type ProductVariantColorUncheckedUpdateWithoutProductInput = {
@@ -22559,8 +22700,8 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     color?: StringFieldUpdateOperationsInput | string
     images?: ProductVariantColorUpdateimagesInput | string[]
-    ProductVariantSize?: ProductVariantSizeUncheckedUpdateManyWithoutProductVariantColorNestedInput
     Bag?: BagUncheckedUpdateManyWithoutProductVariantColorNestedInput
+    ProductVariantSize?: ProductVariantSizeUncheckedUpdateManyWithoutProductVariantColorNestedInput
   }
 
   export type ProductVariantColorUncheckedUpdateManyWithoutProductInput = {
@@ -22599,24 +22740,30 @@ export namespace Prisma {
     id?: string
     created_at?: Date | string
     updated_at?: Date | string | null
+    deleted_at?: Date | string | null
     name: string
     slug: string
     price: number
     sku?: string | null
     description?: string | null
     isFeatured?: boolean
+    image_url?: string | null
+    status?: string
   }
 
   export type ProductUpdateWithoutCategoryInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     Bag?: BagUpdateManyWithoutProductNestedInput
     OrderItem?: OrderItemUpdateManyWithoutProductNestedInput
     ProductVariantColor?: ProductVariantColorUpdateManyWithoutProductNestedInput
@@ -22627,12 +22774,15 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     Bag?: BagUncheckedUpdateManyWithoutProductNestedInput
     OrderItem?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
     ProductVariantColor?: ProductVariantColorUncheckedUpdateManyWithoutProductNestedInput
@@ -22643,12 +22793,25 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type BagCreateManyProductVariantColorInput = {
+    id?: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    quantity: number
+    user_id: string
+    product_id: string
+    product_variant_size_id: string
   }
 
   export type ProductVariantSizeCreateManyProductVariantColorInput = {
@@ -22660,14 +22823,34 @@ export namespace Prisma {
     status: $Enums.PRODUCT_STATUS
   }
 
-  export type BagCreateManyProductVariantColorInput = {
-    id?: string
-    created_at?: Date | string
-    updated_at?: Date | string | null
-    user_id: string
-    product_id: string
-    product_variant_size_id: string
-    quantity: number
+  export type BagUpdateWithoutProductVariantColorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
+    product_variant_size_id?: StringFieldUpdateOperationsInput | string
+    Product?: ProductUpdateOneRequiredWithoutBagNestedInput
+    User?: UserUpdateOneRequiredWithoutBagNestedInput
+  }
+
+  export type BagUncheckedUpdateWithoutProductVariantColorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
+    user_id?: StringFieldUpdateOperationsInput | string
+    product_id?: StringFieldUpdateOperationsInput | string
+    product_variant_size_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type BagUncheckedUpdateManyWithoutProductVariantColorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
+    user_id?: StringFieldUpdateOperationsInput | string
+    product_id?: StringFieldUpdateOperationsInput | string
+    product_variant_size_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type ProductVariantSizeUpdateWithoutProductVariantColorInput = {
@@ -22699,36 +22882,6 @@ export namespace Prisma {
     size?: EnumPRODUCT_SIZESFieldUpdateOperationsInput | $Enums.PRODUCT_SIZES
     stock?: IntFieldUpdateOperationsInput | number
     status?: EnumPRODUCT_STATUSFieldUpdateOperationsInput | $Enums.PRODUCT_STATUS
-  }
-
-  export type BagUpdateWithoutProductVariantColorInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    product_variant_size_id?: StringFieldUpdateOperationsInput | string
-    quantity?: IntFieldUpdateOperationsInput | number
-    Product?: ProductUpdateOneRequiredWithoutBagNestedInput
-    User?: UserUpdateOneRequiredWithoutBagNestedInput
-  }
-
-  export type BagUncheckedUpdateWithoutProductVariantColorInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    user_id?: StringFieldUpdateOperationsInput | string
-    product_id?: StringFieldUpdateOperationsInput | string
-    product_variant_size_id?: StringFieldUpdateOperationsInput | string
-    quantity?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type BagUncheckedUpdateManyWithoutProductVariantColorInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    user_id?: StringFieldUpdateOperationsInput | string
-    product_id?: StringFieldUpdateOperationsInput | string
-    product_variant_size_id?: StringFieldUpdateOperationsInput | string
-    quantity?: IntFieldUpdateOperationsInput | number
   }
 
   export type OrderItemCreateManyProductVariantSizeInput = {
