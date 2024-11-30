@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Menu, ShoppingBag } from "lucide-react";
+import { Book, Menu, ShoppingBag }  from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import SoulePsycleLogo from "@/public/logo.jpg";
@@ -104,6 +104,18 @@ const StoreNavbar = () => {
 					)}
 				</nav>
 				<div className="flex items-center space-x-4 ml-auto">
+					<Button
+						variant="ghost"
+						size="icon"
+						className="relative"
+						asChild
+					>
+						<Link href={"/account/address-book"}>
+							<Book className="h-6 w-6" />
+						</Link>
+					</Button>
+
+					{/* Shopping Bag Icon */}
 					<Button
 						variant="ghost"
 						size="icon"

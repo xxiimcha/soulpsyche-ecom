@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { CreditCard, Trash, Plus } from "lucide-react";
+import { Trash, Plus } from "lucide-react";
 import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import Sidebar from "@/components/Sidebar";
@@ -24,6 +24,8 @@ export default function PaymentMethodsPage() {
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
   const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [viewModalOpen, setViewModalOpen] = useState(false);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<PaymentMethod | null>(null);
   const [newMethod, setNewMethod] = useState<Partial<PaymentMethod>>({
     method_name: "",
     description: "",
@@ -55,25 +57,10 @@ export default function PaymentMethodsPage() {
       alert("Please fill out all required fields.");
       return;
     }
-  
+
     setLoading(true);
     try {
-      const response = await axios.post(
-        "/api/payment-methods",
-        {
-          method_name: newMethod.method_name,
-          description: newMethod.description,
-          account_name: newMethod.account_name,
-          account_number: newMethod.account_number,
-          qr_code: newMethod.qr_code,
-          is_active: newMethod.is_active,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axios.post("/api/payment-methods", newMethod);
       setPaymentMethods((prev) => [...prev, response.data]);
       setNewMethod({
         method_name: "",
@@ -89,36 +76,43 @@ export default function PaymentMethodsPage() {
     } finally {
       setLoading(false);
     }
-  };  
+  };
 
   const handleDelete = async (id: string) => {
+    const confirmDelete = confirm("Are you sure you want to delete this payment method?");
+    if (!confirmDelete) return;
+  
     setLoading(true);
     try {
-      const response = await axios.delete(`/api/payment-methods/${id}`);
+      const response = await axios.delete(`/api/payment-methods?id=${id}`);
       if (response.status === 200) {
         setPaymentMethods((prev) => prev.filter((method) => method.id !== id));
+        alert("Payment method deleted successfully.");
       }
     } catch (error) {
       console.error("Error deleting payment method:", error);
+      alert("Failed to delete payment method.");
     } finally {
       setLoading(false);
     }
   };  
 
+  const handleView = (method: PaymentMethod) => {
+    setSelectedPaymentMethod(method);
+    setViewModalOpen(true);
+  };
+
   const handleImageUpload = async (file: File) => {
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("upload_preset", "so8qqjk3"); // Unsigned preset from Cloudinary
+    formData.append("upload_preset", "upload_qr_code");
 
     setUploading(true);
     try {
-      const response = await axios.post(
-        "https://api.cloudinary.com/v1_1/dwa4rcjan/image/upload",
-        formData
-      );
+      const response = await axios.post("https://api.cloudinary.com/v1_1/dwa4rcjan/image/upload", formData);
       setNewMethod((prev) => ({
         ...prev,
-        qr_code: response.data.secure_url, // Save the Cloudinary URL
+        qr_code: response.data.secure_url,
       }));
     } catch (error) {
       console.error("Error uploading image:", error);
@@ -126,6 +120,7 @@ export default function PaymentMethodsPage() {
       setUploading(false);
     }
   };
+  
 
   const isAdmin = user?.emailAddresses[0]?.emailAddress === "soulepsycle1201@gmail.com";
 
@@ -180,8 +175,8 @@ export default function PaymentMethodsPage() {
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{method.method_name}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{method.description}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex gap-2">
-                          <Button variant="outline" size="sm">
-                            <CreditCard className="h-4 w-4" />
+                          <Button variant="outline" size="sm" onClick={() => handleView(method)}>
+                            View
                           </Button>
                           <Button variant="outline" size="sm" onClick={() => handleDelete(method.id)}>
                             <Trash className="h-4 w-4" />
@@ -259,6 +254,64 @@ export default function PaymentMethodsPage() {
               </div>
             </div>
           )}
+
+        {viewModalOpen && selectedPaymentMethod && (
+          <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
+            <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg">
+              <h2 className="text-2xl font-bold text-gray-800 mb-6">Payment Method Details</h2>
+              <div className="space-y-4">
+                {/* Method Name */}
+                <div className="flex items-center">
+                  <p className="font-semibold text-gray-700 w-1/3">Method Name:</p>
+                  <p className="text-gray-900">{selectedPaymentMethod.method_name}</p>
+                </div>
+
+                {/* Description */}
+                <div className="flex items-center">
+                  <p className="font-semibold text-gray-700 w-1/3">Description:</p>
+                  <p className="text-gray-900">{selectedPaymentMethod.description}</p>
+                </div>
+
+                {/* Account Name */}
+                <div className="flex items-center">
+                  <p className="font-semibold text-gray-700 w-1/3">Account Name:</p>
+                  <p className="text-gray-900">{selectedPaymentMethod.account_name}</p>
+                </div>
+
+                {/* Account Number */}
+                <div className="flex items-center">
+                  <p className="font-semibold text-gray-700 w-1/3">Account Number:</p>
+                  <p className="text-gray-900">{selectedPaymentMethod.account_number}</p>
+                </div>
+
+                {/* QR Code */}
+                <div className="flex flex-col items-start">
+                  <p className="font-semibold text-gray-700 mb-2">QR Code:</p>
+                  {selectedPaymentMethod.qr_code ? (
+                    <img
+                      src={selectedPaymentMethod.qr_code}
+                      alt="QR Code"
+                      className="w-64 h-auto rounded-md border shadow-lg"
+                    />
+                  ) : (
+                    <p className="text-gray-500">No QR code available</p>
+                  )}
+                </div>
+              </div>
+
+              <div className="flex justify-end gap-4 mt-6">
+                <Button
+                  variant="outline"
+                  className="border-gray-300 text-gray-700 hover:bg-gray-100"
+                  onClick={() => setViewModalOpen(false)}
+                >
+                  Close
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
+
         </div>
       </main>
     </div>
