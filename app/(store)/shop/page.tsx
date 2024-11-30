@@ -34,7 +34,7 @@ export default function ShopPage() {
       try {
         const response = await fetch("/api/products");
         const data = await response.json();
-
+  
         const transformedProducts = data.map((product: any) => ({
           id: product.id || "N/A",
           name: product.name || "Unnamed Product",
@@ -46,7 +46,7 @@ export default function ShopPage() {
               }).format(product.price)
             : "₱0.00",
           image: product.image || "/placeholder-dark-image.png",
-          category: product.category?.name || "Uncategorized",
+          category: product.categoryName || "Uncategorized", // Use the new categoryName field
           colors: product.ProductVariantColor
             ? product.ProductVariantColor.map((variant: any) => ({
                 color: variant.color || "Unknown Color",
@@ -59,15 +59,15 @@ export default function ShopPage() {
               }))
             : [],
         }));
-
+  
         setProducts(transformedProducts);
       } catch (error) {
         console.error("Error fetching products:", error);
       }
     }
-
+  
     fetchProducts();
-  }, []);
+  }, []);  
 
   const handleAttributeChange = (
     productId: string,

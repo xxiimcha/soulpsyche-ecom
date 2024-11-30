@@ -13,7 +13,7 @@ export async function GET(req: Request) {
       const product = await prisma.product.findUnique({
         where: { id },
         include: {
-          Category: true, // Include the category
+          Category: true, // Include the category details
           ProductVariantColor: {
             include: {
               ProductVariantSize: true, // Include sizes and stock details
@@ -29,7 +29,11 @@ export async function GET(req: Request) {
         );
       }
 
-      return NextResponse.json(product);
+      // Include the category name directly in the response
+      return NextResponse.json({
+        ...product,
+        categoryName: product.Category?.name || "Uncategorized",
+      });
     } else {
       // If no specific ID, return all products
       const products = await prisma.product.findMany({
@@ -43,7 +47,13 @@ export async function GET(req: Request) {
         },
       });
 
-      return NextResponse.json(products);
+      // Transform products to include category name
+      const transformedProducts = products.map((product) => ({
+        ...product,
+        categoryName: product.Category?.name || "Uncategorized",
+      }));
+
+      return NextResponse.json(transformedProducts);
     }
   } catch (error) {
     console.error("Error fetching products:", error);
