@@ -22,7 +22,7 @@ export async function POST(req: Request) {
 
     // Retrieve the payment method name
     const paymentMethodData = await prisma.paymentMethodInfo.findFirst({
-        where: { method_name: paymentMethod }, // Use findFirst for non-unique fields
+      where: { method_name: paymentMethod },
     });
 
     if (!paymentMethodData) {
@@ -33,79 +33,80 @@ export async function POST(req: Request) {
       );
     }
 
-    // Create the order first
-    const order = await prisma.order.create({
-      data: {
-        user_id: userId,
-        order_status: "pending", // Default order status
-        total_amount: total,
-        payment_status: "unpaid", // Default payment status
-      },
-    });
-
-    console.log("Order created with ID:", order.id);
-
-    // Map items to include the `product_id` and create order items
-    const orderItems = await Promise.all(
-      items.map(async (item: any) => {
-        // Fetch product_id from Bag table using item.id
-        const bagEntry = await prisma.bag.findFirst({
-          where: {
-            user_id: userId,
-            product_variant_size_id: item.size,
-          },
-          select: {
-            product_id: true, // Retrieve only the product_id field
-          },
-        });
-
-        if (!bagEntry) {
-          throw new Error(`Product ID ${item.id} does not exist in the Bag table`);
-        }
-
-        return {
-          order_id: order.id,
-          product_id: bagEntry.product_id,
-          product_variant_size_id: item.size,
-          quantity: item.quantity,
-          price: item.price,
-          subtotal: item.price * item.quantity,
-        };
-      })
-    );
-
-    await prisma.orderItem.createMany({ data: orderItems });
-
-    console.log("Order items created:", orderItems);
-
-    // Delete items from Bag table after order is created
-    const deleteItems = items.map(async (item: any) => {
-      await prisma.bag.deleteMany({
-        where: {
-          id: item.id, // Ensure you're passing the correct ID from the Bag table
+    // Use a transaction to ensure atomicity
+    const result = await prisma.$transaction(async (prisma) => {
+      // Create the order
+      const order = await prisma.order.create({
+        data: {
+          user_id: userId,
+          order_status: "pending", // Default order status
+          total_amount: total,
+          payment_status: "unpaid", // Default payment status
         },
       });
+
+      console.log("Order created with ID:", order.id);
+
+      // Map items to include the `product_id` and create order items
+      const orderItems = await Promise.all(
+        items.map(async (item: any) => {
+          const bagEntry = await prisma.bag.findFirst({
+            where: {
+              user_id: userId,
+              product_variant_size_id: item.size,
+            },
+            select: {
+              product_id: true,
+            },
+          });
+
+          if (!bagEntry) {
+            throw new Error(`Product ID ${item.id} does not exist in the Bag table`);
+          }
+
+          return {
+            order_id: order.id,
+            product_id: bagEntry.product_id,
+            product_variant_size_id: item.size,
+            quantity: item.quantity,
+            price: item.price,
+            subtotal: item.price * item.quantity,
+          };
+        })
+      );
+
+      await prisma.orderItem.createMany({ data: orderItems });
+
+      console.log("Order items created:", orderItems);
+
+      // Delete items from Bag table after order is created
+      await prisma.bag.deleteMany({
+        where: {
+          user_id: userId,
+          product_variant_size_id: { in: items.map((item: any) => item.size) },
+        },
+      });
+
+      console.log("Deleted items from Bag table for user ID:", userId);
+
+      // Add payment details
+      await prisma.paymentDetail.create({
+        data: {
+          order_id: order.id,
+          payment_method: paymentMethod,
+          transaction_id: "pending", // Placeholder for now
+          amount_paid: 0, // Admin will update after verifying payment
+          payment_status: "unpaid",
+        },
+      });
+
+      console.log("Payment details added for order ID:", order.id);
+
+      return order;
     });
-
-    await Promise.all(deleteItems);
-
-    console.log("Deleted items from Bag table using their ID.");
-
-    // Add payment details using the method_name
-    await prisma.paymentDetail.create({
-      data: {
-        order_id: order.id,
-        payment_method: paymentMethod, // Use method_name here
-        transaction_id: "pending", // Placeholder for now
-        amount_paid: 0, // Admin will update after verifying payment
-        payment_status: "unpaid",
-      },
-    });
-
-    console.log("Payment details added for order ID:", order.id);
 
     return NextResponse.json(
-      { message: "Order placed successfully", orderId: order.id },
+      { message: "Order placed successfully", orderId: result.id },
       { status: 201 }
     );
   } catch (error) {
