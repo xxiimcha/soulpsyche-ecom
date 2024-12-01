@@ -1,6 +1,5 @@
-import { PrismaClient } from '../../../../prisma/generated/client';
+import prisma from "@/lib/db";
 
-const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
   try {

@@ -18,7 +18,6 @@ import Image from "next/image";
 import SoulePsycleLogo from "@/public/logo.jpg";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import axios from "axios";
 
 interface Category {

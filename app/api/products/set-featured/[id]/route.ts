@@ -1,7 +1,5 @@
+import prisma from '@/lib/db';
 import { NextResponse } from 'next/server';
-import { PrismaClient } from '../../../../../prisma/generated/client';
-
-const prisma = new PrismaClient();
 
 // PUT method to set a product as featured
 export async function PUT(request: Request, { params }: { params: { id: string } }) {
