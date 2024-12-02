@@ -3352,7 +3352,6 @@ export namespace Prisma {
     id: string | null
     created_at: Date | null
     updated_at: Date | null
-    deleted_at: Date | null
     name: string | null
     slug: string | null
     price: number | null
@@ -3360,6 +3359,7 @@ export namespace Prisma {
     category_id: string | null
     description: string | null
     isFeatured: boolean | null
+    deleted_at: Date | null
     image_url: string | null
     status: string | null
   }
@@ -3368,7 +3368,6 @@ export namespace Prisma {
     id: string | null
     created_at: Date | null
     updated_at: Date | null
-    deleted_at: Date | null
     name: string | null
     slug: string | null
     price: number | null
@@ -3376,6 +3375,7 @@ export namespace Prisma {
     category_id: string | null
     description: string | null
     isFeatured: boolean | null
+    deleted_at: Date | null
     image_url: string | null
     status: string | null
   }
@@ -3384,7 +3384,6 @@ export namespace Prisma {
     id: number
     created_at: number
     updated_at: number
-    deleted_at: number
     name: number
     slug: number
     price: number
@@ -3392,6 +3391,7 @@ export namespace Prisma {
     category_id: number
     description: number
     isFeatured: number
+    deleted_at: number
     image_url: number
     status: number
     _all: number
@@ -3410,7 +3410,6 @@ export namespace Prisma {
     id?: true
     created_at?: true
     updated_at?: true
-    deleted_at?: true
     name?: true
     slug?: true
     price?: true
@@ -3418,6 +3417,7 @@ export namespace Prisma {
     category_id?: true
     description?: true
     isFeatured?: true
+    deleted_at?: true
     image_url?: true
     status?: true
   }
@@ -3426,7 +3426,6 @@ export namespace Prisma {
     id?: true
     created_at?: true
     updated_at?: true
-    deleted_at?: true
     name?: true
     slug?: true
     price?: true
@@ -3434,6 +3433,7 @@ export namespace Prisma {
     category_id?: true
     description?: true
     isFeatured?: true
+    deleted_at?: true
     image_url?: true
     status?: true
   }
@@ -3442,7 +3442,6 @@ export namespace Prisma {
     id?: true
     created_at?: true
     updated_at?: true
-    deleted_at?: true
     name?: true
     slug?: true
     price?: true
@@ -3450,6 +3449,7 @@ export namespace Prisma {
     category_id?: true
     description?: true
     isFeatured?: true
+    deleted_at?: true
     image_url?: true
     status?: true
     _all?: true
@@ -3545,7 +3545,6 @@ export namespace Prisma {
     id: string
     created_at: Date
     updated_at: Date | null
-    deleted_at: Date | null
     name: string
     slug: string
     price: number
@@ -3553,6 +3552,7 @@ export namespace Prisma {
     category_id: string
     description: string | null
     isFeatured: boolean
+    deleted_at: Date | null
     image_url: string | null
     status: string
     _count: ProductCountAggregateOutputType | null
@@ -3580,7 +3580,6 @@ export namespace Prisma {
     id?: boolean
     created_at?: boolean
     updated_at?: boolean
-    deleted_at?: boolean
     name?: boolean
     slug?: boolean
     price?: boolean
@@ -3588,6 +3587,7 @@ export namespace Prisma {
     category_id?: boolean
     description?: boolean
     isFeatured?: boolean
+    deleted_at?: boolean
     image_url?: boolean
     status?: boolean
     Bag?: boolean | Product$BagArgs<ExtArgs>
@@ -3602,7 +3602,6 @@ export namespace Prisma {
     id?: boolean
     created_at?: boolean
     updated_at?: boolean
-    deleted_at?: boolean
     name?: boolean
     slug?: boolean
     price?: boolean
@@ -3610,6 +3609,7 @@ export namespace Prisma {
     category_id?: boolean
     description?: boolean
     isFeatured?: boolean
+    deleted_at?: boolean
     image_url?: boolean
     status?: boolean
     Category?: boolean | CategoryDefaultArgs<ExtArgs>
@@ -3619,7 +3619,6 @@ export namespace Prisma {
     id?: boolean
     created_at?: boolean
     updated_at?: boolean
-    deleted_at?: boolean
     name?: boolean
     slug?: boolean
     price?: boolean
@@ -3627,6 +3626,7 @@ export namespace Prisma {
     category_id?: boolean
     description?: boolean
     isFeatured?: boolean
+    deleted_at?: boolean
     image_url?: boolean
     status?: boolean
   }
@@ -3656,7 +3656,6 @@ export namespace Prisma {
       id: string
       created_at: Date
       updated_at: Date | null
-      deleted_at: Date | null
       name: string
       slug: string
       price: number
@@ -3664,6 +3663,7 @@ export namespace Prisma {
       category_id: string
       description: string | null
       isFeatured: boolean
+      deleted_at: Date | null
       image_url: string | null
       status: string
     }, ExtArgs["result"]["product"]>
@@ -4067,7 +4067,6 @@ export namespace Prisma {
     readonly id: FieldRef<"Product", 'String'>
     readonly created_at: FieldRef<"Product", 'DateTime'>
     readonly updated_at: FieldRef<"Product", 'DateTime'>
-    readonly deleted_at: FieldRef<"Product", 'DateTime'>
     readonly name: FieldRef<"Product", 'String'>
     readonly slug: FieldRef<"Product", 'String'>
     readonly price: FieldRef<"Product", 'Float'>
@@ -4075,6 +4074,7 @@ export namespace Prisma {
     readonly category_id: FieldRef<"Product", 'String'>
     readonly description: FieldRef<"Product", 'String'>
     readonly isFeatured: FieldRef<"Product", 'Boolean'>
+    readonly deleted_at: FieldRef<"Product", 'DateTime'>
     readonly image_url: FieldRef<"Product", 'String'>
     readonly status: FieldRef<"Product", 'String'>
   }
@@ -15531,7 +15531,6 @@ export namespace Prisma {
     id: 'id',
     created_at: 'created_at',
     updated_at: 'updated_at',
-    deleted_at: 'deleted_at',
     name: 'name',
     slug: 'slug',
     price: 'price',
@@ -15539,6 +15538,7 @@ export namespace Prisma {
     category_id: 'category_id',
     description: 'description',
     isFeatured: 'isFeatured',
+    deleted_at: 'deleted_at',
     image_url: 'image_url',
     status: 'status'
   };
@@ -15949,7 +15949,6 @@ export namespace Prisma {
     id?: UuidFilter<"Product"> | string
     created_at?: DateTimeFilter<"Product"> | Date | string
     updated_at?: DateTimeNullableFilter<"Product"> | Date | string | null
-    deleted_at?: DateTimeNullableFilter<"Product"> | Date | string | null
     name?: StringFilter<"Product"> | string
     slug?: StringFilter<"Product"> | string
     price?: FloatFilter<"Product"> | number
@@ -15957,6 +15956,7 @@ export namespace Prisma {
     category_id?: UuidFilter<"Product"> | string
     description?: StringNullableFilter<"Product"> | string | null
     isFeatured?: BoolFilter<"Product"> | boolean
+    deleted_at?: DateTimeNullableFilter<"Product"> | Date | string | null
     image_url?: StringNullableFilter<"Product"> | string | null
     status?: StringFilter<"Product"> | string
     Bag?: BagListRelationFilter
@@ -15970,7 +15970,6 @@ export namespace Prisma {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrderInput | SortOrder
-    deleted_at?: SortOrderInput | SortOrder
     name?: SortOrder
     slug?: SortOrder
     price?: SortOrder
@@ -15978,6 +15977,7 @@ export namespace Prisma {
     category_id?: SortOrder
     description?: SortOrderInput | SortOrder
     isFeatured?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
     image_url?: SortOrderInput | SortOrder
     status?: SortOrder
     Bag?: BagOrderByRelationAggregateInput
@@ -15996,12 +15996,12 @@ export namespace Prisma {
     NOT?: ProductWhereInput | ProductWhereInput[]
     created_at?: DateTimeFilter<"Product"> | Date | string
     updated_at?: DateTimeNullableFilter<"Product"> | Date | string | null
-    deleted_at?: DateTimeNullableFilter<"Product"> | Date | string | null
     name?: StringFilter<"Product"> | string
     price?: FloatFilter<"Product"> | number
     category_id?: UuidFilter<"Product"> | string
     description?: StringNullableFilter<"Product"> | string | null
     isFeatured?: BoolFilter<"Product"> | boolean
+    deleted_at?: DateTimeNullableFilter<"Product"> | Date | string | null
     image_url?: StringNullableFilter<"Product"> | string | null
     status?: StringFilter<"Product"> | string
     Bag?: BagListRelationFilter
@@ -16015,7 +16015,6 @@ export namespace Prisma {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrderInput | SortOrder
-    deleted_at?: SortOrderInput | SortOrder
     name?: SortOrder
     slug?: SortOrder
     price?: SortOrder
@@ -16023,6 +16022,7 @@ export namespace Prisma {
     category_id?: SortOrder
     description?: SortOrderInput | SortOrder
     isFeatured?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
     image_url?: SortOrderInput | SortOrder
     status?: SortOrder
     _count?: ProductCountOrderByAggregateInput
@@ -16039,7 +16039,6 @@ export namespace Prisma {
     id?: UuidWithAggregatesFilter<"Product"> | string
     created_at?: DateTimeWithAggregatesFilter<"Product"> | Date | string
     updated_at?: DateTimeNullableWithAggregatesFilter<"Product"> | Date | string | null
-    deleted_at?: DateTimeNullableWithAggregatesFilter<"Product"> | Date | string | null
     name?: StringWithAggregatesFilter<"Product"> | string
     slug?: StringWithAggregatesFilter<"Product"> | string
     price?: FloatWithAggregatesFilter<"Product"> | number
@@ -16047,6 +16046,7 @@ export namespace Prisma {
     category_id?: UuidWithAggregatesFilter<"Product"> | string
     description?: StringNullableWithAggregatesFilter<"Product"> | string | null
     isFeatured?: BoolWithAggregatesFilter<"Product"> | boolean
+    deleted_at?: DateTimeNullableWithAggregatesFilter<"Product"> | Date | string | null
     image_url?: StringNullableWithAggregatesFilter<"Product"> | string | null
     status?: StringWithAggregatesFilter<"Product"> | string
   }
@@ -16964,13 +16964,13 @@ export namespace Prisma {
     id?: string
     created_at?: Date | string
     updated_at?: Date | string | null
-    deleted_at?: Date | string | null
     name: string
     slug: string
     price: number
     sku?: string | null
     description?: string | null
     isFeatured?: boolean
+    deleted_at?: Date | string | null
     image_url?: string | null
     status?: string
     Bag?: BagCreateNestedManyWithoutProductInput
@@ -16984,7 +16984,6 @@ export namespace Prisma {
     id?: string
     created_at?: Date | string
     updated_at?: Date | string | null
-    deleted_at?: Date | string | null
     name: string
     slug: string
     price: number
@@ -16992,6 +16991,7 @@ export namespace Prisma {
     category_id: string
     description?: string | null
     isFeatured?: boolean
+    deleted_at?: Date | string | null
     image_url?: string | null
     status?: string
     Bag?: BagUncheckedCreateNestedManyWithoutProductInput
@@ -17004,13 +17004,13 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image_url?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     Bag?: BagUpdateManyWithoutProductNestedInput
@@ -17024,7 +17024,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
@@ -17032,6 +17031,7 @@ export namespace Prisma {
     category_id?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image_url?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     Bag?: BagUncheckedUpdateManyWithoutProductNestedInput
@@ -17044,7 +17044,6 @@ export namespace Prisma {
     id?: string
     created_at?: Date | string
     updated_at?: Date | string | null
-    deleted_at?: Date | string | null
     name: string
     slug: string
     price: number
@@ -17052,6 +17051,7 @@ export namespace Prisma {
     category_id: string
     description?: string | null
     isFeatured?: boolean
+    deleted_at?: Date | string | null
     image_url?: string | null
     status?: string
   }
@@ -17060,13 +17060,13 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image_url?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
   }
@@ -17075,7 +17075,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
@@ -17083,6 +17082,7 @@ export namespace Prisma {
     category_id?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image_url?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
   }
@@ -18205,7 +18205,6 @@ export namespace Prisma {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
-    deleted_at?: SortOrder
     name?: SortOrder
     slug?: SortOrder
     price?: SortOrder
@@ -18213,6 +18212,7 @@ export namespace Prisma {
     category_id?: SortOrder
     description?: SortOrder
     isFeatured?: SortOrder
+    deleted_at?: SortOrder
     image_url?: SortOrder
     status?: SortOrder
   }
@@ -18225,7 +18225,6 @@ export namespace Prisma {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
-    deleted_at?: SortOrder
     name?: SortOrder
     slug?: SortOrder
     price?: SortOrder
@@ -18233,6 +18232,7 @@ export namespace Prisma {
     category_id?: SortOrder
     description?: SortOrder
     isFeatured?: SortOrder
+    deleted_at?: SortOrder
     image_url?: SortOrder
     status?: SortOrder
   }
@@ -18241,7 +18241,6 @@ export namespace Prisma {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
-    deleted_at?: SortOrder
     name?: SortOrder
     slug?: SortOrder
     price?: SortOrder
@@ -18249,6 +18248,7 @@ export namespace Prisma {
     category_id?: SortOrder
     description?: SortOrder
     isFeatured?: SortOrder
+    deleted_at?: SortOrder
     image_url?: SortOrder
     status?: SortOrder
   }
@@ -20782,13 +20782,13 @@ export namespace Prisma {
     id?: string
     created_at?: Date | string
     updated_at?: Date | string | null
-    deleted_at?: Date | string | null
     name: string
     slug: string
     price: number
     sku?: string | null
     description?: string | null
     isFeatured?: boolean
+    deleted_at?: Date | string | null
     image_url?: string | null
     status?: string
     Bag?: BagCreateNestedManyWithoutProductInput
@@ -20801,13 +20801,13 @@ export namespace Prisma {
     id?: string
     created_at?: Date | string
     updated_at?: Date | string | null
-    deleted_at?: Date | string | null
     name: string
     slug: string
     price: number
     sku?: string | null
     description?: string | null
     isFeatured?: boolean
+    deleted_at?: Date | string | null
     image_url?: string | null
     status?: string
     Bag?: BagUncheckedCreateNestedManyWithoutProductInput
@@ -20849,7 +20849,6 @@ export namespace Prisma {
     id?: UuidFilter<"Product"> | string
     created_at?: DateTimeFilter<"Product"> | Date | string
     updated_at?: DateTimeNullableFilter<"Product"> | Date | string | null
-    deleted_at?: DateTimeNullableFilter<"Product"> | Date | string | null
     name?: StringFilter<"Product"> | string
     slug?: StringFilter<"Product"> | string
     price?: FloatFilter<"Product"> | number
@@ -20857,6 +20856,7 @@ export namespace Prisma {
     category_id?: UuidFilter<"Product"> | string
     description?: StringNullableFilter<"Product"> | string | null
     isFeatured?: BoolFilter<"Product"> | boolean
+    deleted_at?: DateTimeNullableFilter<"Product"> | Date | string | null
     image_url?: StringNullableFilter<"Product"> | string | null
     status?: StringFilter<"Product"> | string
   }
@@ -20895,13 +20895,13 @@ export namespace Prisma {
     id?: string
     created_at?: Date | string
     updated_at?: Date | string | null
-    deleted_at?: Date | string | null
     name: string
     slug: string
     price: number
     sku?: string | null
     description?: string | null
     isFeatured?: boolean
+    deleted_at?: Date | string | null
     image_url?: string | null
     status?: string
     Bag?: BagCreateNestedManyWithoutProductInput
@@ -20914,7 +20914,6 @@ export namespace Prisma {
     id?: string
     created_at?: Date | string
     updated_at?: Date | string | null
-    deleted_at?: Date | string | null
     name: string
     slug: string
     price: number
@@ -20922,6 +20921,7 @@ export namespace Prisma {
     category_id: string
     description?: string | null
     isFeatured?: boolean
+    deleted_at?: Date | string | null
     image_url?: string | null
     status?: string
     Bag?: BagUncheckedCreateNestedManyWithoutProductInput
@@ -20997,13 +20997,13 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image_url?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     Bag?: BagUpdateManyWithoutProductNestedInput
@@ -21016,7 +21016,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
@@ -21024,6 +21023,7 @@ export namespace Prisma {
     category_id?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image_url?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     Bag?: BagUncheckedUpdateManyWithoutProductNestedInput
@@ -21210,13 +21210,13 @@ export namespace Prisma {
     id?: string
     created_at?: Date | string
     updated_at?: Date | string | null
-    deleted_at?: Date | string | null
     name: string
     slug: string
     price: number
     sku?: string | null
     description?: string | null
     isFeatured?: boolean
+    deleted_at?: Date | string | null
     image_url?: string | null
     status?: string
     Bag?: BagCreateNestedManyWithoutProductInput
@@ -21229,7 +21229,6 @@ export namespace Prisma {
     id?: string
     created_at?: Date | string
     updated_at?: Date | string | null
-    deleted_at?: Date | string | null
     name: string
     slug: string
     price: number
@@ -21237,6 +21236,7 @@ export namespace Prisma {
     category_id: string
     description?: string | null
     isFeatured?: boolean
+    deleted_at?: Date | string | null
     image_url?: string | null
     status?: string
     Bag?: BagUncheckedCreateNestedManyWithoutProductInput
@@ -21324,13 +21324,13 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image_url?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     Bag?: BagUpdateManyWithoutProductNestedInput
@@ -21343,7 +21343,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
@@ -21351,6 +21350,7 @@ export namespace Prisma {
     category_id?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image_url?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     Bag?: BagUncheckedUpdateManyWithoutProductNestedInput
@@ -21554,13 +21554,13 @@ export namespace Prisma {
     id?: string
     created_at?: Date | string
     updated_at?: Date | string | null
-    deleted_at?: Date | string | null
     name: string
     slug: string
     price: number
     sku?: string | null
     description?: string | null
     isFeatured?: boolean
+    deleted_at?: Date | string | null
     image_url?: string | null
     status?: string
     OrderItem?: OrderItemCreateNestedManyWithoutProductInput
@@ -21573,7 +21573,6 @@ export namespace Prisma {
     id?: string
     created_at?: Date | string
     updated_at?: Date | string | null
-    deleted_at?: Date | string | null
     name: string
     slug: string
     price: number
@@ -21581,6 +21580,7 @@ export namespace Prisma {
     category_id: string
     description?: string | null
     isFeatured?: boolean
+    deleted_at?: Date | string | null
     image_url?: string | null
     status?: string
     OrderItem?: OrderItemUncheckedCreateNestedManyWithoutProductInput
@@ -21666,13 +21666,13 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image_url?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     OrderItem?: OrderItemUpdateManyWithoutProductNestedInput
@@ -21685,7 +21685,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
@@ -21693,6 +21692,7 @@ export namespace Prisma {
     category_id?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image_url?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     OrderItem?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
@@ -21981,13 +21981,13 @@ export namespace Prisma {
     id?: string
     created_at?: Date | string
     updated_at?: Date | string | null
-    deleted_at?: Date | string | null
     name: string
     slug: string
     price: number
     sku?: string | null
     description?: string | null
     isFeatured?: boolean
+    deleted_at?: Date | string | null
     image_url?: string | null
     status?: string
     Bag?: BagCreateNestedManyWithoutProductInput
@@ -22000,7 +22000,6 @@ export namespace Prisma {
     id?: string
     created_at?: Date | string
     updated_at?: Date | string | null
-    deleted_at?: Date | string | null
     name: string
     slug: string
     price: number
@@ -22008,6 +22007,7 @@ export namespace Prisma {
     category_id: string
     description?: string | null
     isFeatured?: boolean
+    deleted_at?: Date | string | null
     image_url?: string | null
     status?: string
     Bag?: BagUncheckedCreateNestedManyWithoutProductInput
@@ -22095,13 +22095,13 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image_url?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     Bag?: BagUpdateManyWithoutProductNestedInput
@@ -22114,7 +22114,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
@@ -22122,6 +22121,7 @@ export namespace Prisma {
     category_id?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image_url?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     Bag?: BagUncheckedUpdateManyWithoutProductNestedInput
@@ -22740,13 +22740,13 @@ export namespace Prisma {
     id?: string
     created_at?: Date | string
     updated_at?: Date | string | null
-    deleted_at?: Date | string | null
     name: string
     slug: string
     price: number
     sku?: string | null
     description?: string | null
     isFeatured?: boolean
+    deleted_at?: Date | string | null
     image_url?: string | null
     status?: string
   }
@@ -22755,13 +22755,13 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image_url?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     Bag?: BagUpdateManyWithoutProductNestedInput
@@ -22774,13 +22774,13 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image_url?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     Bag?: BagUncheckedUpdateManyWithoutProductNestedInput
@@ -22793,13 +22793,13 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image_url?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
   }

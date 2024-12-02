@@ -118,21 +118,45 @@ export async function POST(req: Request) {
   }
 }
 
-
-export async function GET() {
+export async function GET(req: Request) {
   try {
-    const orders = await prisma.order.findMany({
-      include: {
-        OrderItem: {
-          include: {
-            Product: true,
-          },
-        },
-        PaymentDetail: true,
-      },
-    });
+    const { searchParams } = new URL(req.url);
+    const orderId = searchParams.get("orderId");
 
-    return NextResponse.json(orders, { status: 200 });
+    if (orderId) {
+      // Fetch a specific order by ID
+      const order = await prisma.order.findUnique({
+        where: { id: orderId },
+        include: {
+          OrderItem: {
+            include: {
+              Product: true,
+            },
+          },
+          PaymentDetail: true,
+        },
+      });
+
+      if (!order) {
+        return NextResponse.json({ message: "Order not found" }, { status: 404 });
+      }
+
+      return NextResponse.json(order, { status: 200 });
+    } else {
+      // Fetch all orders
+      const orders = await prisma.order.findMany({
+        include: {
+          OrderItem: {
+            include: {
+              Product: true,
+            },
+          },
+          PaymentDetail: true,
+        },
+      });
+
+      return NextResponse.json(orders, { status: 200 });
+    }
   } catch (error) {
     console.error("Error fetching orders:", error);
     return NextResponse.json({ message: "Failed to fetch orders" }, { status: 500 });

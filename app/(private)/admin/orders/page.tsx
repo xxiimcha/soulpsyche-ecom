@@ -1,7 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { LayoutDashboard, Package, ShoppingCart, CreditCard, Users, Eye, Edit, Trash } from "lucide-react";
+import {
+  LayoutDashboard,
+  Package,
+  ShoppingCart,
+  CreditCard,
+  Users,
+  Eye,
+  Edit,
+  Trash,
+} from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -12,7 +21,7 @@ import Image from "next/image";
 import SoulePsycleLogo from "@/public/logo.jpg";
 import { useUser } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 
 interface Order {
@@ -20,6 +29,7 @@ interface Order {
   user_id: string;
   total_amount: number;
   order_status: string;
+  items?: { name: string; quantity: number; price: number }[];
 }
 
 const sidebarItems = [
@@ -35,6 +45,8 @@ export default function OrdersPage() {
 
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
 
   // Fetch orders data from API
   useEffect(() => {
@@ -51,6 +63,28 @@ export default function OrdersPage() {
 
     fetchOrders();
   }, []);
+
+  const handleViewOrder = async (orderId: string) => {
+    try {
+      const response = await axios.get(`/api/orders/${orderId}`);
+      setSelectedOrder(response.data); // Assuming valid response structure
+      if (dialogRef.current) {
+        dialogRef.current.showModal();
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error("Error fetching order details:", error.response?.data || error.message);
+      } else {
+        console.error("Unexpected error:", error);
+      }
+    }
+  };  
+
+  const handleCloseDialog = () => {
+    if (dialogRef.current) {
+      dialogRef.current.close();
+    }
+  };
 
   // Authorization check for admin
   const isAdmin = user?.emailAddresses[0]?.emailAddress === "soulepsycle1201@gmail.com";
@@ -128,7 +162,11 @@ export default function OrdersPage() {
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">₱{order.total_amount.toFixed(2)}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{order.order_status}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex gap-2">
-                          <Button variant="outline" size="sm">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleViewOrder(order.id)}
+                          >
                             <Eye className="h-4 w-4" />
                           </Button>
                           <Button variant="outline" size="sm">
@@ -151,6 +189,41 @@ export default function OrdersPage() {
               </table>
             </div>
           )}
+
+          {/* Dialog for Viewing Order Details */}
+          <dialog
+            ref={dialogRef}
+            className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center p-4 rounded-lg max-w-md mx-auto"
+          >
+            {selectedOrder && (
+              <div className="bg-white rounded-lg p-6 w-full">
+                <h2 className="text-lg font-semibold mb-4">Order Details</h2>
+                <p>
+                  <strong>Order ID:</strong> {selectedOrder.id}
+                </p>
+                <p>
+                  <strong>Customer:</strong> {selectedOrder.user_id}
+                </p>
+                <p>
+                  <strong>Total:</strong> ₱{selectedOrder.total_amount.toFixed(2)}
+                </p>
+                <p>
+                  <strong>Status:</strong> {selectedOrder.order_status}
+                </p>
+                <h3 className="font-semibold text-lg mt-4">Items:</h3>
+                <ul className="list-disc pl-6 space-y-2">
+                  {selectedOrder.items?.map((item, index) => (
+                    <li key={index}>
+                      {item.name} - {item.quantity} x ₱{item.price.toFixed(2)}
+                    </li>
+                  )) || <p>No items in this order.</p>}
+                </ul>
+                <Button variant="outline" className="mt-4" onClick={handleCloseDialog}>
+                  Close
+                </Button>
+              </div>
+            )}
+          </dialog>
         </div>
       </main>
     </div>
