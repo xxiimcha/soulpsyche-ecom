@@ -169,9 +169,9 @@ export default function PaymentMethodsPage() {
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                   {paymentMethods.length > 0 ? (
-                    paymentMethods.map((method) => (
+                    paymentMethods.map((method, index) => (
                       <tr key={method.id}>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{method.id}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{index + 1}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{method.method_name}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{method.description}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex gap-2">

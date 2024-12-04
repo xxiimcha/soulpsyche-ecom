@@ -19,7 +19,6 @@ type BagItem = {
   quantity: number;
   image: string;
 };
-
 export default function BagPage() {
   const [bagItems, setBagItems] = useState<BagItem[]>([]);
   const [loading, setLoading] = useState(false);
@@ -79,97 +78,109 @@ export default function BagPage() {
             Your Bag
           </h2>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="md:col-span-2 space-y-4">
-              {bagItems.map((item) => (
-                <div
-                  key={item.id}
-                  className="flex items-center space-x-4 border-b pb-4"
-                >
-                  <Image
-                    src={item.image}
-                    alt={item.productName}
-                    width={100}
-                    height={100}
-                    className="rounded-md"
-                  />
-                  <div className="flex-grow grid gap-4 grid-cols-1 md:flex">
-                    <div className="flex-grow">
-                      <h3 className="font-semibold">{item.productName}</h3>
-                      <p className="text-sm text-gray-600">Color: {item.color}</p>
-                      <p className="text-sm text-gray-600">Size: {item.size}</p>
-                      <p className="font-semibold mt-2">₱{item.price.toFixed(2)}</p>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        onClick={() =>
-                          updateQuantity(item.id, item.quantity - 1)
-                        }
-                      >
-                        <Minus className="h-4 w-4" />
-                      </Button>
-                      <Input
-                        type="number"
-                        value={item.quantity}
-                        onChange={(e) =>
-                          updateQuantity(item.id, parseInt(e.target.value))
-                        }
-                        className="w-16 text-center"
-                      />
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        onClick={() =>
-                          updateQuantity(item.id, item.quantity + 1)
-                        }
-                      >
-                        <Plus className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </div>
-                  <Button
-                    variant="destructive"
-                    size="icon"
-                    onClick={() => removeItem(item.id)}
+          {bagItems.length > 0 ? (
+            <div className="grid md:grid-cols-3 gap-8">
+              <div className="md:col-span-2 space-y-4">
+                {bagItems.map((item) => (
+                  <div
+                    key={item.id}
+                    className="flex items-center space-x-4 border-b pb-4"
                   >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                </div>
-              ))}
-            </div>
-            <div className="bg-gray-50 p-6 rounded-lg">
-              <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span>Subtotal</span>
-                  <span>₱{subtotal.toFixed(2)}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Shipping</span>
-                  <span>₱{shipping.toFixed(2)}</span>
-                </div>
-                <Separator />
-                <div className="flex justify-between font-semibold">
-                  <span>Total</span>
-                  <span>₱{total.toFixed(2)}</span>
-                </div>
+                    <Image
+                      src={item.image}
+                      alt={item.productName}
+                      width={100}
+                      height={100}
+                      className="rounded-md"
+                    />
+                    <div className="flex-grow grid gap-4 grid-cols-1 md:flex">
+                      <div className="flex-grow">
+                        <h3 className="font-semibold">{item.productName}</h3>
+                        <p className="text-sm text-gray-600">
+                          Color: {item.color}
+                        </p>
+                        <p className="text-sm text-gray-600">
+                          Size: {item.size}
+                        </p>
+                        <p className="font-semibold mt-2">
+                          ₱{item.price.toFixed(2)}
+                        </p>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          onClick={() =>
+                            updateQuantity(item.id, item.quantity - 1)
+                          }
+                        >
+                          <Minus className="h-4 w-4" />
+                        </Button>
+                        <Input
+                          type="number"
+                          value={item.quantity}
+                          onChange={(e) =>
+                            updateQuantity(item.id, parseInt(e.target.value))
+                          }
+                          className="w-16 text-center"
+                        />
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          onClick={() =>
+                            updateQuantity(item.id, item.quantity + 1)
+                          }
+                        >
+                          <Plus className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </div>
+                    <Button
+                      variant="destructive"
+                      size="icon"
+                      onClick={() => removeItem(item.id)}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                ))}
               </div>
-              <Link
-                href={{
-                  pathname: "/shop/order-summary",
-                  query: {
-                    items: JSON.stringify(bagItems),
-                  },
-                }}
-              >
-                <Button className="w-full mt-6" size="lg">
-                  <Truck className="mr-2 h-4 w-4" /> Proceed to Checkout
-                </Button>
-              </Link>
+              <div className="bg-gray-50 p-6 rounded-lg">
+                <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <span>Subtotal</span>
+                    <span>₱{subtotal.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Shipping</span>
+                    <span>₱{shipping.toFixed(2)}</span>
+                  </div>
+                  <Separator />
+                  <div className="flex justify-between font-semibold">
+                    <span>Total</span>
+                    <span>₱{total.toFixed(2)}</span>
+                  </div>
+                </div>
+                <Link
+                  href={{
+                    pathname: "/shop/order-summary",
+                    query: {
+                      items: JSON.stringify(bagItems),
+                    },
+                  }}
+                >
+                  <Button className="w-full mt-6" size="lg">
+                    <Truck className="mr-2 h-4 w-4" /> Proceed to Checkout
+                  </Button>
+                </Link>
+              </div>
             </div>
-          </div>
+          ) : (
+            <p className="text-center text-lg text-gray-500">
+              No items in your bag.
+            </p>
+          )}
         </div>
       </section>
     </main>
