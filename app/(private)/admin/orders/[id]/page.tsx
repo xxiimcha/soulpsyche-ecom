@@ -168,6 +168,24 @@ export default function OrderDetailsPage({
     }
   };
 
+  const downloadInvoice = async () => {
+    try {
+      const response = await axios.get(`/api/orders/invoice/${order?.id}`, {
+        responseType: "blob", // Download as a binary file
+      });
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", `invoice_${order?.id}.pdf`); // File name
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (error) {
+      console.error("Error downloading invoice:", error);
+      alert("Failed to download the invoice. Please try again.");
+    }
+  };
+
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}
