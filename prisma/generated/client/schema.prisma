@@ -155,27 +155,27 @@ model OrderItem {
 }
 
 model PaymentDetail {
-  id             String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  created_at     DateTime       @default(now()) @db.Timestamptz(6)
-  updated_at     DateTime?      @db.Timestamptz(6)
-  order_id       String         @db.Uuid
-  payment_method PAYMENT_METHOD
+  id             String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at     DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at     DateTime? @db.Timestamptz(6)
+  order_id       String    @db.Uuid
+  payment_method String
   transaction_id String
-  amount_paid    Float          @db.Real
+  amount_paid    Float     @db.Real
   payment_status String
-  Order          Order          @relation(fields: [order_id], references: [id], onDelete: Cascade)
+  Order          Order     @relation(fields: [order_id], references: [id], onDelete: Cascade)
 }
 
 model PaymentMethodInfo {
-  id             String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  created_at     DateTime       @default(now()) @db.Timestamptz(6)
-  updated_at     DateTime?      @db.Timestamptz(6)
-  method_name    PAYMENT_METHOD
+  id             String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at     DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at     DateTime? @db.Timestamptz(6)
+  method_name    String // Change from enum to String
   description    String?
   account_name   String?
   account_number String?
   qr_code        String?
-  is_active      Boolean        @default(true)
+  is_active      Boolean   @default(true)
 }
 
 model ShippingAddress {
@@ -198,14 +198,6 @@ enum ORDER_STATUS {
   completed
   shipped
   canceled
-}
-
-enum PAYMENT_METHOD {
-  GCASH
-  Maya
-  BPI
-  PayPal
-  Other
 }
 
 enum PAYMENT_STATUS {

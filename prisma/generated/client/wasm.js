@@ -313,14 +313,6 @@ exports.PAYMENT_STATUS = exports.$Enums.PAYMENT_STATUS = {
   failed: 'failed'
 };
 
-exports.PAYMENT_METHOD = exports.$Enums.PAYMENT_METHOD = {
-  GCASH: 'GCASH',
-  Maya: 'Maya',
-  BPI: 'BPI',
-  PayPal: 'PayPal',
-  Other: 'Other'
-};
-
 exports.Prisma.ModelName = {
   User: 'User',
   Product: 'Product',

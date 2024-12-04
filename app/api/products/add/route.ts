@@ -49,7 +49,7 @@ export async function POST(request: Request) {
         ProductVariantColor: {
           create: body.variants?.map((variant: any) => ({
             color: variant.color, // Color of the variant
-            images: variant.image ? [variant.image] : [], // Ensure images is always an array
+            images: variant.images || [], // Use `images` directly from the payload
             ProductVariantSize: {
               create: variant.sizes.map((size: any) => ({
                 size: size.size, // Size of the variant

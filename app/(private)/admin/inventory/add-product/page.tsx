@@ -55,7 +55,6 @@ export default function AddProductPage() {
     category: "",
     price: "",
     description: "",
-    image: "",
     sku: "",
     variants: [
       {
@@ -119,27 +118,6 @@ export default function AddProductPage() {
     setNewProduct({ ...newProduct, variants: updatedVariants });
   };
   
-  const handleProductImageUpload = async (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", "so8qqjk3");
-
-    try {
-      const response = await axios.post(
-        `https://api.cloudinary.com/v1_1/dwa4rcjan/image/upload`,
-        formData
-      );
-      setNewProduct({ ...newProduct, image: response.data.secure_url });
-    } catch (error) {
-      console.error("Error uploading product image:", error);
-      alert("Failed to upload product image. Please try again.");
-    }
-  };
 
   const removeVariantImage = (variantIndex: number, imageIndex: number) => {
     const updatedVariants = [...newProduct.variants];
@@ -169,7 +147,6 @@ export default function AddProductPage() {
         price: parseFloat(newProduct.price),
         category_id: newProduct.category,
         description: newProduct.description.trim(),
-        image: newProduct.image, // Ensure the image field is included here
         variants: newProduct.variants,
       };
 
@@ -237,27 +214,6 @@ export default function AddProductPage() {
             placeholder="Product name"
             required
           />
-        </div>
-
-        {/* Product Image */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Product Image
-          </label>
-          <input
-            type="file"
-            onChange={handleProductImageUpload}
-            className="mt-1 block w-full"
-          />
-          {newProduct.image && (
-            <Image
-              src={newProduct.image}
-              alt="Product Image"
-              className="mt-2 w-32 h-32 object-cover"
-              width={128}
-              height={128}
-            />
-          )}
         </div>
 
         {/* Price */}
