@@ -125,16 +125,18 @@ model Bag {
 }
 
 model Order {
-  id             String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  created_at     DateTime        @default(now()) @db.Timestamptz(6)
-  updated_at     DateTime?       @db.Timestamptz(6)
-  user_id        String          @db.Uuid
-  order_status   ORDER_STATUS
-  total_amount   Float           @db.Real
-  payment_status PAYMENT_STATUS
-  User           User            @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  OrderItem      OrderItem[]
-  PaymentDetail  PaymentDetail[]
+  id              String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at      DateTime        @default(now()) @db.Timestamptz(6)
+  updated_at      DateTime?       @db.Timestamptz(6)
+  user_id         String          @db.Uuid
+  order_status    ORDER_STATUS
+  total_amount    Float           @db.Real
+  payment_status  PAYMENT_STATUS
+  courier_name    String? // Nullable field for the courier name
+  tracking_number String? // Nullable field for the tracking number
+  User            User            @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  OrderItem       OrderItem[]
+  PaymentDetail   PaymentDetail[]
 }
 
 model OrderItem {

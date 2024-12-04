@@ -3,11 +3,8 @@ import { PrismaClient } from "../../../../prisma/generated/client";
 
 const prisma = new PrismaClient();
 
-export async function GET(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
-  const { id } = params; // Correctly access the params object
+export async function GET(request: Request, context: { params: { id: string } }) {
+  const { id } = context.params;
 
   if (!id) {
     return NextResponse.json({ message: "Invalid order ID" }, { status: 400 });
@@ -19,12 +16,12 @@ export async function GET(
       include: {
         OrderItem: {
           include: {
-            Product: true, // Include related Product information
-            ProductVariantSize: true, // Include related ProductVariantSize information
+            Product: true,
+            ProductVariantSize: true,
           },
         },
-        PaymentDetail: true, // Include payment details
-        User: true, // Include user information
+        PaymentDetail: true,
+        User: true,
       },
     });
 
@@ -32,7 +29,7 @@ export async function GET(
       return NextResponse.json({ message: "Order not found" }, { status: 404 });
     }
 
-    return NextResponse.json(order, { status: 200 });
+    return NextResponse.json(order);
   } catch (error) {
     console.error("Error fetching order:", error);
     return NextResponse.json(

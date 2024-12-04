@@ -132,6 +132,8 @@ model Order {
   order_status   ORDER_STATUS
   total_amount   Float           @db.Real
   payment_status PAYMENT_STATUS
+  courier_name   String?         // Nullable field for the courier name
+  tracking_number String?        // Nullable field for the tracking number
   User           User            @relation(fields: [user_id], references: [id], onDelete: Cascade)
   OrderItem      OrderItem[]
   PaymentDetail  PaymentDetail[]

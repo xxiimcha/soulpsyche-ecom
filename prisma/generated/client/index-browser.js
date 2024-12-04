@@ -214,7 +214,9 @@ exports.Prisma.OrderScalarFieldEnum = {
   user_id: 'user_id',
   order_status: 'order_status',
   total_amount: 'total_amount',
-  payment_status: 'payment_status'
+  payment_status: 'payment_status',
+  courier_name: 'courier_name',
+  tracking_number: 'tracking_number'
 };
 
 exports.Prisma.OrderItemScalarFieldEnum = {

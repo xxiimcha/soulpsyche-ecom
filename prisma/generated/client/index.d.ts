@@ -10536,6 +10536,8 @@ export namespace Prisma {
     order_status: $Enums.ORDER_STATUS | null
     total_amount: number | null
     payment_status: $Enums.PAYMENT_STATUS | null
+    courier_name: string | null
+    tracking_number: string | null
   }
 
   export type OrderMaxAggregateOutputType = {
@@ -10546,6 +10548,8 @@ export namespace Prisma {
     order_status: $Enums.ORDER_STATUS | null
     total_amount: number | null
     payment_status: $Enums.PAYMENT_STATUS | null
+    courier_name: string | null
+    tracking_number: string | null
   }
 
   export type OrderCountAggregateOutputType = {
@@ -10556,6 +10560,8 @@ export namespace Prisma {
     order_status: number
     total_amount: number
     payment_status: number
+    courier_name: number
+    tracking_number: number
     _all: number
   }
 
@@ -10576,6 +10582,8 @@ export namespace Prisma {
     order_status?: true
     total_amount?: true
     payment_status?: true
+    courier_name?: true
+    tracking_number?: true
   }
 
   export type OrderMaxAggregateInputType = {
@@ -10586,6 +10594,8 @@ export namespace Prisma {
     order_status?: true
     total_amount?: true
     payment_status?: true
+    courier_name?: true
+    tracking_number?: true
   }
 
   export type OrderCountAggregateInputType = {
@@ -10596,6 +10606,8 @@ export namespace Prisma {
     order_status?: true
     total_amount?: true
     payment_status?: true
+    courier_name?: true
+    tracking_number?: true
     _all?: true
   }
 
@@ -10693,6 +10705,8 @@ export namespace Prisma {
     order_status: $Enums.ORDER_STATUS
     total_amount: number
     payment_status: $Enums.PAYMENT_STATUS
+    courier_name: string | null
+    tracking_number: string | null
     _count: OrderCountAggregateOutputType | null
     _avg: OrderAvgAggregateOutputType | null
     _sum: OrderSumAggregateOutputType | null
@@ -10722,6 +10736,8 @@ export namespace Prisma {
     order_status?: boolean
     total_amount?: boolean
     payment_status?: boolean
+    courier_name?: boolean
+    tracking_number?: boolean
     User?: boolean | UserDefaultArgs<ExtArgs>
     OrderItem?: boolean | Order$OrderItemArgs<ExtArgs>
     PaymentDetail?: boolean | Order$PaymentDetailArgs<ExtArgs>
@@ -10736,6 +10752,8 @@ export namespace Prisma {
     order_status?: boolean
     total_amount?: boolean
     payment_status?: boolean
+    courier_name?: boolean
+    tracking_number?: boolean
     User?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["order"]>
 
@@ -10747,6 +10765,8 @@ export namespace Prisma {
     order_status?: boolean
     total_amount?: boolean
     payment_status?: boolean
+    courier_name?: boolean
+    tracking_number?: boolean
   }
 
   export type OrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10774,6 +10794,8 @@ export namespace Prisma {
       order_status: $Enums.ORDER_STATUS
       total_amount: number
       payment_status: $Enums.PAYMENT_STATUS
+      courier_name: string | null
+      tracking_number: string | null
     }, ExtArgs["result"]["order"]>
     composites: {}
   }
@@ -11177,6 +11199,8 @@ export namespace Prisma {
     readonly order_status: FieldRef<"Order", 'ORDER_STATUS'>
     readonly total_amount: FieldRef<"Order", 'Float'>
     readonly payment_status: FieldRef<"Order", 'PAYMENT_STATUS'>
+    readonly courier_name: FieldRef<"Order", 'String'>
+    readonly tracking_number: FieldRef<"Order", 'String'>
   }
     
 
@@ -15635,7 +15659,9 @@ export namespace Prisma {
     user_id: 'user_id',
     order_status: 'order_status',
     total_amount: 'total_amount',
-    payment_status: 'payment_status'
+    payment_status: 'payment_status',
+    courier_name: 'courier_name',
+    tracking_number: 'tracking_number'
   };
 
   export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
@@ -16503,6 +16529,8 @@ export namespace Prisma {
     order_status?: EnumORDER_STATUSFilter<"Order"> | $Enums.ORDER_STATUS
     total_amount?: FloatFilter<"Order"> | number
     payment_status?: EnumPAYMENT_STATUSFilter<"Order"> | $Enums.PAYMENT_STATUS
+    courier_name?: StringNullableFilter<"Order"> | string | null
+    tracking_number?: StringNullableFilter<"Order"> | string | null
     User?: XOR<UserScalarRelationFilter, UserWhereInput>
     OrderItem?: OrderItemListRelationFilter
     PaymentDetail?: PaymentDetailListRelationFilter
@@ -16516,6 +16544,8 @@ export namespace Prisma {
     order_status?: SortOrder
     total_amount?: SortOrder
     payment_status?: SortOrder
+    courier_name?: SortOrderInput | SortOrder
+    tracking_number?: SortOrderInput | SortOrder
     User?: UserOrderByWithRelationInput
     OrderItem?: OrderItemOrderByRelationAggregateInput
     PaymentDetail?: PaymentDetailOrderByRelationAggregateInput
@@ -16532,6 +16562,8 @@ export namespace Prisma {
     order_status?: EnumORDER_STATUSFilter<"Order"> | $Enums.ORDER_STATUS
     total_amount?: FloatFilter<"Order"> | number
     payment_status?: EnumPAYMENT_STATUSFilter<"Order"> | $Enums.PAYMENT_STATUS
+    courier_name?: StringNullableFilter<"Order"> | string | null
+    tracking_number?: StringNullableFilter<"Order"> | string | null
     User?: XOR<UserScalarRelationFilter, UserWhereInput>
     OrderItem?: OrderItemListRelationFilter
     PaymentDetail?: PaymentDetailListRelationFilter
@@ -16545,6 +16577,8 @@ export namespace Prisma {
     order_status?: SortOrder
     total_amount?: SortOrder
     payment_status?: SortOrder
+    courier_name?: SortOrderInput | SortOrder
+    tracking_number?: SortOrderInput | SortOrder
     _count?: OrderCountOrderByAggregateInput
     _avg?: OrderAvgOrderByAggregateInput
     _max?: OrderMaxOrderByAggregateInput
@@ -16563,6 +16597,8 @@ export namespace Prisma {
     order_status?: EnumORDER_STATUSWithAggregatesFilter<"Order"> | $Enums.ORDER_STATUS
     total_amount?: FloatWithAggregatesFilter<"Order"> | number
     payment_status?: EnumPAYMENT_STATUSWithAggregatesFilter<"Order"> | $Enums.PAYMENT_STATUS
+    courier_name?: StringNullableWithAggregatesFilter<"Order"> | string | null
+    tracking_number?: StringNullableWithAggregatesFilter<"Order"> | string | null
   }
 
   export type OrderItemWhereInput = {
@@ -17557,6 +17593,8 @@ export namespace Prisma {
     order_status: $Enums.ORDER_STATUS
     total_amount: number
     payment_status: $Enums.PAYMENT_STATUS
+    courier_name?: string | null
+    tracking_number?: string | null
     User: UserCreateNestedOneWithoutOrderInput
     OrderItem?: OrderItemCreateNestedManyWithoutOrderInput
     PaymentDetail?: PaymentDetailCreateNestedManyWithoutOrderInput
@@ -17570,6 +17608,8 @@ export namespace Prisma {
     order_status: $Enums.ORDER_STATUS
     total_amount: number
     payment_status: $Enums.PAYMENT_STATUS
+    courier_name?: string | null
+    tracking_number?: string | null
     OrderItem?: OrderItemUncheckedCreateNestedManyWithoutOrderInput
     PaymentDetail?: PaymentDetailUncheckedCreateNestedManyWithoutOrderInput
   }
@@ -17581,6 +17621,8 @@ export namespace Prisma {
     order_status?: EnumORDER_STATUSFieldUpdateOperationsInput | $Enums.ORDER_STATUS
     total_amount?: FloatFieldUpdateOperationsInput | number
     payment_status?: EnumPAYMENT_STATUSFieldUpdateOperationsInput | $Enums.PAYMENT_STATUS
+    courier_name?: NullableStringFieldUpdateOperationsInput | string | null
+    tracking_number?: NullableStringFieldUpdateOperationsInput | string | null
     User?: UserUpdateOneRequiredWithoutOrderNestedInput
     OrderItem?: OrderItemUpdateManyWithoutOrderNestedInput
     PaymentDetail?: PaymentDetailUpdateManyWithoutOrderNestedInput
@@ -17594,6 +17636,8 @@ export namespace Prisma {
     order_status?: EnumORDER_STATUSFieldUpdateOperationsInput | $Enums.ORDER_STATUS
     total_amount?: FloatFieldUpdateOperationsInput | number
     payment_status?: EnumPAYMENT_STATUSFieldUpdateOperationsInput | $Enums.PAYMENT_STATUS
+    courier_name?: NullableStringFieldUpdateOperationsInput | string | null
+    tracking_number?: NullableStringFieldUpdateOperationsInput | string | null
     OrderItem?: OrderItemUncheckedUpdateManyWithoutOrderNestedInput
     PaymentDetail?: PaymentDetailUncheckedUpdateManyWithoutOrderNestedInput
   }
@@ -17606,6 +17650,8 @@ export namespace Prisma {
     order_status: $Enums.ORDER_STATUS
     total_amount: number
     payment_status: $Enums.PAYMENT_STATUS
+    courier_name?: string | null
+    tracking_number?: string | null
   }
 
   export type OrderUpdateManyMutationInput = {
@@ -17615,6 +17661,8 @@ export namespace Prisma {
     order_status?: EnumORDER_STATUSFieldUpdateOperationsInput | $Enums.ORDER_STATUS
     total_amount?: FloatFieldUpdateOperationsInput | number
     payment_status?: EnumPAYMENT_STATUSFieldUpdateOperationsInput | $Enums.PAYMENT_STATUS
+    courier_name?: NullableStringFieldUpdateOperationsInput | string | null
+    tracking_number?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type OrderUncheckedUpdateManyInput = {
@@ -17625,6 +17673,8 @@ export namespace Prisma {
     order_status?: EnumORDER_STATUSFieldUpdateOperationsInput | $Enums.ORDER_STATUS
     total_amount?: FloatFieldUpdateOperationsInput | number
     payment_status?: EnumPAYMENT_STATUSFieldUpdateOperationsInput | $Enums.PAYMENT_STATUS
+    courier_name?: NullableStringFieldUpdateOperationsInput | string | null
+    tracking_number?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type OrderItemCreateInput = {
@@ -18646,6 +18696,8 @@ export namespace Prisma {
     order_status?: SortOrder
     total_amount?: SortOrder
     payment_status?: SortOrder
+    courier_name?: SortOrder
+    tracking_number?: SortOrder
   }
 
   export type OrderAvgOrderByAggregateInput = {
@@ -18660,6 +18712,8 @@ export namespace Prisma {
     order_status?: SortOrder
     total_amount?: SortOrder
     payment_status?: SortOrder
+    courier_name?: SortOrder
+    tracking_number?: SortOrder
   }
 
   export type OrderMinOrderByAggregateInput = {
@@ -18670,6 +18724,8 @@ export namespace Prisma {
     order_status?: SortOrder
     total_amount?: SortOrder
     payment_status?: SortOrder
+    courier_name?: SortOrder
+    tracking_number?: SortOrder
   }
 
   export type OrderSumOrderByAggregateInput = {
@@ -20278,6 +20334,8 @@ export namespace Prisma {
     order_status: $Enums.ORDER_STATUS
     total_amount: number
     payment_status: $Enums.PAYMENT_STATUS
+    courier_name?: string | null
+    tracking_number?: string | null
     OrderItem?: OrderItemCreateNestedManyWithoutOrderInput
     PaymentDetail?: PaymentDetailCreateNestedManyWithoutOrderInput
   }
@@ -20289,6 +20347,8 @@ export namespace Prisma {
     order_status: $Enums.ORDER_STATUS
     total_amount: number
     payment_status: $Enums.PAYMENT_STATUS
+    courier_name?: string | null
+    tracking_number?: string | null
     OrderItem?: OrderItemUncheckedCreateNestedManyWithoutOrderInput
     PaymentDetail?: PaymentDetailUncheckedCreateNestedManyWithoutOrderInput
   }
@@ -20452,6 +20512,8 @@ export namespace Prisma {
     order_status?: EnumORDER_STATUSFilter<"Order"> | $Enums.ORDER_STATUS
     total_amount?: FloatFilter<"Order"> | number
     payment_status?: EnumPAYMENT_STATUSFilter<"Order"> | $Enums.PAYMENT_STATUS
+    courier_name?: StringNullableFilter<"Order"> | string | null
+    tracking_number?: StringNullableFilter<"Order"> | string | null
   }
 
   export type ShippingAddressUpsertWithWhereUniqueWithoutUserInput = {
@@ -21957,6 +22019,8 @@ export namespace Prisma {
     order_status: $Enums.ORDER_STATUS
     total_amount: number
     payment_status: $Enums.PAYMENT_STATUS
+    courier_name?: string | null
+    tracking_number?: string | null
     User: UserCreateNestedOneWithoutOrderInput
     PaymentDetail?: PaymentDetailCreateNestedManyWithoutOrderInput
   }
@@ -21969,6 +22033,8 @@ export namespace Prisma {
     order_status: $Enums.ORDER_STATUS
     total_amount: number
     payment_status: $Enums.PAYMENT_STATUS
+    courier_name?: string | null
+    tracking_number?: string | null
     PaymentDetail?: PaymentDetailUncheckedCreateNestedManyWithoutOrderInput
   }
 
@@ -22065,6 +22131,8 @@ export namespace Prisma {
     order_status?: EnumORDER_STATUSFieldUpdateOperationsInput | $Enums.ORDER_STATUS
     total_amount?: FloatFieldUpdateOperationsInput | number
     payment_status?: EnumPAYMENT_STATUSFieldUpdateOperationsInput | $Enums.PAYMENT_STATUS
+    courier_name?: NullableStringFieldUpdateOperationsInput | string | null
+    tracking_number?: NullableStringFieldUpdateOperationsInput | string | null
     User?: UserUpdateOneRequiredWithoutOrderNestedInput
     PaymentDetail?: PaymentDetailUpdateManyWithoutOrderNestedInput
   }
@@ -22077,6 +22145,8 @@ export namespace Prisma {
     order_status?: EnumORDER_STATUSFieldUpdateOperationsInput | $Enums.ORDER_STATUS
     total_amount?: FloatFieldUpdateOperationsInput | number
     payment_status?: EnumPAYMENT_STATUSFieldUpdateOperationsInput | $Enums.PAYMENT_STATUS
+    courier_name?: NullableStringFieldUpdateOperationsInput | string | null
+    tracking_number?: NullableStringFieldUpdateOperationsInput | string | null
     PaymentDetail?: PaymentDetailUncheckedUpdateManyWithoutOrderNestedInput
   }
 
@@ -22169,6 +22239,8 @@ export namespace Prisma {
     order_status: $Enums.ORDER_STATUS
     total_amount: number
     payment_status: $Enums.PAYMENT_STATUS
+    courier_name?: string | null
+    tracking_number?: string | null
     User: UserCreateNestedOneWithoutOrderInput
     OrderItem?: OrderItemCreateNestedManyWithoutOrderInput
   }
@@ -22181,6 +22253,8 @@ export namespace Prisma {
     order_status: $Enums.ORDER_STATUS
     total_amount: number
     payment_status: $Enums.PAYMENT_STATUS
+    courier_name?: string | null
+    tracking_number?: string | null
     OrderItem?: OrderItemUncheckedCreateNestedManyWithoutOrderInput
   }
 
@@ -22207,6 +22281,8 @@ export namespace Prisma {
     order_status?: EnumORDER_STATUSFieldUpdateOperationsInput | $Enums.ORDER_STATUS
     total_amount?: FloatFieldUpdateOperationsInput | number
     payment_status?: EnumPAYMENT_STATUSFieldUpdateOperationsInput | $Enums.PAYMENT_STATUS
+    courier_name?: NullableStringFieldUpdateOperationsInput | string | null
+    tracking_number?: NullableStringFieldUpdateOperationsInput | string | null
     User?: UserUpdateOneRequiredWithoutOrderNestedInput
     OrderItem?: OrderItemUpdateManyWithoutOrderNestedInput
   }
@@ -22219,6 +22295,8 @@ export namespace Prisma {
     order_status?: EnumORDER_STATUSFieldUpdateOperationsInput | $Enums.ORDER_STATUS
     total_amount?: FloatFieldUpdateOperationsInput | number
     payment_status?: EnumPAYMENT_STATUSFieldUpdateOperationsInput | $Enums.PAYMENT_STATUS
+    courier_name?: NullableStringFieldUpdateOperationsInput | string | null
+    tracking_number?: NullableStringFieldUpdateOperationsInput | string | null
     OrderItem?: OrderItemUncheckedUpdateManyWithoutOrderNestedInput
   }
 
@@ -22401,6 +22479,8 @@ export namespace Prisma {
     order_status: $Enums.ORDER_STATUS
     total_amount: number
     payment_status: $Enums.PAYMENT_STATUS
+    courier_name?: string | null
+    tracking_number?: string | null
   }
 
   export type ShippingAddressCreateManyUserInput = {
@@ -22503,6 +22583,8 @@ export namespace Prisma {
     order_status?: EnumORDER_STATUSFieldUpdateOperationsInput | $Enums.ORDER_STATUS
     total_amount?: FloatFieldUpdateOperationsInput | number
     payment_status?: EnumPAYMENT_STATUSFieldUpdateOperationsInput | $Enums.PAYMENT_STATUS
+    courier_name?: NullableStringFieldUpdateOperationsInput | string | null
+    tracking_number?: NullableStringFieldUpdateOperationsInput | string | null
     OrderItem?: OrderItemUpdateManyWithoutOrderNestedInput
     PaymentDetail?: PaymentDetailUpdateManyWithoutOrderNestedInput
   }
@@ -22514,6 +22596,8 @@ export namespace Prisma {
     order_status?: EnumORDER_STATUSFieldUpdateOperationsInput | $Enums.ORDER_STATUS
     total_amount?: FloatFieldUpdateOperationsInput | number
     payment_status?: EnumPAYMENT_STATUSFieldUpdateOperationsInput | $Enums.PAYMENT_STATUS
+    courier_name?: NullableStringFieldUpdateOperationsInput | string | null
+    tracking_number?: NullableStringFieldUpdateOperationsInput | string | null
     OrderItem?: OrderItemUncheckedUpdateManyWithoutOrderNestedInput
     PaymentDetail?: PaymentDetailUncheckedUpdateManyWithoutOrderNestedInput
   }
@@ -22525,6 +22609,8 @@ export namespace Prisma {
     order_status?: EnumORDER_STATUSFieldUpdateOperationsInput | $Enums.ORDER_STATUS
     total_amount?: FloatFieldUpdateOperationsInput | number
     payment_status?: EnumPAYMENT_STATUSFieldUpdateOperationsInput | $Enums.PAYMENT_STATUS
+    courier_name?: NullableStringFieldUpdateOperationsInput | string | null
+    tracking_number?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ShippingAddressUpdateWithoutUserInput = {

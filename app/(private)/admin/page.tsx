@@ -125,22 +125,6 @@ export default function AdminPanel() {
             </div>
           </div>
 
-          {/* Chart Section */}
-          <div className="mt-8 bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold mb-4">Bar Chart - Multiple</h2>
-            <BarChart width={600} height={300} data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis />
-              <RechartsTooltip />
-              <Bar dataKey="desktop" fill="#8884d8" />
-              <Bar dataKey="mobile" fill="#82ca9d" />
-            </BarChart>
-            <div className="mt-4 text-sm">
-              <p>Trending up by 5.2% this month <TrendingUp className="inline h-4 w-4" /></p>
-              <p className="text-muted-foreground">Showing total visitors for the last 6 months</p>
-            </div>
-          </div>
         </div>
       </main>
     </div>

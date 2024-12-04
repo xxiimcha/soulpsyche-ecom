@@ -162,13 +162,11 @@ export default function OrdersPage() {
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">₱{order.total_amount.toFixed(2)}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{order.order_status}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex gap-2">
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => handleViewOrder(order.id)}
-                          >
-                            <Eye className="h-4 w-4" />
-                          </Button>
+                          <Link href={`/admin/orders/${order.id}`}>
+                            <Button variant="outline" size="sm">
+                              <Eye className="h-4 w-4" />
+                            </Button>
+                          </Link>
                           <Button variant="outline" size="sm">
                             <Edit className="h-4 w-4" />
                           </Button>
