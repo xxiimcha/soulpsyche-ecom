@@ -1,9 +1,17 @@
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@/prisma/generated/client";
+import { PrismaClient } from '../../../prisma/generated/client';
 
 const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
+  interface OrderItem {
+    productName: string;
+    variantSize: string;
+    quantity: number;
+    price: number;
+  }
+
+  
   try {
     const body = await req.json();
     const { userId, items, subtotal, total, paymentMethod } = body;
@@ -32,7 +40,7 @@ export async function POST(req: Request) {
         { status: 400 }
       );
     }
-
+    
     // Use a transaction to ensure atomicity
     const result = await prisma.$transaction(async (prisma) => {
       // Create the order
@@ -79,7 +87,7 @@ export async function POST(req: Request) {
 
       console.log("Order items created:", orderItems);
 
-      // Delete items from Bag table after order is created
+      // Delete items from Bag table after order
       await prisma.bag.deleteMany({
         where: {
           user_id: userId,
@@ -104,6 +112,69 @@ export async function POST(req: Request) {
 
       return order;
     });
+
+    // Send email using Resend API
+    const emailResponse = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer re_TeZt35op_NRGa25ycWY3upWgurS9VKcvM`, // Replace with your actual API key
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: "onboarding@resend.dev",
+        to: "soulepsycle1201@gmail.com", // Static email for testing
+        subject: "Order Confirmation",
+        html: `
+      <div style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px;">
+        <div style="max-width: 600px; margin: 0 auto; background-color: #fff; border: 1px solid #ddd; padding: 20px;">
+          <h1 style="color: #000; border-bottom: 2px solid #000; padding-bottom: 10px;">Order Confirmation</h1>
+          <p style="color: #333; font-size: 16px;">
+            Thank you for your order! Below are the details of your purchase:
+          </p>
+          <div style="margin: 20px 0; border: 1px solid #ddd; padding: 15px; background-color: #fdfdfd;">
+            <p style="margin: 5px 0;"><strong>Order ID:</strong> ${result.id}</p>
+            <p style="margin: 5px 0;"><strong>Total Amount:</strong> ₱${total}</p>
+            <p style="margin: 5px 0;"><strong>Payment Method:</strong> ${paymentMethod}</p>
+          </div>
+          <h2 style="color: #000; margin-top: 20px;">Items:</h2>
+          <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+            <thead>
+              <tr>
+                <th style="text-align: left; padding: 10px; border-bottom: 1px solid #ddd;">Product</th>
+                <th style="text-align: left; padding: 10px; border-bottom: 1px solid #ddd;">Size</th>
+                <th style="text-align: right; padding: 10px; border-bottom: 1px solid #ddd;">Quantity</th>
+                <th style="text-align: right; padding: 10px; border-bottom: 1px solid #ddd;">Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${items.map((item: OrderItem) => `
+                <tr>
+                  <td style="padding: 10px; border-bottom: 1px solid #ddd;">${item.productName}</td>
+                  <td style="padding: 10px; border-bottom: 1px solid #ddd;">${item.variantSize}</td>
+                  <td style="padding: 10px; text-align: right; border-bottom: 1px solid #ddd;">${item.quantity}</td>
+                  <td style="padding: 10px; text-align: right; border-bottom: 1px solid #ddd;">₱${item.price.toFixed(2)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+          <p style="color: #333; font-size: 14px; margin-top: 20px;">
+            If you have any questions about your order, please contact our support team at 
+            <a href="mailto:support@soulepsycle.com" style="color: #000; text-decoration: none;">support@soulepsycle.com</a>.
+          </p>
+          <p style="color: #666; font-size: 12px; margin-top: 30px; text-align: center;">
+            &copy; 2024 SoulePsycle. All rights reserved.
+          </p>
+        </div>
+      </div>
+    `,
+      }),
+    });
+
+    if (!emailResponse.ok) {
+      console.error("Failed to send email:", await emailResponse.text());
+    } else {
+      console.log("Order confirmation email sent successfully.");
+    }
 
     return NextResponse.json(
       { message: "Order placed successfully", orderId: result.id },
