@@ -87,6 +87,7 @@ export namespace $Enums {
   pending: 'pending',
   processing: 'processing',
   completed: 'completed',
+  shipped: 'shipped',
   canceled: 'canceled'
 };
 

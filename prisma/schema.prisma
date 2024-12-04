@@ -196,6 +196,7 @@ enum ORDER_STATUS {
   pending
   processing
   completed
+  shipped
   canceled
 }
 

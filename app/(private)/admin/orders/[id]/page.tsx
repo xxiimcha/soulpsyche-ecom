@@ -23,8 +23,8 @@ import {
 import Image from "next/image";
 import SoulePsycleLogo from "@/public/logo.jpg";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogOverlay, DialogContent, DialogTitle } from "@/components/ui/dialog"; // Adjust the path as needed
-import { Input } from "@/components/ui/input"; // Import Input component
+import { Dialog, DialogOverlay, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { use } from "react"; // Import `use` for unwrapping promises
 
 interface OrderItem {
@@ -41,6 +41,8 @@ interface OrderDetails {
   user: string;
   totalAmount: number;
   orderStatus: string;
+  courierName?: string; // Add courier details
+  trackingNumber?: string;
   items: OrderItem[];
   paymentDetails: { payment_method: string; amount_paid: number }[];
 }
@@ -52,6 +54,14 @@ const sidebarItems = [
   { icon: Users, name: "Customers", href: "/admin/customers" },
   { icon: CreditCard, name: "Payment Methods", href: "/admin/payment-methods" },
 ];
+
+const STATUS_STYLES: Record<string, string> = {
+  pending: "text-yellow-600 bg-yellow-100 px-3 py-1 rounded-full",
+  processing: "text-blue-600 bg-blue-100 px-3 py-1 rounded-full",
+  shipped: "text-green-600 bg-green-100 px-3 py-1 rounded-full",
+  completed: "text-gray-600 bg-gray-100 px-3 py-1 rounded-full",
+  canceled: "text-red-600 bg-red-100 px-3 py-1 rounded-full",
+};
 
 export default function OrderDetailsPage({
   params: paramsPromise,
@@ -85,11 +95,13 @@ export default function OrderDetailsPage({
       const response = await axios.get(`/api/orders/${orderId}`);
       const data = response.data;
 
-      const formattedOrder = {
+      const formattedOrder: OrderDetails = {
         id: data.id,
         user: data.User?.username || "N/A",
         totalAmount: data.total_amount,
         orderStatus: data.order_status,
+        courierName: data.courier_name || "", // Fetch courier details
+        trackingNumber: data.tracking_number || "",
         items: data.OrderItem.map((item: any) => ({
           id: item.id,
           productName: item.Product?.name || "Unknown Product",
@@ -137,13 +149,14 @@ export default function OrderDetailsPage({
     }
 
     try {
-      const response = await axios.patch(`/api/orders/${order.id}/hand-to-courier`, {
-        courierName,
-        trackingNumber,
+      const response = await axios.patch(`/api/orders/handed-to-courier/${order.id}`, {
+        courier_name: courierName,
+        tracking_number: trackingNumber,
       });
 
       if (response.status === 200) {
-        setOrder({ ...order, orderStatus: "shipped" });
+        // Update local order status
+        setOrder({ ...order, orderStatus: "shipped", courierName, trackingNumber });
         alert("Order has been handed to the courier!");
         setIsModalOpen(false); // Close the modal
       } else {
@@ -242,12 +255,27 @@ export default function OrderDetailsPage({
                   <Tag className="h-8 w-8 text-gray-500" />
                   <div>
                     <p className="text-sm text-gray-500">Status</p>
-                    <p className="text-lg font-semibold text-gray-700">
+                    <div className={STATUS_STYLES[order?.orderStatus || ""]}>
                       {order?.orderStatus}
-                    </p>
+                    </div>
                   </div>
                 </div>
               </div>
+
+              {/* Courier Details */}
+              {order?.courierName && order?.trackingNumber && (
+                <div className="bg-gray-50 p-4 rounded-lg shadow-md mb-6">
+                  <h3 className="text-lg font-semibold text-gray-700 mb-2">
+                    Courier Details
+                  </h3>
+                  <p>
+                    <strong>Courier Name:</strong> {order.courierName}
+                  </p>
+                  <p>
+                    <strong>Tracking Number:</strong> {order.trackingNumber}
+                  </p>
+                </div>
+              )}
 
               {/* Items Table */}
               <h3 className="text-xl font-semibold text-gray-700 mb-4">
@@ -324,7 +352,7 @@ export default function OrderDetailsPage({
                     className="flex items-center space-x-2"
                     onClick={() => setIsModalOpen(true)}
                   >
-                    <span>Hand to Courier</span>
+                    <span>Handed to Courier</span>
                   </Button>
                 )}
 
@@ -343,7 +371,7 @@ export default function OrderDetailsPage({
                 <Dialog open={isModalOpen}>
                   <DialogOverlay onClick={() => setIsModalOpen(false)} />
                   <DialogContent>
-                    <DialogTitle>Hand to Courier</DialogTitle>
+                    <DialogTitle>Courier Details</DialogTitle>
                     <div className="space-y-4 mt-4">
                       <Input
                         placeholder="Courier Name"
@@ -366,7 +394,6 @@ export default function OrderDetailsPage({
                     </div>
                   </DialogContent>
                 </Dialog>
-                
               )}
             </div>
           )}

@@ -303,6 +303,7 @@ exports.ORDER_STATUS = exports.$Enums.ORDER_STATUS = {
   pending: 'pending',
   processing: 'processing',
   completed: 'completed',
+  shipped: 'shipped',
   canceled: 'canceled'
 };
 
