@@ -197,54 +197,81 @@ export default function PaymentMethodsPage() {
           )}
 
           {modalOpen && (
-            <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
-              <div className="bg-white rounded-lg shadow-lg p-6 w-96">
-                <h2 className="text-xl font-semibold mb-4">Add Payment Method</h2>
-                <form>
-                  <input
-                    type="text"
-                    placeholder="Method Name"
-                    className="w-full mb-4 border rounded-md p-2"
-                    value={newMethod.method_name}
-                    onChange={(e) => setNewMethod((prev) => ({ ...prev, method_name: e.target.value }))}
-                  />
-                  <textarea
-                    placeholder="Description"
-                    className="w-full mb-4 border rounded-md p-2"
-                    value={newMethod.description}
-                    onChange={(e) => setNewMethod((prev) => ({ ...prev, description: e.target.value }))}
-                  ></textarea>
-                  <input
-                    type="text"
-                    placeholder="Account Name"
-                    className="w-full mb-4 border rounded-md p-2"
-                    value={newMethod.account_name}
-                    onChange={(e) => setNewMethod((prev) => ({ ...prev, account_name: e.target.value }))}
-                  />
-                  <input
-                    type="text"
-                    placeholder="Account Number"
-                    className="w-full mb-4 border rounded-md p-2"
-                    value={newMethod.account_number}
-                    onChange={(e) => setNewMethod((prev) => ({ ...prev, account_number: e.target.value }))}
-                  />
-                  <input
-                    type="file"
-                    accept="image/*"
-                    className="w-full mb-4"
-                    onChange={(e) => e.target.files && handleImageUpload(e.target.files[0])}
-                  />
-                  {uploading && <p>Uploading QR Code...</p>}
-                  <label className="flex items-center mb-4">
+            <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50">
+              <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+                <h2 className="text-xl font-semibold text-gray-800 mb-4">Add Payment Method</h2>
+                <form className="space-y-4">
+                  {/* Method Name */}
+                  <div className="space-y-1">
+                    <label className="block text-sm font-medium text-gray-700">
+                      Method Name <span className="text-red-500">*</span>
+                    </label>
                     <input
-                      type="checkbox"
-                      className="mr-2"
-                      checked={newMethod.is_active}
-                      onChange={(e) => setNewMethod((prev) => ({ ...prev, is_active: e.target.checked }))}
+                      type="text"
+                      placeholder="Enter payment method name"
+                      className="w-full border rounded-md p-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                      value={newMethod.method_name}
+                      onChange={(e) => setNewMethod((prev) => ({ ...prev, method_name: e.target.value }))}
                     />
-                    Active
-                  </label>
-                  <div className="flex justify-end gap-2">
+                  </div>
+
+                  {/* Description */}
+                  <div className="space-y-1">
+                    <label className="block text-sm font-medium text-gray-700">
+                      Description <span className="text-red-500">*</span>
+                    </label>
+                    <textarea
+                      placeholder="Enter description"
+                      className="w-full border rounded-md p-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                      value={newMethod.description}
+                      onChange={(e) => setNewMethod((prev) => ({ ...prev, description: e.target.value }))}
+                    ></textarea>
+                  </div>
+
+                  {/* Account Name */}
+                  <div className="space-y-1">
+                    <label className="block text-sm font-medium text-gray-700">Account Name</label>
+                    <input
+                      type="text"
+                      placeholder="Enter account name"
+                      className="w-full border rounded-md p-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                      value={newMethod.account_name}
+                      onChange={(e) => setNewMethod((prev) => ({ ...prev, account_name: e.target.value }))}
+                    />
+                  </div>
+
+                  {/* Account Number */}
+                  <div className="space-y-1">
+                    <label className="block text-sm font-medium text-gray-700">Account Number</label>
+                    <input
+                      type="text"
+                      placeholder="Enter account number"
+                      className="w-full border rounded-md p-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                      value={newMethod.account_number}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (/^\d*$/.test(value) && value.length <= 16) {
+                          setNewMethod((prev) => ({ ...prev, account_number: value }));
+                        }
+                      }}
+                    />
+                    <small className="text-gray-500">Maximum 16 digits allowed.</small>
+                  </div>
+
+                  {/* QR Code Upload */}
+                  <div className="space-y-1">
+                    <label className="block text-sm font-medium text-gray-700">Upload QR Code</label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="w-full border rounded-md p-2"
+                      onChange={(e) => e.target.files && handleImageUpload(e.target.files[0])}
+                    />
+                    {uploading && <p className="text-sm text-gray-500">Uploading QR Code...</p>}
+                  </div>
+
+                  {/* Buttons */}
+                  <div className="flex justify-end gap-4">
                     <Button variant="outline" onClick={() => setModalOpen(false)}>
                       Cancel
                     </Button>
