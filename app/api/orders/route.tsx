@@ -195,7 +195,7 @@ export async function GET(req: Request) {
     const orderId = searchParams.get("orderId");
 
     if (orderId) {
-      // Fetch a specific order by ID
+      // Fetch a specific order by ID with the User's name (username)
       const order = await prisma.order.findUnique({
         where: { id: orderId },
         include: {
@@ -205,6 +205,7 @@ export async function GET(req: Request) {
             },
           },
           PaymentDetail: true,
+          User: true,  // Include the User relation to get the username
         },
       });
 
@@ -212,9 +213,15 @@ export async function GET(req: Request) {
         return NextResponse.json({ message: "Order not found" }, { status: 404 });
       }
 
-      return NextResponse.json(order, { status: 200 });
+      // Add the username to the order object
+      const orderWithUsername = {
+        ...order,
+        user_name: order.User?.username || "Unknown User",  // Add the username to the order data
+      };
+
+      return NextResponse.json(orderWithUsername, { status: 200 });
     } else {
-      // Fetch all orders
+      // Fetch all orders and include the user's name
       const orders = await prisma.order.findMany({
         include: {
           OrderItem: {
@@ -223,10 +230,17 @@ export async function GET(req: Request) {
             },
           },
           PaymentDetail: true,
+          User: true,  // Include the User relation to get the username
         },
       });
 
-      return NextResponse.json(orders, { status: 200 });
+      // Modify the orders array to include the user's name
+      const ordersWithUsername = orders.map((order) => ({
+        ...order,
+        user_name: order.User?.username || "Unknown User",  // Add the username to each order
+      }));
+
+      return NextResponse.json(ordersWithUsername, { status: 200 });
     }
   } catch (error) {
     console.error("Error fetching orders:", error);
