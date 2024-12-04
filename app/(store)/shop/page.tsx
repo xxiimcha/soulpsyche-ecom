@@ -20,22 +20,37 @@ type Product = {
   }[];
 };
 
+type Category = {
+  id: string;
+  name: string;
+};
+
 export default function ShopPage() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [minPrice, setMinPrice] = useState<number | null>(null);
+  const [maxPrice, setMaxPrice] = useState<number | null>(null);
   const [selectedAttributes, setSelectedAttributes] = useState<{
     [key: string]: { color: string; sizeId: string };
   }>({});
   const router = useRouter();
 
-  // Fetch products data on mount
+  // Fetch categories and products data on mount
   useEffect(() => {
-    async function fetchProducts() {
+    async function fetchCategoriesAndProducts() {
       try {
-        const response = await fetch("/api/products");
-        const data = await response.json();
-  
-        const transformedProducts = data.map((product: any) => ({
+        // Fetch categories
+        const categoryResponse = await fetch("/api/categories");
+        const categoryData = await categoryResponse.json();
+        setCategories(categoryData);
+
+        // Fetch products
+        const productResponse = await fetch("/api/products");
+        const productData = await productResponse.json();
+
+        const transformedProducts = productData.map((product: any) => ({
           id: product.id || "N/A",
           name: product.name || "Unnamed Product",
           rawPrice: product.price || 0,
@@ -46,7 +61,7 @@ export default function ShopPage() {
               }).format(product.price)
             : "₱0.00",
           image: product.image || "/placeholder-dark-image.png",
-          category: product.categoryName || "Uncategorized", // Use the new categoryName field
+          category: product.categoryName || "Uncategorized",
           colors: product.ProductVariantColor
             ? product.ProductVariantColor.map((variant: any) => ({
                 color: variant.color || "Unknown Color",
@@ -59,15 +74,23 @@ export default function ShopPage() {
               }))
             : [],
         }));
-  
+
         setProducts(transformedProducts);
       } catch (error) {
-        console.error("Error fetching products:", error);
+        console.error("Error fetching categories or products:", error);
       }
     }
-  
-    fetchProducts();
-  }, []);  
+
+    fetchCategoriesAndProducts();
+  }, []);
+
+  const handleCategoryChange = (categoryId: string) => {
+    setSelectedCategories((prev) =>
+      prev.includes(categoryId)
+        ? prev.filter((id) => id !== categoryId) // Remove if already selected
+        : [...prev, categoryId] // Add if not selected
+    );
+  };
 
   const handleAttributeChange = (
     productId: string,
@@ -83,117 +106,195 @@ export default function ShopPage() {
     }));
   };
 
-  const filteredProducts = products.filter((product) =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const handleBuyNow = (productId: string) => {
+    const selectedSizeId = selectedAttributes[productId]?.sizeId;
+
+    if (!selectedSizeId) {
+      alert("Please select a size before proceeding.");
+      return;
+    }
+
+    // Navigate to product details page
+    router.push(`/shop/product-details/${productId}`);
+  };
+
+  // Filter products based on search term, selected categories, and price range
+  const filteredProducts = products.filter((product) => {
+    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory =
+      selectedCategories.length === 0 ||
+      selectedCategories.includes(product.category);
+    const matchesPrice =
+      (minPrice === null || product.rawPrice >= minPrice) &&
+      (maxPrice === null || product.rawPrice <= maxPrice);
+
+    return matchesSearch && matchesCategory && matchesPrice;
+  });
 
   return (
     <main className="flex-1">
       <section className="w-full py-8 md:py-14 lg:py-16 bg-gray-100">
         <div className="container px-4 md:px-6">
           <h2 className="text-3xl sm:text-5xl mb-12 font-bold tracking-tighter">
-            Shop All
+            Shop
           </h2>
 
-          <div className="flex items-center mb-6 space-x-4">
-            <div className="relative w-full md:w-64">
-              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Search products"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-8 bg-white"
-              />
-            </div>
-          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            {/* Sidebar Filter Section */}
+            <aside className="bg-white p-6 rounded-lg shadow-md">
+              <h3 className="font-bold text-lg mb-4">Filters</h3>
+              <div className="space-y-6">
+                {/* Search Filter */}
+                <div>
+                  <h4 className="font-medium mb-2">Search</h4>
+                  <Input
+                    placeholder="Search products"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="bg-gray-50"
+                  />
+                </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {filteredProducts.map((product) => (
-              <div
-                key={product.id}
-                className="bg-white border rounded-lg overflow-hidden cursor-pointer"
-                onClick={() => router.push(`shop/product-details/${product.id}`)}
-              >
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  width={300}
-                  height={300}
-                  className="w-full object-cover"
-                />
-                <div className="p-4">
-                  <h2 className="font-semibold text-lg">{product.name}</h2>
-                  <p className="text-sm text-gray-600">{product.category}</p>
-
-                  {/* Colors Section */}
-                  <div className="mt-2">
-                    <p className="text-sm font-medium mb-2">Color:</p>
-                    <div className="flex flex-wrap gap-2">
-                      {product.colors.map((colorVariant) => (
-                        <button
-                          key={colorVariant.color}
-                          className={`px-3 py-1 border rounded-md ${
-                            selectedAttributes[product.id]?.color === colorVariant.color
-                              ? "bg-gray-800 text-white"
-                              : "bg-gray-200 text-gray-800"
-                          }`}
-                          onClick={(e) => {
-                            e.stopPropagation(); // Prevent card click
-                            handleAttributeChange(product.id, colorVariant.color);
-                          }}
+                {/* Category Filter */}
+                <div>
+                  <h4 className="font-medium mb-2">Category</h4>
+                  <ul className="space-y-2">
+                    {categories.map((category) => (
+                      <li key={category.id} className="flex items-center space-x-2">
+                        <input
+                          type="checkbox"
+                          id={`category-${category.id}`}
+                          checked={selectedCategories.includes(category.name)}
+                          onChange={() => handleCategoryChange(category.name)}
+                          className="form-checkbox h-4 w-4"
+                        />
+                        <label
+                          htmlFor={`category-${category.id}`}
+                          className="text-gray-700"
                         >
-                          {colorVariant.color}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
+                          {category.name}
+                        </label>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
 
-                  {/* Sizes Section */}
-                  <div className="mt-4">
-                    <p className="text-sm font-medium mb-2">Size:</p>
-                    <div className="flex flex-wrap gap-2">
-                      {product.colors
-                        .find(
-                          (colorVariant) =>
-                            colorVariant.color === selectedAttributes[product.id]?.color
-                        )
-                        ?.sizes.map((size) => (
+                {/* Price Filter */}
+                <div>
+                  <h4 className="font-medium mb-2">Price</h4>
+                  <div className="flex items-center space-x-2">
+                    <Input
+                      type="number"
+                      placeholder="Min"
+                      value={minPrice || ""}
+                      onChange={(e) =>
+                        setMinPrice(e.target.value ? parseInt(e.target.value, 10) : null)
+                      }
+                      className="w-24"
+                    />
+                    <span>-</span>
+                    <Input
+                      type="number"
+                      placeholder="Max"
+                      value={maxPrice || ""}
+                      onChange={(e) =>
+                        setMaxPrice(e.target.value ? parseInt(e.target.value, 10) : null)
+                      }
+                      className="w-24"
+                    />
+                  </div>
+                </div>
+              </div>
+            </aside>
+
+            {/* Products Grid */}
+            <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+              {filteredProducts.map((product) => (
+                <div
+                  key={product.id}
+                  className="bg-white border rounded-lg overflow-hidden cursor-pointer"
+                >
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    width={300}
+                    height={300}
+                    className="w-full object-cover"
+                    onClick={() =>
+                      router.push(`/shop/product-details/${product.id}`)
+                    }
+                  />
+                  <div className="p-4">
+                    <h2 className="font-semibold text-lg">{product.name}</h2>
+                    <p className="text-sm text-gray-600">{product.category}</p>
+
+                    {/* Colors Section */}
+                    <div className="mt-2">
+                      <p className="text-sm font-medium mb-2">Color:</p>
+                      <div className="flex flex-wrap gap-2">
+                        {product.colors.map((colorVariant) => (
                           <button
-                            key={size.id}
+                            key={colorVariant.color}
                             className={`px-3 py-1 border rounded-md ${
-                              selectedAttributes[product.id]?.sizeId === size.id
+                              selectedAttributes[product.id]?.color ===
+                              colorVariant.color
                                 ? "bg-gray-800 text-white"
                                 : "bg-gray-200 text-gray-800"
                             }`}
                             onClick={(e) => {
                               e.stopPropagation(); // Prevent card click
-                              handleAttributeChange(product.id, undefined, size.id);
+                              handleAttributeChange(product.id, colorVariant.color);
                             }}
                           >
-                            {size.label}
+                            {colorVariant.color}
                           </button>
                         ))}
+                      </div>
                     </div>
-                  </div>
 
-                  <p className="font-bold mt-4">{product.price}</p>
-                  <Button
-                    className="w-full mt-4"
-                    onClick={(e) => {
-                      e.stopPropagation(); // Prevent card click
-                      const selectedSizeId = selectedAttributes[product.id]?.sizeId;
-                      if (!selectedSizeId) {
-                        alert("Please select a size before proceeding.");
-                        return;
-                      }
-                      router.push(`shop/product-details/${product.id}`);
-                    }}
-                  >
-                    Buy Now
-                  </Button>
+                    {/* Sizes Section */}
+                    <div className="mt-4">
+                      <p className="text-sm font-medium mb-2">Size:</p>
+                      <div className="flex flex-wrap gap-2">
+                        {product.colors
+                          .find(
+                            (colorVariant) =>
+                              colorVariant.color ===
+                              selectedAttributes[product.id]?.color
+                          )
+                          ?.sizes.map((size) => (
+                            <button
+                              key={size.id}
+                              className={`px-3 py-1 border rounded-md ${
+                                selectedAttributes[product.id]?.sizeId === size.id
+                                  ? "bg-gray-800 text-white"
+                                  : "bg-gray-200 text-gray-800"
+                              }`}
+                              onClick={(e) => {
+                                e.stopPropagation(); // Prevent card click
+                                handleAttributeChange(product.id, undefined, size.id);
+                              }}
+                            >
+                              {size.label}
+                            </button>
+                          ))}
+                      </div>
+                    </div>
+
+                    <p className="font-bold mt-4">{product.price}</p>
+                    <Button
+                      className="w-full mt-4"
+                      onClick={(e) => {
+                        e.stopPropagation(); // Prevent card click
+                        handleBuyNow(product.id);
+                      }}
+                    >
+                      Buy Now
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>

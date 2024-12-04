@@ -34,7 +34,7 @@ export default function ProductDetailsPage() {
       try {
         const response = await fetch(`/api/products/${id}`);
         const data = await response.json();
-
+  
         const transformedProduct = {
           id: data.id,
           name: data.name || "Unnamed Product",
@@ -49,7 +49,7 @@ export default function ProductDetailsPage() {
           colors: data.colors.map((variant: any) => ({
             color: variant.color || "Unknown Color",
             id: variant.id,
-            images: variant.images || [], // Include images array
+            images: variant.images || [],
             sizes: variant.sizes.map((size: any) => ({
               id: size.id,
               label: size.label,
@@ -57,22 +57,23 @@ export default function ProductDetailsPage() {
             })),
           })),
         };
-
+  
         setProduct(transformedProduct);
-
-        // Set default selected image and color
-        if (transformedProduct.colors.length > 0) {
-          setSelectedColor(transformedProduct.colors[0].color);
-          setSelectedImage(transformedProduct.colors[0].images[0] || null);
-        }
       } catch (error) {
         console.error("Error fetching product details:", error);
       }
     }
-
+  
     fetchProductDetails();
   }, [id]);
-
+  
+  // Use a separate effect to set the default selected color and image
+  useEffect(() => {
+    if (product?.colors && product.colors.length > 0) {
+      setSelectedColor(product.colors[0].color);
+      setSelectedImage(product.colors[0].images[0] || null);
+    }
+  }, [product]);
   
   const handleAddToCart = async () => {
     if (!selectedSizeId || !selectedColor || !product) {
@@ -166,7 +167,7 @@ export default function ProductDetailsPage() {
               .find((variant) => variant.color === selectedColor)
               ?.images.map((image, index) => (
                 <button
-                  key={index}
+                  key={`image-${index}`} // Ensure uniqueness
                   onClick={() => setSelectedImage(image)}
                   className={`w-16 h-16 rounded border ${
                     selectedImage === image ? "border-gray-800" : "border-gray-200"
@@ -218,21 +219,22 @@ export default function ProductDetailsPage() {
           <div className="mb-6">
             <p className="font-medium mb-2">Size:</p>
             <div className="flex flex-wrap gap-2">
-              {product.colors
-                .find((colorVariant) => colorVariant.color === selectedColor)
-                ?.sizes.map((size) => (
-                  <button
-                    key={size.id}
-                    className={`px-3 py-1 border rounded-md ${
-                      selectedSizeId === size.id
-                        ? "bg-gray-800 text-white"
-                        : "bg-gray-200 text-gray-800"
-                    }`}
-                    onClick={() => setSelectedSizeId(size.id)}
-                  >
-                    {size.label}
-                  </button>
-                ))}
+            {product.colors
+  .find((colorVariant) => colorVariant.color === selectedColor)
+  ?.sizes.map((size) => (
+    <button
+      key={`size-${size.id}`} // Ensure uniqueness
+      className={`px-3 py-1 border rounded-md ${
+        selectedSizeId === size.id
+          ? "bg-gray-800 text-white"
+          : "bg-gray-200 text-gray-800"
+      }`}
+      onClick={() => setSelectedSizeId(size.id)}
+    >
+      {size.label}
+    </button>
+  ))}
+
             </div>
           </div>
 
