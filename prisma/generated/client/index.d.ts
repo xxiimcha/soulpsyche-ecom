@@ -16884,7 +16884,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     username: string
     email: string
-    user_id?: string
+    user_id: string
     address?: string
     Address?: AddressCreateNestedManyWithoutUserInput
     Bag?: BagCreateNestedManyWithoutUserInput
@@ -16899,7 +16899,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     username: string
     email: string
-    user_id?: string
+    user_id: string
     address?: string
     Address?: AddressUncheckedCreateNestedManyWithoutUserInput
     Bag?: BagUncheckedCreateNestedManyWithoutUserInput
@@ -16944,7 +16944,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     username: string
     email: string
-    user_id?: string
+    user_id: string
     address?: string
   }
 
@@ -21278,7 +21278,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     username: string
     email: string
-    user_id?: string
+    user_id: string
     address?: string
     Address?: AddressCreateNestedManyWithoutUserInput
     Bag?: BagCreateNestedManyWithoutUserInput
@@ -21292,7 +21292,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     username: string
     email: string
-    user_id?: string
+    user_id: string
     address?: string
     Address?: AddressUncheckedCreateNestedManyWithoutUserInput
     Bag?: BagUncheckedCreateNestedManyWithoutUserInput
@@ -21432,7 +21432,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     username: string
     email: string
-    user_id?: string
+    user_id: string
     address?: string
     Bag?: BagCreateNestedManyWithoutUserInput
     Order?: OrderCreateNestedManyWithoutUserInput
@@ -21446,7 +21446,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     username: string
     email: string
-    user_id?: string
+    user_id: string
     address?: string
     Bag?: BagUncheckedCreateNestedManyWithoutUserInput
     Order?: OrderUncheckedCreateNestedManyWithoutUserInput
@@ -21620,7 +21620,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     username: string
     email: string
-    user_id?: string
+    user_id: string
     address?: string
     Address?: AddressCreateNestedManyWithoutUserInput
     Order?: OrderCreateNestedManyWithoutUserInput
@@ -21634,7 +21634,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     username: string
     email: string
-    user_id?: string
+    user_id: string
     address?: string
     Address?: AddressUncheckedCreateNestedManyWithoutUserInput
     Order?: OrderUncheckedCreateNestedManyWithoutUserInput
@@ -21772,7 +21772,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     username: string
     email: string
-    user_id?: string
+    user_id: string
     address?: string
     Address?: AddressCreateNestedManyWithoutUserInput
     Bag?: BagCreateNestedManyWithoutUserInput
@@ -21786,7 +21786,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     username: string
     email: string
-    user_id?: string
+    user_id: string
     address?: string
     Address?: AddressUncheckedCreateNestedManyWithoutUserInput
     Bag?: BagUncheckedCreateNestedManyWithoutUserInput
@@ -22275,7 +22275,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     username: string
     email: string
-    user_id?: string
+    user_id: string
     address?: string
     Address?: AddressCreateNestedManyWithoutUserInput
     Bag?: BagCreateNestedManyWithoutUserInput
@@ -22289,7 +22289,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     username: string
     email: string
-    user_id?: string
+    user_id: string
     address?: string
     Address?: AddressUncheckedCreateNestedManyWithoutUserInput
     Bag?: BagUncheckedCreateNestedManyWithoutUserInput
