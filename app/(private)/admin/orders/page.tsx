@@ -159,7 +159,7 @@ export default function OrdersPage() {
                     orders.map((order, index) => (
                       <tr key={order.id}>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{index + 1}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{order.user_name}</td> {/* Display user_name here */}
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{order.user_name}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">₱{order.total_amount.toFixed(2)}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{order.order_status}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex gap-2">
