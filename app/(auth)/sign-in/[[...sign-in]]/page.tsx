@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useSignIn } from "@clerk/nextjs";
+import axios from "axios";
 import Image from "next/image";
 import Logo from "@/public/logo.jpg";
 import { Button } from "@/components/ui/button";
@@ -39,36 +40,56 @@ export default function CustomLoginPage() {
   const handleVerifyCode = async () => {
     setLoading(true);
     setError(null);
-
+  
     try {
       if (!isLoaded) return;
-
+  
       // Attempt to verify the code
       const signInAttempt = await signIn.attemptFirstFactor({
         strategy: "email_code",
         code, // The code entered by the user
       });
-
+  
       if (signInAttempt.status === "complete") {
         setActive({ session: signInAttempt.createdSessionId });
-        window.location.href = "/"; // Redirect to dashboard
+  
+        // Fetch the user ID using Axios
+        console.log("Calling the API to fetch user data...");
+        const response = await axios.get(`/api/users/get-by-email`, {
+          params: { email },
+        });
+  
+        if (response.status === 200) {
+          const userId = response.data.id;
+          console.log("API successfully called. Logged in user ID:", userId);
+  
+          // Save the user ID to localStorage
+          localStorage.setItem("userId", userId);
+  
+          // Print the saved user ID from localStorage
+          console.log("Saved User ID in localStorage:", localStorage.getItem("userId"));
+        } else {
+          console.error("API call failed. Failed to fetch user data");
+        }
+  
+        window.location.href = "/"; // Redirect to the dashboard
       } else {
         setError("Verification failed. Please try again.");
       }
     } catch (err: any) {
-      setError(err?.errors[0]?.message || "Invalid code. Please try again.");
+      setError(err?.response?.data?.message || "Invalid code. Please try again.");
     } finally {
       setLoading(false);
     }
-  };
+  };  
 
   const handleSocialSignIn = async (provider: "google" | "facebook") => {
     try {
       if (!isLoaded) return;
-  
+
       // Map the provider to the correct OAuth strategy
       const strategy = provider === "google" ? "oauth_google" : "oauth_facebook";
-  
+
       // Redirect user to the appropriate social login
       await signIn.authenticateWithRedirect({
         strategy, // Now it's a valid OAuthStrategy type
@@ -79,7 +100,6 @@ export default function CustomLoginPage() {
       setError(err?.errors[0]?.message || `Failed to login with ${provider}.`);
     }
   };
-
 
   return (
     <main className="h-screen flex items-center justify-center bg-gray-100">
