@@ -46,14 +46,14 @@ export async function GET(req: Request) {
       description: product.description || "No description available.",
       colors: product.ProductVariantColor.map((variant) => ({
         color: variant.color,
-        images: variant.images || [], // Fetch images as an array
+        images: variant.images || [],
         sizes: variant.ProductVariantSize.map((size) => ({
           id: size.id,
           label: size.size,
           stock: size.stock || 0,
         })),
       })),
-    };
+    };    
 
     return NextResponse.json(response, { status: 200 });
   } catch (error) {

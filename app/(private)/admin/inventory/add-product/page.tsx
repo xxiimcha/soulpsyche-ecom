@@ -321,115 +321,127 @@ export default function AddProductPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {newProduct.variants[variantIndex].sizes.length > 0 ? (
-                    newProduct.variants[variantIndex].sizes.map((size, sizeIndex) => (
-                      <tr key={sizeIndex}>
-                        <td className="px-4 py-2 border">{size.size}</td>
-                        <td className="px-4 py-2 border">
-                          <input
-                            type="number"
-                            value={size.stock || ""}
-                            onChange={(e) => {
-                              const updatedVariants = [...newProduct.variants];
-                              updatedVariants[variantIndex].sizes[sizeIndex].stock = parseInt(e.target.value, 10) || 0;
-                              setNewProduct({ ...newProduct, variants: updatedVariants });
-                            }}
-                            onFocus={(e) => (e.target.value =                 e.target.value = "")}
-                            className="w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                            placeholder="Stock"
-                            required
-                          />
-                        </td>
-                        <td className="px-4 py-2 border">
-                          <select
-                            value={size.status}
-                            onChange={(e) => {
-                              const updatedVariants = [...newProduct.variants];
-                              updatedVariants[variantIndex].sizes[sizeIndex].status =
-                                e.target.value;
-                              setNewProduct({ ...newProduct, variants: updatedVariants });
-                            }}
-                            className="w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                            required
-                          >
-                            {PRODUCT_STATUS.map((status) => (
-                              <option key={status} value={status}>
-                                {status}
-                              </option>
-                            ))}
-                          </select>
-                        </td>
-                        <td className="px-4 py-2 border">
-                          <Button
-                            variant="outline"
-                            className="text-red-500"
-                            onClick={() => {
-                              const updatedVariants = [...newProduct.variants];
-                              updatedVariants[variantIndex].sizes.splice(sizeIndex, 1);
-                              setNewProduct({ ...newProduct, variants: updatedVariants });
-                            }}
-                          >
-                            Remove
-                          </Button>
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
+                  {newProduct.variants[variantIndex].sizes.map((size, sizeIndex) => (
+                    <tr key={sizeIndex}>
+                      {/* Size Dropdown */}
+                      <td className="px-4 py-2 border">
+                        <select
+                          value={size.size}
+                          onChange={(e) => {
+                            const updatedVariants = [...newProduct.variants];
+                            updatedVariants[variantIndex].sizes[sizeIndex].size =
+                              e.target.value;
+                            setNewProduct({ ...newProduct, variants: updatedVariants });
+                          }}
+                          className="w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                          required
+                        >
+                          <option value="">Select Size</option>
+                          {AVAILABLE_SIZES.filter(
+                            (availableSize) =>
+                              !newProduct.variants[variantIndex].sizes.some(
+                                (selectedSize, selectedIndex) =>
+                                  selectedIndex !== sizeIndex &&
+                                  selectedSize.size === availableSize
+                              )
+                          ).map((availableSize) => (
+                            <option key={availableSize} value={availableSize}>
+                              {availableSize}
+                            </option>
+                          ))}
+                        </select>
+                      </td>
+                      {/* Stock Input */}
+                      <td className="px-4 py-2 border">
+                        <input
+                          type="number"
+                          value={size.stock || ""}
+                          onChange={(e) => {
+                            const updatedVariants = [...newProduct.variants];
+                            updatedVariants[variantIndex].sizes[sizeIndex].stock =
+                              parseInt(e.target.value, 10) || 0;
+                            setNewProduct({ ...newProduct, variants: updatedVariants });
+                          }}
+                          className="w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                          placeholder="Stock"
+                          required
+                        />
+                      </td>
+                      {/* Status Dropdown */}
+                      <td className="px-4 py-2 border">
+                        <select
+                          value={size.status}
+                          onChange={(e) => {
+                            const updatedVariants = [...newProduct.variants];
+                            updatedVariants[variantIndex].sizes[sizeIndex].status =
+                              e.target.value;
+                            setNewProduct({ ...newProduct, variants: updatedVariants });
+                          }}
+                          className="w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                          required
+                        >
+                          {PRODUCT_STATUS.map((status) => (
+                            <option key={status} value={status}>
+                              {status}
+                            </option>
+                          ))}
+                        </select>
+                      </td>
+                      {/* Remove Button */}
+                      <td className="px-4 py-2 border">
+                        <Button
+                          variant="outline"
+                          className="text-red-500"
+                          onClick={() => {
+                            const updatedVariants = [...newProduct.variants];
+                            updatedVariants[variantIndex].sizes.splice(sizeIndex, 1);
+                            setNewProduct({ ...newProduct, variants: updatedVariants });
+                          }}
+                        >
+                          Remove
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
+
+                  {/* Add New Size Row (if not all sizes are selected) */}
+                  {newProduct.variants[variantIndex].sizes.length < AVAILABLE_SIZES.length && (
                     <tr>
-                      <td colSpan={4} className="text-center py-4">
-                        No sizes added yet. Please add a size.
+                      <td className="px-4 py-2 border">
+                        <select
+                          onChange={(e) => {
+                            const selectedSize = e.target.value;
+                            if (selectedSize) {
+                              const updatedVariants = [...newProduct.variants];
+                              updatedVariants[variantIndex].sizes.push({
+                                size: selectedSize,
+                                stock: 0,
+                                status: "Active",
+                              });
+                              setNewProduct({ ...newProduct, variants: updatedVariants });
+                              e.target.value = ""; // Reset the dropdown after selection
+                            }
+                          }}
+                          className="w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                        >
+                          <option value="">Select Size</option>
+                          {AVAILABLE_SIZES.filter(
+                            (size) =>
+                              !newProduct.variants[variantIndex].sizes.some(
+                                (selectedSize) => selectedSize.size === size
+                              )
+                          ).map((size) => (
+                            <option key={size} value={size}>
+                              {size}
+                            </option>
+                          ))}
+                        </select>
                       </td>
                     </tr>
                   )}
-                  <tr>
-                    <td className="px-4 py-2 border">
-                      <select
-                        onChange={(e) => {
-                          const selectedSize = e.target.value;
-                          if (selectedSize) {
-                            const updatedVariants = [...newProduct.variants];
-                            updatedVariants[variantIndex].sizes.push({
-                              size: selectedSize,
-                              stock: 0,
-                              status: "Active",
-                            });
-                            setNewProduct({ ...newProduct, variants: updatedVariants });
-                          }
-                        }}
-                        className="w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                      >
-                        <option value="">Select Size</option>
-                        {AVAILABLE_SIZES.filter(
-                          (size) =>
-                            !newProduct.variants[variantIndex].sizes.some(
-                              (selectedSize) => selectedSize.size === size
-                            )
-                        ).map((size) => (
-                          <option key={size} value={size}>
-                            {size}
-                          </option>
-                        ))}
-                      </select>
-                    </td>
-                    <td className="px-4 py-2 border" colSpan={3}>
-                      <Button
-                        variant="outline"
-                        onClick={() => {
-                          const updatedVariants = [...newProduct.variants];
-                          updatedVariants[variantIndex].sizes.push({
-                            size: "",
-                            stock: 0,
-                            status: "Active",
-                          });
-                          setNewProduct({ ...newProduct, variants: updatedVariants });
-                        }}
-                      >
-                        Add Size
-                      </Button>
-                    </td>
-                  </tr>
                 </tbody>
-              </table>              
+              </table>
+           
             </div>
           ))}
           <Button

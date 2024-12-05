@@ -1,15 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import axios from "axios";
 import Sidebar from "@/components/Sidebar";
 import { Button } from "@/components/ui/button";
 
 export default function EditProductPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const id = searchParams.get("id"); // Retrieve `id` from query parameters
+  const { id } = useParams(); // Get `id` from dynamic route
 
   const [product, setProduct] = useState<any>(null);
   const [loading, setLoading] = useState(false);
@@ -19,6 +18,7 @@ export default function EditProductPage() {
       const fetchProduct = async () => {
         try {
           setLoading(true);
+          console.log("Fetching product with ID:", id);
           const response = await axios.get(`/api/products/${id}`);
           setProduct(response.data);
         } catch (error) {
@@ -29,6 +29,8 @@ export default function EditProductPage() {
       };
 
       fetchProduct();
+    } else {
+      console.error("Product ID is missing.");
     }
   }, [id]);
 
@@ -55,8 +57,16 @@ export default function EditProductPage() {
     }
   };
 
-  if (!product) {
+  if (!id) {
+    return <p>Error: Product ID is missing.</p>;
+  }
+
+  if (loading) {
     return <p>Loading product details...</p>;
+  }
+
+  if (!product) {
+    return <p>Product not found or failed to load.</p>;
   }
 
   return (
