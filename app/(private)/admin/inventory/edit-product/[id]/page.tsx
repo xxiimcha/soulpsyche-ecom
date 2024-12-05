@@ -11,11 +11,12 @@ interface Size {
   id: string;
   label: string;
   stock: number;
+  status: string;
 }
 
 interface Color {
   color: string;
-  images: string[];
+  images: string[]; // Array of image URLs for this variant
   sizes: Size[];
 }
 
@@ -40,6 +41,7 @@ export default function EditProductPage() {
   const [product, setProduct] = useState<Product | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(false);
+  const [uploading, setUploading] = useState(false); // To track image upload status
 
   useEffect(() => {
     if (id) {
@@ -72,23 +74,23 @@ export default function EditProductPage() {
 
   const handleSaveProduct = async () => {
     if (!product) return;
-  
+
     try {
       if (!product.name.trim()) {
         alert("Product name is required.");
         return;
       }
-  
+
       if (!product.category) {
         alert("Please select a category.");
         return;
       }
-  
+
       if (isNaN(Number(product.price)) || Number(product.price) <= 0) {
         alert("Please enter a valid price.");
         return;
       }
-  
+
       const updatedProduct = {
         id: product.id,
         name: product.name,
@@ -97,11 +99,11 @@ export default function EditProductPage() {
         description: product.description,
         colors: product.colors,
       };
-  
+
       setLoading(true);
-  
+
       const response = await axios.put(`/api/products/${id}`, updatedProduct);
-  
+
       if (response.status === 200) {
         alert("Product updated successfully!");
         router.push("/admin/inventory");
@@ -112,7 +114,49 @@ export default function EditProductPage() {
     } finally {
       setLoading(false);
     }
-  };  
+  };
+
+  const handleImageUpload = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+    variantIndex: number
+  ) => {
+    const files = e.target.files;
+    if (!files || !product) return;
+
+    try {
+      setUploading(true);
+
+      const formData = new FormData();
+      Array.from(files).forEach((file) => formData.append("images", file));
+
+      const response = await axios.post(
+        `/api/products/${product.id}/upload-images`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+
+      const updatedColors = [...product.colors];
+      updatedColors[variantIndex].images.push(...response.data.images);
+      setProduct({ ...product, colors: updatedColors });
+
+      alert("Images uploaded successfully!");
+    } catch (error) {
+      console.error("Error uploading images:", error);
+      alert("Failed to upload images. Please try again.");
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handleRemoveImage = (variantIndex: number, imageIndex: number) => {
+    if (!product) return;
+
+    const updatedColors = [...product.colors];
+    updatedColors[variantIndex].images.splice(imageIndex, 1);
+    setProduct({ ...product, colors: updatedColors });
+  };
 
   if (!id) {
     return <p>Error: Product ID is missing.</p>;
@@ -192,7 +236,9 @@ export default function EditProductPage() {
                   <div key={variantIndex} className="border rounded-md p-4 mb-4">
                     {/* Variant Color */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700">Variant Color</label>
+                      <label className="block text-sm font-medium text-gray-700">
+                        Variant Color
+                      </label>
                       <input
                         type="text"
                         value={variant.color}
@@ -206,25 +252,140 @@ export default function EditProductPage() {
                       />
                     </div>
 
-                    {/* Sizes */}
+                    {/* Images */}
                     <div className="mt-4">
-                      <label className="block text-sm font-medium text-gray-700">Sizes</label>
-                      {variant.sizes.map((size, sizeIndex) => (
-                        <div key={size.id} className="flex items-center space-x-4">
-                          <p className="flex-1">{size.label}</p>
-                          <input
-                            type="number"
-                            value={size.stock}
-                            onChange={(e) => {
-                              const updatedColors = [...product.colors];
-                              updatedColors[variantIndex].sizes[sizeIndex].stock = +e.target.value;
-                              setProduct({ ...product, colors: updatedColors });
-                            }}
-                            className="block w-24 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                          />
-                        </div>
-                      ))}
+                      <label className="block text-sm font-medium text-gray-700">
+                        Images
+                      </label>
+                      <div className="flex gap-4 flex-wrap">
+                        {variant.images.map((image, imageIndex) => (
+                          <div key={imageIndex} className="relative">
+                            <Image
+                              src={image}
+                              alt={`Variant ${variant.color}`}
+                              className="w-24 h-24 object-cover rounded-md"
+                              width={96}
+                              height={96}
+                            />
+                            <Button
+                              variant="destructive"
+                              size="sm"
+                              className="absolute top-1 right-1"
+                              onClick={() => handleRemoveImage(variantIndex, imageIndex)}
+                            >
+                              Remove
+                            </Button>
+                          </div>
+                        ))}
+                      </div>
+                      <input
+                        type="file"
+                        multiple
+                        className="mt-2"
+                        onChange={(e) => handleImageUpload(e, variantIndex)}
+                      />
                     </div>
+
+                    {/* Sizes Section */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Sizes and Stock</label>
+                      <table className="table-auto w-full border-collapse border border-gray-300 text-sm">
+                        <thead>
+                          <tr className="bg-gray-100">
+                            <th className="border border-gray-300 px-4 py-2 text-left">Size</th>
+                            <th className="border border-gray-300 px-4 py-2 text-left">Stock</th>
+                            <th className="border border-gray-300 px-4 py-2 text-left">Status</th>
+                            <th className="border border-gray-300 px-4 py-2 text-left">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {variant.sizes.map((size, sizeIndex) => (
+                            <tr key={size.id} className="odd:bg-white even:bg-gray-50">
+                              {/* Size Dropdown */}
+                              <td className="border border-gray-300 px-4 py-2">
+                                <select
+                                  value={size.label}
+                                  onChange={(e) => {
+                                    const updatedColors = [...product.colors];
+                                    updatedColors[variantIndex].sizes[sizeIndex].label = e.target.value;
+                                    setProduct({ ...product, colors: updatedColors });
+                                  }}
+                                  className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                                >
+                                  <option value="" disabled>Select Size</option>
+                                  <option value="XS">XS</option>
+                                  <option value="S">S</option>
+                                  <option value="M">M</option>
+                                  <option value="L">L</option>
+                                  <option value="XL">XL</option>
+                                </select>
+                              </td>
+
+                              {/* Stock Input */}
+                              <td className="border border-gray-300 px-4 py-2">
+                                <input
+                                  type="number"
+                                  value={size.stock}
+                                  onChange={(e) => {
+                                    const updatedColors = [...product.colors];
+                                    updatedColors[variantIndex].sizes[sizeIndex].stock = +e.target.value;
+                                    setProduct({ ...product, colors: updatedColors });
+                                  }}
+                                  className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                                  placeholder="Stock"
+                                  required
+                                />
+                              </td>
+
+                              {/* Status Dropdown */}
+                              <td className="border border-gray-300 px-4 py-2">
+                                <select
+                                  value={size.status}
+                                  onChange={(e) => {
+                                    const updatedColors = [...product.colors];
+                                    updatedColors[variantIndex].sizes[sizeIndex].status = e.target.value;
+                                    setProduct({ ...product, colors: updatedColors });
+                                  }}
+                                  className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                                >
+                                  <option value="Active">Active</option>
+                                  <option value="Out of Stock">Out of Stock</option>
+                                </select>
+                              </td>
+
+                              {/* Remove Button */}
+                              <td className="border border-gray-300 px-4 py-2">
+                                <Button
+                                  variant="destructive"
+                                  size="sm"
+                                  onClick={() => {
+                                    const updatedColors = [...product.colors];
+                                    updatedColors[variantIndex].sizes.splice(sizeIndex, 1);
+                                    setProduct({ ...product, colors: updatedColors });
+                                  }}
+                                >
+                                  Remove
+                                </Button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+
+                      {/* Add New Size Button */}
+                      <Button
+                        variant="outline"
+                        className="mt-4"
+                        onClick={() => {
+                          const updatedColors = [...product.colors];
+                          updatedColors[variantIndex].sizes.push({ id: Date.now().toString(), label: "", stock: 0, status: "Active" });
+                          setProduct({ ...product, colors: updatedColors });
+                        }}
+                      >
+                        Add Size
+                      </Button>
+                    </div>
+
                   </div>
                 ))}
               </div>
@@ -237,9 +398,9 @@ export default function EditProductPage() {
                 <Button
                   variant="default"
                   onClick={handleSaveProduct}
-                  disabled={loading}
+                  disabled={loading || uploading}
                 >
-                  {loading ? "Saving..." : "Save"}
+                  {loading || uploading ? "Saving..." : "Save"}
                 </Button>
               </div>
             </form>
