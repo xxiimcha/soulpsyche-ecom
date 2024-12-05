@@ -11,7 +11,7 @@ export default function LandingPage() {
 						<div className="flex flex-col items-center space-y-4 text-center">
 							<div className="space-y-2">
 								<h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-									Welcome to SoulePsycle.com
+									Welcome to SoulePsycle
 								</h1>
 								<p className="mx-auto max-w-[700px] text-gray-400 md:text-xl">
 									[soul•cycle]shouting your sighs. All our designs are copyright of our store. DO NOT REPRINT.
@@ -33,7 +33,7 @@ export default function LandingPage() {
 						<FeaturedProducts />
 						<div className="mt-12 text-center">
 							<Button asChild>
-								<Link href="/products">View All Products</Link>
+								<Link href="/shop">View All Products</Link>
 							</Button>
 						</div>
 					</div>

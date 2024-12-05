@@ -1,23 +1,32 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "../../../prisma/generated/client";
 
 const prisma = new PrismaClient();
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
-    const userId = "c816e27a-e9dd-411f-b0d4-75e384e71005"; // Hardcoded user ID for now
+    const { searchParams } = new URL(req.url);
+    const userId = searchParams.get("userId");
+
+    // Validate userId
+    if (!userId) {
+      return NextResponse.json(
+        { error: "User ID is required" },
+        { status: 400 }
+      );
+    }
 
     // Fetch bag items with Product details
     const bagItems = await prisma.bag.findMany({
       where: {
-        user_id: userId, // Ensure this matches the database format
+        user_id: userId, // Ensure this matches your database schema
       },
       include: {
         Product: true,
       },
     });
 
-    // Map to add safe defaults for undefined fields
+    // Map and transform the data to a safe format
     const mappedItems = bagItems.map((item) => ({
       id: item.id,
       productName: item.Product?.name || "Unknown Product",
@@ -25,7 +34,7 @@ export async function GET() {
       quantity: item.quantity || 1,
       size: item.product_variant_size_id || "No Size",
       color: "No Color",
-      image: "/placeholder-dark-image.png",
+      image: "/placeholder-dark-image.png", // Placeholder image
     }));
 
     if (mappedItems.length === 0) {

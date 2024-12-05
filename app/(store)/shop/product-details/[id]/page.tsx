@@ -80,9 +80,15 @@ export default function ProductDetailsPage() {
       alert("Please select a color and size before adding to cart.");
       return;
     }
-  
+
     try {
-      const userId = "c816e27a-e9dd-411f-b0d4-75e384e71005"; // Replace with actual user ID
+      const userId = localStorage.getItem("userId"); // Retrieve userId from localStorage
+
+      if (!userId) {
+        alert("User is not logged in. Please log in to add items to the cart.");
+        return;
+      }
+
       const response = await fetch("/api/cart/add", {
         method: "POST",
         headers: {
@@ -92,11 +98,10 @@ export default function ProductDetailsPage() {
           userId,
           productId: product.id,
           productVariantSizeId: selectedSizeId,
-         // productVariantColorId: selectedColorId, 
           quantity,
         }),
       });
-  
+
       if (response.ok) {
         alert("Item added to cart successfully!");
       } else {
@@ -107,7 +112,7 @@ export default function ProductDetailsPage() {
       console.error("Error adding to cart:", error);
       alert("An error occurred while adding to the cart.");
     }
-  };  
+  };
 
   const getStockColor = (stock: number) => {
     if (stock === 0) return "text-red-500"; // Out of stock

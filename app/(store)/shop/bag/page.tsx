@@ -27,8 +27,23 @@ export default function BagPage() {
   useEffect(() => {
     const fetchBagItems = async () => {
       setLoading(true);
+    
       try {
-        const response = await axios.get("/api/bag");
+        // Retrieve the userId from localStorage
+        const userId = localStorage.getItem("userId");
+    
+        if (!userId) {
+          console.error("No user ID found in localStorage");
+          setLoading(false);
+          return;
+        }
+    
+        // Send a request to the API with the userId as a query parameter
+        const response = await axios.get("/api/bag", {
+          params: { userId }, // Pass the userId dynamically
+        });
+    
+        // Map and format the response data
         const fetchedBagItems = response.data.map((item: any) => ({
           id: item.id,
           productName: item.productName,
@@ -38,6 +53,8 @@ export default function BagPage() {
           quantity: item.quantity,
           image: item.image,
         }));
+    
+        // Update the state with fetched items
         setBagItems(fetchedBagItems);
       } catch (error) {
         console.error("Error fetching bag items:", error);
@@ -45,6 +62,7 @@ export default function BagPage() {
         setLoading(false);
       }
     };
+  
 
     fetchBagItems();
   }, []);
