@@ -7,14 +7,38 @@ import Sidebar from "@/components/Sidebar";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
-const AVAILABLE_SIZES = ["S", "M", "L", "XL", "XXL"];
+interface Size {
+  id: string;
+  label: string;
+  stock: number;
+}
+
+interface Color {
+  color: string;
+  images: string[];
+  sizes: Size[];
+}
+
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  category: string;
+  description: string;
+  colors: Color[];
+}
+
+interface Category {
+  id: string;
+  name: string;
+}
 
 export default function EditProductPage() {
   const router = useRouter();
   const { id } = useParams();
 
-  const [product, setProduct] = useState<any>(null);
-  const [categories, setCategories] = useState<any[]>([]);
+  const [product, setProduct] = useState<Product | null>(null);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -46,70 +70,49 @@ export default function EditProductPage() {
     fetchCategories();
   }, [id]);
 
-  const handleVariantImageUpload = async (
-    e: React.ChangeEvent<HTMLInputElement>,
-    variantIndex: number
-  ) => {
-    const files = e.target.files;
-    if (!files) return;
-
-    const updatedVariants = [...(product?.variants || [])];
-    const newImages = [...updatedVariants[variantIndex].images];
-
-    for (let i = 0; i < files.length; i++) {
-     
-      const formData = new FormData();
-      formData.append("file", files[i]);
-      formData.append("upload_preset", "so8qqjk3");
-
-      try {
-        const response = await axios.post(
-          `https://api.cloudinary.com/v1_1/dwa4rcjan/image/upload`,
-          formData
-        );
-        newImages.push(response.data.secure_url);
-      } catch (error) {
-        console.error("Error uploading image:", error);
-        alert("Failed to upload image.");
-      }
-    }
-
-    updatedVariants[variantIndex].images = newImages;
-    setProduct({ ...product, variants: updatedVariants });
-  };
-
-  const removeVariantImage = (variantIndex: number, imageIndex: number) => {
-    if (!product) return;
-
-    const updatedVariants = [...product.variants];
-    updatedVariants[variantIndex].images.splice(imageIndex, 1);
-    setProduct({ ...product, variants: updatedVariants });
-  };
-
   const handleSaveProduct = async () => {
     if (!product) return;
-
+  
     try {
       if (!product.name.trim()) {
         alert("Product name is required.");
         return;
       }
-
-      const slug = product.name.toLowerCase().replace(/ /g, "-");
-      const updatedProduct = { ...product, slug };
-
+  
+      if (!product.category) {
+        alert("Please select a category.");
+        return;
+      }
+  
+      if (isNaN(Number(product.price)) || Number(product.price) <= 0) {
+        alert("Please enter a valid price.");
+        return;
+      }
+  
+      const updatedProduct = {
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        category: product.category,
+        description: product.description,
+        colors: product.colors,
+      };
+  
       setLoading(true);
-      await axios.put(`/api/products/update/${id}`, updatedProduct);
-
-      alert("Product updated successfully!");
-      router.push("/admin/inventory");
+  
+      const response = await axios.put(`/api/products/${id}`, updatedProduct);
+  
+      if (response.status === 200) {
+        alert("Product updated successfully!");
+        router.push("/admin/inventory");
+      }
     } catch (error) {
       console.error("Error saving product:", error);
-      alert("Failed to save the product.");
+      alert("Failed to save the product. Please try again.");
     } finally {
       setLoading(false);
     }
-  };
+  };  
 
   if (!id) {
     return <p>Error: Product ID is missing.</p>;
@@ -182,82 +185,48 @@ export default function EditProductPage() {
                 </select>
               </div>
 
-              {/* Description */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Description
-                </label>
-                <textarea
-                  value={product.description}
-                  onChange={(e) =>
-                    setProduct({ ...product, description: e.target.value })
-                  }
-                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                  rows={4}
-                />
-              </div>
-
               {/* Variants */}
               <div>
                 <label className="block text-sm font-medium text-gray-700">Variants</label>
-                {Array.isArray(product.variants) && product.variants.length > 0 ? (
-                  product.variants.map((variant: { color: string; images: string[] }, variantIndex: number) => (
-                    <div key={variantIndex} className="border rounded-md p-4 mb-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700">
-                          Variant Color
-                        </label>
-                        <input
-                          type="text"
-                          value={variant.color}
-                          onChange={(e) => {
-                            const updatedVariants = [...product.variants];
-                            updatedVariants[variantIndex].color = e.target.value;
-                            setProduct({ ...product, variants: updatedVariants });
-                          }}
-                          className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                          required
-                        />
-                      </div>
-
-                      {/* Images */}
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mt-4">
-                          Upload Images
-                        </label>
-                        <input
-                          type="file"
-                          multiple
-                          onChange={(e) => handleVariantImageUpload(e, variantIndex)}
-                          className="block w-full mt-1"
-                        />
-                        <div className="flex space-x-2 mt-2">
-                          {variant.images &&
-                            variant.images.map((image, imageIndex) => (
-                              <div key={imageIndex} className="relative w-32 h-32">
-                                <Image
-                                  src={image}
-                                  alt={`Variant Image ${imageIndex + 1}`}
-                                  className="w-full h-full object-cover"
-                                  width={128}
-                                  height={128}
-                                />
-                                <button
-                                  type="button"
-                                  onClick={() => removeVariantImage(variantIndex, imageIndex)}
-                                  className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1"
-                                >
-                                  X
-                                </button>
-                              </div>
-                            ))}
-                        </div>
-                      </div>
+                {product.colors.map((variant, variantIndex) => (
+                  <div key={variantIndex} className="border rounded-md p-4 mb-4">
+                    {/* Variant Color */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">Variant Color</label>
+                      <input
+                        type="text"
+                        value={variant.color}
+                        onChange={(e) => {
+                          const updatedColors = [...product.colors];
+                          updatedColors[variantIndex].color = e.target.value;
+                          setProduct({ ...product, colors: updatedColors });
+                        }}
+                        className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                        required
+                      />
                     </div>
-                  ))
-                ) : (
-                  <p>No variants available. Add one to get started.</p>
-                )}
+
+                    {/* Sizes */}
+                    <div className="mt-4">
+                      <label className="block text-sm font-medium text-gray-700">Sizes</label>
+                      {variant.sizes.map((size, sizeIndex) => (
+                        <div key={size.id} className="flex items-center space-x-4">
+                          <p className="flex-1">{size.label}</p>
+                          <input
+                            type="number"
+                            value={size.stock}
+                            onChange={(e) => {
+                              const updatedColors = [...product.colors];
+                              updatedColors[variantIndex].sizes[sizeIndex].stock = +e.target.value;
+                              setProduct({ ...product, colors: updatedColors });
+                            }}
+                            className="block w-24 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
               </div>
 
               {/* Actions */}

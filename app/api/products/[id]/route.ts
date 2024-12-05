@@ -1,10 +1,29 @@
 import { PrismaClient } from "../../../../prisma/generated/client";
-import { Prisma } from "../../../../prisma/generated/client";
 import { NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
-// GET method to fetch a product by ID
+interface Size {
+  id: string;
+  label: string;
+  stock: number;
+}
+
+interface Color {
+  color: string;
+  images: string[];
+  sizes: Size[];
+}
+
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  category: string;
+  description: string;
+  colors: Color[];
+}
+
 export async function GET(req: Request) {
   try {
     const { pathname } = new URL(req.url);
@@ -37,7 +56,7 @@ export async function GET(req: Request) {
       );
     }
 
-    // Transform the response to include images from the ProductVariantColor table
+    // Transform the response to include images and sizes
     const response = {
       id: product.id,
       name: product.name,
@@ -45,15 +64,15 @@ export async function GET(req: Request) {
       category: product.Category?.name || "Uncategorized",
       description: product.description || "No description available.",
       colors: product.ProductVariantColor.map((variant) => ({
-        color: variant.color,
+        color: variant.color || "Unknown Color",
         images: variant.images || [],
         sizes: variant.ProductVariantSize.map((size) => ({
           id: size.id,
-          label: size.size,
+          label: size.size || "Unknown Size",
           stock: size.stock || 0,
         })),
       })),
-    };    
+    };
 
     return NextResponse.json(response, { status: 200 });
   } catch (error) {
@@ -64,8 +83,7 @@ export async function GET(req: Request) {
     );
   }
 }
-
-export async function DELETE(req: Request) {
+export async function PUT(req: Request) {
   try {
     const { pathname } = new URL(req.url);
     const id = pathname.split("/").pop(); // Extract the ID from the URL path
@@ -77,54 +95,60 @@ export async function DELETE(req: Request) {
       );
     }
 
-    // Begin a transaction to ensure all deletions happen atomically
-    await prisma.$transaction(async (tx) => {
-      // Fetch all ProductVariantColor IDs related to the product
-      const variantColors = await tx.productVariantColor.findMany({
-        where: { product_id: id },
-        select: { id: true },
-      });
+    const data = await req.json(); // Parse the incoming JSON data
 
-      const variantColorIds = variantColors.map((variant) => variant.id);
+    // Update the product
+    await prisma.product.update({
+      where: { id },
+      data: {
+        name: data.name,
+        price: data.price,
+        category_id: data.category,
+        description: data.description,
+      },
+    });
 
-      // Delete ProductVariantSize entries related to the fetched ProductVariantColor IDs
-      await tx.productVariantSize.deleteMany({
-        where: {
-          variant_color_id: { in: variantColorIds },
+    // Handle updating variants
+    for (const variant of data.colors) {
+      // Ensure `id` is valid or use `undefined` for new records
+      const colorVariant = await prisma.productVariantColor.upsert({
+        where: { id: variant.id?.length === 36 ? variant.id : undefined },
+        create: {
+          color: variant.color,
+          product_id: id,
+          images: variant.images,
+        },
+        update: {
+          color: variant.color,
+          images: variant.images,
         },
       });
 
-      // Delete ProductVariantColor entries related to the product
-      await tx.productVariantColor.deleteMany({
-        where: { product_id: id },
-      });
-
-      // Delete the product itself
-      await tx.product.delete({
-        where: { id },
-      });
-    });
-
-    return NextResponse.json(
-      { message: "Product and related items deleted successfully" },
-      { status: 200 }
-    );
-  } catch (error) {
-    console.error("Error deleting product:", error);
-
-    // Handle Prisma-specific errors
-    if (
-      error instanceof Prisma.PrismaClientKnownRequestError &&
-      error.code === "P2025"
-    ) {
-      return NextResponse.json(
-        { message: "Product not found" },
-        { status: 404 }
-      );
+      // Handle sizes
+      for (const size of variant.sizes) {
+        await prisma.productVariantSize.upsert({
+          where: { id: size.id?.length === 36 ? size.id : undefined },
+          create: {
+            size: size.label,
+            stock: size.stock,
+            variant_color_id: colorVariant.id,
+            status: "Active", // Assuming default status
+          },
+          update: {
+            stock: size.stock,
+          },
+        });
+      }
     }
 
     return NextResponse.json(
-      { message: "Failed to delete product" },
+      { message: "Product updated successfully!" },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error updating product:", error);
+    return NextResponse.json(
+      { message: "Failed to update product" },
       { status: 500 }
     );
   }
