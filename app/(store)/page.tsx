@@ -2,7 +2,9 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import FeaturedProducts from "./components/featured-products";
 
-export default function LandingPage() {
+export default async function LandingPage() {
+	const = 
+
 	return (
 		<>
 			<main className="flex-1">
