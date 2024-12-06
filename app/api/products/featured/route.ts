@@ -17,6 +17,7 @@ export async function GET() {
         sku: true,
         isFeatured: true,
         category_id: true,
+        image_url: true,
       },
     });
 
